@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
         res.status(403).json({ message: "User already exists" })
     }
     else {
-        const newAdmin = new Auth({ username: username, password: bcrypt.hash(password) })
+        const newAdmin = new Auth({ username: username, password: bcrypt.hashSync(password) })
         await newAdmin.save()
         // now we will digitally sign the jwt    
         const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
@@ -34,22 +34,19 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body
-    const admin = await Auth.findOne({ username, password });
-    bcrypt.compare(password, admin?.password, function (err, info) {
-        if (err) return res.status(401).json("password doesnt match")
-        if (info) {
-            const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
-            res.cookie('token', token, {
-                // inside this we will follow some industrial practices
-                httpOnly: true,
-                secure: true,
-                sameSite: 'strict',
-                maxAge: 3600000,
-            })
-            res.json({ message: 'Logged in successfully', admin });
-            // res.json({ message: 'Logged in successfully', token, admin });
-        }
-    })
+    const admin = await Auth.findOne({ username})
+    if (admin) {
+        bcrypt.compare(password, admin?.password, function (err, info) {
+            if (err) return res.status(401).json("password doesnt match")
+            if (info) {
+                const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
+                res.json({ message: 'Logged in successfully', token, admin });
+            }
+        })
+    }
+    else {
+        res.status(403).json({ message: 'Invalid username or password' });
+    }
 })
 
 

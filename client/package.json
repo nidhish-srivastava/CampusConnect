@@ -14,10 +14,12 @@
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.263.1",
     "next": "13.4.12",
     "postcss": "8.4.27",
@@ -27,5 +29,8 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.3"
   }
 }
