@@ -1,10 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
-const UserRoute = require('./routes/User')
 dotenv.config()
+const UserRoute = require('./routes/User')
+const AuthRoute = require("./routes/Auth")
+const cors = require('cors')
 const app = express()
+
 app.use(express.json())
+app.use(cors({origin : 'http://localhost:3000'}))
 
 const PORT = process.env.PORT || 4000
 
@@ -17,4 +21,5 @@ const start = async()=>{
 }
 start()
 
-app.use('/',UserRoute)
+app.use('/user',UserRoute)
+app.use('/auth',AuthRoute)
