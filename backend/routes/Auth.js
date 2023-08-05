@@ -5,7 +5,19 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 dotenv.config()
+const {authenticateJwt} = require('../middleware/auth')
 
+
+router.get('/me',authenticateJwt,async(req,res)=>{
+    const admin = await Auth.findOne({username : req.user.username})
+    if (!admin) {
+        res.status(403).json({ msg: "User doesnt exist" })
+        return
+    }
+    res.json({
+        username: admin.username,
+    })
+})
 
 router.post('/signup', async (req, res) => {
     const { username, password } = req.body
@@ -18,15 +30,15 @@ router.post('/signup', async (req, res) => {
         await newAdmin.save()
         // now we will digitally sign the jwt    
         const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
-        // This cookie will be inside the response header
-        res.cookie('token', token, {
-            // inside this we will follow some industrial practices
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 3600000,
-        })
-        res.json({ message: "User created successfully" })
+        // // This cookie will be inside the response header
+        // res.cookie('token', token, {
+        //     // inside this we will follow some industrial practices
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: 'strict',
+        //     maxAge: 3600000,
+        // })
+        res.json({ message: "User created successfully",token })
         // res.json({message : "User created successfully",token})
     }
 }
