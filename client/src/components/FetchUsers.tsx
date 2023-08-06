@@ -20,6 +20,7 @@ type UserType = {
 function FetchUsers() {
   const { userId, user,userDocumentId } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
+  const [trigger,setTrigger] = useState(false)
   // const [check,setCheck] = useState<string | undefined>("")
 
  const FetchAll = async () => {
@@ -58,12 +59,22 @@ function FetchUsers() {
     });
     const data = await response.json()
     console.log(data);
+    setTrigger(e=>!e)
   };
-  const unfollow = async () => {};
+  const unfollow = async (unfollowUserId : string) => {
+    const response = await fetch(`http://localhost:4000/user/unfollow`,{
+      method : "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userDocumentId, unfollowUserId }),
+    })
+    const data = await response.json()
+    console.log(data);
+    setTrigger(e=>!e)
+  };
   
   useEffect(() => {
     FetchAll();
-  }, []);
+  }, [trigger]);
 
   return (
     <div>
@@ -88,7 +99,7 @@ function FetchUsers() {
                 )
               }
               <Button
-                onClick={() => unfollow()}
+                onClick={() => unfollow(e._id)}
                 className="p-2 text-sm mx-2 bg-orange-400"
               >
                 UnFollow

@@ -33,12 +33,12 @@ router.put('/follow', async (req, res) => {
 
 // Unfollow a user
 router.put('/unfollow', async (req, res) => {
-    const { userId, unfollowUserId } = req.body
-    // Remove unfollowUserId from the following list of userId
-    await User.findByIdAndUpdate(userId, { $pull: { following: unfollowUserId } });
+    const { userDocumentId, unfollowUserId } = req.body
+    // Remove unfollowUserId from the following list of userDocumentId
+    await User.findByIdAndUpdate(userDocumentId, { $pull: { following: unfollowUserId } });
 
-    // Remove userId from the followers list of unfollowUserId
-    await User.findByIdAndUpdate(unfollowUserId, { $pull: { followers: userId } });
+    // Remove userDocumentId from the followers list of unfollowUserId
+    await User.findByIdAndUpdate(unfollowUserId, { $pull: { followers: userDocumentId } });
 
     res.status(200).json({ message: 'User unfollowed successfully' });
 

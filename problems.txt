@@ -1,5 +1,3 @@
 User document id is not getting refreshed,thats why we are navigating to profile page then again back so that it updated
 
 Once the user document is updated,the check for following a user or not is done so it is essential
-
-When i click on follow,it shud update instantly
