@@ -1,11 +1,12 @@
 const express = require("express")
 const router = express.Router()
-const { Auth } = require('../db/index')
+const { Auth, User } = require('../db/index')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 dotenv.config()
 const {authenticateJwt} = require('../middleware/auth')
+
 
 
 router.get('/me',authenticateJwt,async(req,res)=>{
@@ -16,6 +17,7 @@ router.get('/me',authenticateJwt,async(req,res)=>{
     }
     res.json({
         username: admin.username,
+        id : admin._id
     })
 })
 
@@ -39,6 +41,12 @@ router.post('/signup', async (req, res) => {
         //     maxAge: 3600000,
         // })
         res.json({ message: "User created successfully",token })
+        await User.create({
+            authId : newAdmin._id,
+            username : newAdmin.username,
+            followers : [],
+            following : []
+        })
         // res.json({message : "User created successfully",token})
     }
 }

@@ -10,16 +10,20 @@ function Page() {
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (confirmPassword === password) {
-      const response = await axios.post(`http://localhost:4000/auth/signup`, {
-        username,
-        password,
-      });
-      localStorage.setItem("token", response.data.token);
-      // window.location.href = "/signin"  // causing the window to relaod
-      window.location.href = "/"
-      alert("Account created");
-    } else alert("Password not matching");
+    try {
+      if (confirmPassword === password) {
+        const response = await axios.post(`http://localhost:4000/auth/signup`, {
+          username,
+          password,
+        });
+        localStorage.setItem("token", response.data.token);
+        // window.location.href = "/signin"  // causing the window to relaod
+        window.location.href = "/"
+        alert("Account created");
+      } else alert("Password not matching");
+    } catch (error : any) {
+       alert(error.response.data.message);
+    }
   };
   return (
     <form

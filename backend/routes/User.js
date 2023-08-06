@@ -2,10 +2,16 @@ const express = require('express')
 const { User } = require('../db/index')
 const router = express.Router()
 
+
+// Fetch all users
+router.get('/',async(req,res)=>{
+    const response = await User.find().populate('authId','username')
+    res.json(response)
+ })
+ 
 // Follow a user
 router.put('/follow', async (req, res) => {
     const { userId, followUserId } = req.body
-
     // Add followUserId to the following list of userId
     await User.findByIdAndUpdate(userId, { $addToSet: { following: followUserId } })
 
