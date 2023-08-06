@@ -10,6 +10,8 @@ type ConnectContextTypes = {
   setUser: React.Dispatch<React.SetStateAction<string>>;
   userId: number;
   setUserId: React.Dispatch<React.SetStateAction<number>>;
+  userDocumentId : String
+  setUserDocumentId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -21,6 +23,8 @@ export const ConnectContextProvider = ({
 }: ConnectContextProviderProps) => {
   const [user, setUser] = useState("");
   const [userId, setUserId] = useState(0);
+  const [userDocumentId,setUserDocumentId] = useState("")  
+
   return (
     <ConnectContext.Provider
       value={{
@@ -28,6 +32,8 @@ export const ConnectContextProvider = ({
         setUser,
         userId,
         setUserId,
+        userDocumentId,
+        setUserDocumentId
       }}
     >
       {children}

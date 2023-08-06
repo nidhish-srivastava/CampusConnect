@@ -6,6 +6,9 @@ import axios from "axios";
 function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
+
+ 
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -16,6 +19,7 @@ function Page() {
       });
       localStorage.setItem("token", response.data.token);
       alert("Logged In Successfully");
+  
       window.location.href = "/";
     } catch (error: any) {
       alert(error.response.data.message);

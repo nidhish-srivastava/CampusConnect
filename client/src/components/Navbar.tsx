@@ -8,7 +8,8 @@ const fontMontserrat = Montserrat({subsets : ["latin"]})
 import { useConnectContext } from '../../context/context';
 
 function Navbar() {
-  const {user,setUser,setUserId} = useConnectContext()
+  const {user,userId,setUser,setUserId,setUserDocumentId} = useConnectContext()
+  const [trigger,setTrigger] = useState(false)
 
   //* Using jwt authorization for accessing content after authentication from login/signup
   const check = async () =>{
@@ -21,10 +22,22 @@ function Navbar() {
     const data = await response.json();
     setUser(data.username)
     setUserId(data.id)
+    setTrigger(e=>!e)
   }
+  const FetchLoggedInUser =  async()=>{
+    const response =  await fetch(`http://localhost:4000/user/${userId}`)
+    const data = await response.json()
+     setUserDocumentId(data._id)
+     console.log(data);
+   }
   useEffect(()=>{
     check()
   },[])
+
+  //* If we dont pass any dependency,and try using setTimeout,it wont work,do triggering and pass that as dependency
+  useEffect(()=>{
+  FetchLoggedInUser()
+  },[trigger])
 
 
   return (

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import axios from "axios";
+// import axios from "axios";
 import { useConnectContext } from "../../context/context";
 
 type AuthId = {
@@ -18,12 +18,11 @@ type UserType = {
 };
 
 function FetchUsers() {
-  const { userId, user } = useConnectContext();
-  const [userDocumentId,setUserDocumentId] = useState("")  
+  const { userId, user,userDocumentId } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
-  const [check,setCheck] = useState<string | undefined>("")
+  // const [check,setCheck] = useState<string | undefined>("")
 
-  const FetchUsers = async () => {
+ const FetchAll = async () => {
     const response = await fetch(`http://localhost:4000/user`, {
       method: "GET",
     });
@@ -32,20 +31,23 @@ function FetchUsers() {
     console.log(data);
   };
 
-  const FetchLoggedInUser =  async()=>{
-   const response =  await fetch(`http://localhost:4000/user/${userId}`)
-   const data = await response.json()
-    setUserDocumentId(data._id)
-  }
+  // const FetchLoggedInUser =  async()=>{
+  //   const response =  await fetch(`http://localhost:4000/user/${userId}`)
+  //   const data = await response.json()
+  //   //  setUserDocumentId(data._id)
+  //    console.log(data);
+  //  }
 
-  const checkFollow = () =>{
-    fetchUser.map((e : UserType)=>{
-      if(e.followers.find(e=>e==userDocumentId)){
-        console.log(e.followers.find(e=>e==userDocumentId));
-        setCheck(e.followers.find(e=>e==userDocumentId))
-      }
-    })
-  }
+ 
+
+  // const checkFollow = () =>{
+  //   fetchUser.map((e : UserType)=>{
+  //     if(e.followers.find(e=>e==userDocumentId)){
+  //       console.log(e.followers.find(e=>e==userDocumentId));
+  //       setCheck(e.followers.find(e=>e==userDocumentId))
+  //     }
+  //   })
+  // }
 
 
   const follow = async (followUserId: string) => {
@@ -58,15 +60,11 @@ function FetchUsers() {
     console.log(data);
   };
   const unfollow = async () => {};
-  useEffect(()=>{
-
-  },[])
+  
   useEffect(() => {
-    FetchUsers();
+    FetchAll();
   }, []);
-  useEffect(()=>{
-      FetchLoggedInUser()
-  },[])
+
   return (
     <div>
       <h2 className="text-center">{user}</h2>
@@ -99,9 +97,8 @@ function FetchUsers() {
           }
         </div>
       ))}
-      <button onClick={checkFollow}>Check</button>
+      {/* <button onClick={checkFollow}>Check</button> */}
     </div>
   );
 }
-
 export default FetchUsers;
