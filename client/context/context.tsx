@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { createContext, useContext, useState } from "react";
 
 type ConnectContextProviderProps = {
@@ -7,7 +7,7 @@ type ConnectContextProviderProps = {
 
 type ConnectContextTypes = {
   user: string;
-  setUser : React.Dispatch<React.SetStateAction<string>>
+  setUser: React.Dispatch<React.SetStateAction<string>>;
   userId: number;
   setUserId: React.Dispatch<React.SetStateAction<number>>;
 };

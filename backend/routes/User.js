@@ -4,19 +4,29 @@ const router = express.Router()
 
 
 // Fetch all users
-router.get('/',async(req,res)=>{
-    const response = await User.find().populate('authId','username')
+router.get('/', async (req, res) => {
+    const response = await User.find().populate('authId', 'username')
     res.json(response)
- })
- 
-// Follow a user
-router.put('/follow', async (req, res) => {
-    const { userId, followUserId } = req.body
-    // Add followUserId to the following list of userId
-    await User.findByIdAndUpdate(userId, { $addToSet: { following: followUserId } })
+})
 
-    // Add userId to the followers list of followUserId
-    await User.findByIdAndUpdate(followUserId, { $addToSet: { followers: userId } })
+router.get('/:id',async(req,res)=>{
+    try {
+        const {id} = req.params
+        const response = await User.findOne({authId : id})
+        res.json(response)
+    } catch (error) {
+       res.status(403).json(error)        
+    }
+})
+
+// Follow a user     
+router.put('/follow', async (req, res) => {
+    const { userDocumentId, followUserId } = req.body
+    // Add followUserId to the following list of userId
+    await User.findByIdAndUpdate(userDocumentId, { $addToSet: { following: followUserId } })
+
+    // Add userDocumentId to the followers list of followUserId
+    await User.findByIdAndUpdate(followUserId, { $addToSet: { followers: userDocumentId } })
 
     res.json("User followed Successfully")
 })
