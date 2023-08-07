@@ -8,7 +8,7 @@ const fontMontserrat = Montserrat({subsets : ["latin"]})
 import { useConnectContext } from '../../context/context';
 
 function Navbar() {
-  const {user,userId,setUser,setUserId,setUserDocumentId} = useConnectContext()
+  const {user,userId,setUser,setUserId,setUserDocumentId,setUserProfileObject} = useConnectContext()
   const [trigger,setTrigger] = useState(false)
 
   //* Using jwt authorization for accessing content after authentication from login/signup
@@ -27,6 +27,7 @@ function Navbar() {
   const FetchLoggedInUser =  async()=>{
     const response =  await fetch(`http://localhost:4000/user/${userId}`)
     const data = await response.json()
+    setUserProfileObject(data)
      setUserDocumentId(data._id)
      console.log(data);
    }

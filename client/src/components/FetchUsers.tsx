@@ -10,8 +10,8 @@ type AuthId = {
   _id: number;
 };
 
-type UserType = {
-  _id: string;
+export type UserType = {
+  _id : string;
   authId: AuthId;
   followers: string[];
   following: string[];
@@ -21,6 +21,7 @@ function FetchUsers() {
   const { userId, user, userDocumentId } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
   const [trigger, setTrigger] = useState(false);
+  const [trigger2, setTrigger2] = useState(false);
   // const [check,setCheck] = useState<string | undefined>("")
 
   const FetchAll = async () => {
@@ -28,9 +29,22 @@ function FetchUsers() {
       method: "GET",
     });
     const data = await response.json();
+    // const filter = data.filter((e : UserType)=>e._id!=userDocumentId)
     setFetchUser(data);
-    console.log(data);
+    setTrigger2((e) => !e); //* Just triggered one more reload so that it removes the user
+    filterHandler();
   };
+
+  const filterHandler = () => {
+    setFetchUser((e: any) => {
+      const filter = e.filter((e: UserType) => e._id != userDocumentId);
+      return filter;
+    });
+  };
+
+  // useEffect(()=>{
+  //  filterHandler()
+  // },[])
 
   // const FetchLoggedInUser =  async()=>{
   //   const response =  await fetch(`http://localhost:4000/user/${userId}`)
@@ -71,7 +85,7 @@ function FetchUsers() {
 
   useEffect(() => {
     FetchAll();
-  }, [trigger]);
+  }, [trigger, trigger2]);
 
   return (
     <div>
@@ -85,20 +99,21 @@ function FetchUsers() {
           <h2>Following : {e?.following.length}</h2>
           {
             <div>
-              {!e.followers.find((e) => e == userDocumentId) && (
+              {!e.followers.find((e) => e == userDocumentId) ? (
                 <Button
                   onClick={() => follow(e._id)}
                   className="p-2 text-sm mx-2 bg-green-700"
                 >
                   Follow
                 </Button>
+              ) : (
+                <Button
+                  onClick={() => unfollow(e._id)}
+                  className="p-2 text-sm mx-2 bg-orange-400"
+                >
+                  UnFollow
+                </Button>
               )}
-              <Button
-                onClick={() => unfollow(e._id)}
-                className="p-2 text-sm mx-2 bg-orange-400"
-              >
-                UnFollow
-              </Button>
             </div>
           }
         </div>

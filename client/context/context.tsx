@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState } from "react";
+import { UserType } from "@/components/FetchUsers";
 
 type ConnectContextProviderProps = {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ type ConnectContextTypes = {
   setUserId: React.Dispatch<React.SetStateAction<number>>;
   userDocumentId : String
   setUserDocumentId: React.Dispatch<React.SetStateAction<string>>;
+  userProfileObject : UserType | null
+  setUserProfileObject : React.Dispatch<React.SetStateAction<UserType | null>>;
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -23,7 +26,8 @@ export const ConnectContextProvider = ({
 }: ConnectContextProviderProps) => {
   const [user, setUser] = useState("");
   const [userId, setUserId] = useState(0);
-  const [userDocumentId,setUserDocumentId] = useState("")  
+  const [userDocumentId,setUserDocumentId] = useState("") 
+  const [userProfileObject,setUserProfileObject] = useState<UserType | null>(null) 
 
   return (
     <ConnectContext.Provider
@@ -33,7 +37,9 @@ export const ConnectContextProvider = ({
         userId,
         setUserId,
         userDocumentId,
-        setUserDocumentId
+        setUserDocumentId,
+        userProfileObject,
+        setUserProfileObject
       }}
     >
       {children}

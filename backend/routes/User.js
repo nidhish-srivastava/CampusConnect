@@ -1,7 +1,7 @@
 const express = require('express')
 const { User } = require('../db/index')
 const router = express.Router()
-
+const mongoose = require('mongoose')
 
 // Fetch all users
 router.get('/', async (req, res) => {
@@ -47,16 +47,22 @@ router.put('/unfollow', async (req, res) => {
 // GET FOLLOWERS
 router.get('/followers/:userId', async (req, res) => {
     const { userId } = req.params
-    const response = await User.findById(userId).populate('followers', 'username')
-    res.json({ followers: response.followers })
+    const response = await User.findById(userId)
+
+    const followersIds = response.followers.map(e=>e._id)
+
+    const followers = await User.find({ _id: { $in: followersIds } },'authId').populate('authId','username');
+    
+    res.json(followers)
+
 })
 
-// GET FOLLOWING
-router.get('/following/:userId', async (req, res) => {
-    const { userId } = req.params
-    const response = await User.findById(userId).populate('following', 'username')
-    res.json({ following: response.following })
-})
+// // GET FOLLOWING
+// router.get('/following/:userId', async (req, res) => {
+//     const { userId } = req.params
+//     const response = await User.findById(userId).populate('following', 'username')
+//     res.json({ following: response.following })
+// })
 
 module.exports = router
 
