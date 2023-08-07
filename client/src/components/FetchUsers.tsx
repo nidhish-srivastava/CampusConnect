@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 // import axios from "axios";
-import { useConnectContext } from "../../context/context";
+import { useConnectContext } from "../context/context";
 
 type AuthId = {
   username: string;
@@ -18,11 +18,9 @@ export type UserType = {
 };
 
 function FetchUsers() {
-  const { userId, user, userDocumentId } = useConnectContext();
+  const { userId, user, userDocumentId,trigger,setTrigger } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
-  const [trigger, setTrigger] = useState(false);
-  const [trigger2, setTrigger2] = useState(false);
-  // const [check,setCheck] = useState<string | undefined>("")
+  const [change, setChange] = useState(false);
 
   const FetchAll = async () => {
     const response = await fetch(`http://localhost:4000/user`, {
@@ -31,7 +29,7 @@ function FetchUsers() {
     const data = await response.json();
     // const filter = data.filter((e : UserType)=>e._id!=userDocumentId)
     setFetchUser(data);
-    setTrigger2((e) => !e); //* Just triggered one more reload so that it removes the user
+    setTrigger((e) => !e); //* Just triggered one more reload so that it removes the user
     filterHandler();
   };
 
@@ -70,7 +68,7 @@ function FetchUsers() {
     });
     const data = await response.json();
     console.log(data);
-    setTrigger((e) => !e);
+    setChange((e) => !e);
   };
   const unfollow = async (unfollowUserId: string) => {
     const response = await fetch(`http://localhost:4000/user/unfollow`, {
@@ -80,12 +78,12 @@ function FetchUsers() {
     });
     const data = await response.json();
     console.log(data);
-    setTrigger((e) => !e);
+    setChange((e) => !e);
   };
 
   useEffect(() => {
     FetchAll();
-  }, [trigger, trigger2]);
+  }, [change, trigger]);
 
   return (
     <div>

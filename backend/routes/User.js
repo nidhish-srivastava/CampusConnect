@@ -57,12 +57,17 @@ router.get('/followers/:userId', async (req, res) => {
 
 })
 
-// // GET FOLLOWING
-// router.get('/following/:userId', async (req, res) => {
-//     const { userId } = req.params
-//     const response = await User.findById(userId).populate('following', 'username')
-//     res.json({ following: response.following })
-// })
+// GET FOLLOWING
+router.get('/following/:userId', async (req, res) => {
+    const { userId } = req.params
+    const response = await User.findById(userId)
+
+    const followingIds = response.following.map(e=>e._id)
+
+    const following = await User.find({ _id: { $in: followingIds } },'authId').populate('authId','username');
+    
+    res.json(following)
+})
 
 module.exports = router
 

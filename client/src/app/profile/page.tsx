@@ -1,40 +1,50 @@
-"use client"
-import {useState} from 'react'
-import { useConnectContext } from '../../../context/context'
-import { Button } from '@/components/ui/button'
+"use client";
+import { useState } from "react";
+import { useConnectContext } from "../../context/context";
+import { Button } from "@/components/ui/button";
 
 function page() {
+  const { userProfileObject, user, userDocumentId } = useConnectContext();
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
-  const {userProfileObject,user,userDocumentId} = useConnectContext()
-  const [followers,setFollowers] = useState([])
+  const getFollowers = async () => {
+    const response = await fetch(
+      `http://localhost:4000/user/followers/${userDocumentId}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setFollowers(data);
+  };
 
-
-  const getFollowers = async () =>{
-      const response = await fetch(`http://localhost:4000/user/followers/${userDocumentId}`)
-      const data = await response.json()
-      console.log(data);
-      setFollowers(data)
-  }
-
-  const getFollowing = () =>{
-
-  }
-  
+  const getFollowing = async () => {
+    const response = await fetch(
+      `http://localhost:4000/user/following/${userDocumentId}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setFollowing(data);
+  };
 
   return (
     <div>
-      <h2>{user}</h2>
-      <Button className='text-sm' onClick={getFollowers} >Followers : {userProfileObject?.followers?.length}</Button>
-      <h2 onClick={getFollowing}>Following : {userProfileObject?.following?.length}</h2>
-      {followers.map((e:any)=>{
-        return (
-          <h2 className='text-sm'>
-             {e?.authId?.username}
-          </h2>
-        )
+      <h2 className="text-center text-xl">{user}</h2>
+      <div className="flex justify-center gap-4 mt-10">
+        <Button className="text-sm" onClick={getFollowers}>
+          {userProfileObject?.followers?.length} <br /> Followers{" "}
+        </Button>
+        <Button className="text-sm" onClick={getFollowing}>
+          {userProfileObject?.following?.length} <br /> Following{" "}
+        </Button>
+      </div>
+      {followers.map((e: any) => {
+        return <h2 className="text-sm">{e?.authId?.username}</h2>;
+      })}
+      {following.map((e: any) => {
+        return <h2 className="text-sm">{e?.authId?.username}</h2>;
       })}
     </div>
-  )
+  );
 }
 
-export default page
+export default page;

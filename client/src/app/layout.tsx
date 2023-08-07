@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
-import { ConnectContextProvider } from "../../context/context";
+import { ConnectContextProvider } from "../context/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
