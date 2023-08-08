@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -17,8 +19,7 @@ function Page() {
           password,
         });
         localStorage.setItem("token", response.data.token);
-        // window.location.href = "/signin"  // causing the window to relaod
-        window.location.href = "/"
+        window.location.href = "/"  // causing the window reload
         alert("Account created");
       } else alert("Password not matching");
     } catch (error : any) {
@@ -28,10 +29,11 @@ function Page() {
   return (
     <form
       onSubmit={onSubmitHandler}
-      className="flex flex-col items-start gap-8  "
+      className="form"
     >
-      <h2>Register Form</h2>
-      <input
+            <h2 className="center_heading_form">Register Form</h2>
+
+      <Input
         required
         autoFocus={true}
         type="text"
@@ -39,21 +41,21 @@ function Page() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input
+      <Input
         required
         type="password"
         placeholder="Enter password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <input
+      <Input
         required
         type="password"
         placeholder="re-enter password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Button>Register</Button>
+      <Button className="center_button_form">Register</Button>
     </form>
   );
 }

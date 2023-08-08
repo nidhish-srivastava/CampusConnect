@@ -76,3 +76,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+.form{
+  @apply flex flex-col items-start gap-8  w-fit mx-auto;
+}
+.center_heading_form{
+  @apply mx-auto text-xl;
+}
+
+.center_button_form{
+  @apply text-sm mx-auto;
+}

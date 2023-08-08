@@ -2,13 +2,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { Input } from "@/components/ui/input"
+
 
 function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
-
- 
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -19,7 +18,7 @@ function Page() {
       });
       localStorage.setItem("token", response.data.token);
       alert("Logged In Successfully");
-  
+
       window.location.href = "/";
     } catch (error: any) {
       alert(error.response.data.message);
@@ -27,9 +26,12 @@ function Page() {
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
-      <h2>Login Form</h2>
-      <input
+    <form
+      onSubmit={onSubmitHandler}
+      className="form"
+    >
+      <h2 className="center_heading_form">Login Form</h2>
+      <Input
         required
         autoFocus={true}
         type="text"
@@ -37,14 +39,14 @@ function Page() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input
+      <Input
         required
         type="password"
         placeholder="Enter password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button>Login</Button>
+      <Button className="center_button_form">Login</Button>
     </form>
   );
 }
