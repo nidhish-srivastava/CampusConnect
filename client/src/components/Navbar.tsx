@@ -3,6 +3,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Montserrat } from "next/font/google";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
@@ -15,7 +24,7 @@ function Navbar() {
     setUserId,
     setUserDocumentId,
     setUserProfileObject,
-    trigger
+    trigger,
   } = useConnectContext();
   const [change, setChange] = useState(false);
 
@@ -46,7 +55,7 @@ function Navbar() {
   //* If we dont pass any dependency,and try using setTimeout,it wont work,do triggering and pass that as dependency
   useEffect(() => {
     FetchLoggedInUser();
-  }, [change,trigger]);
+  }, [change, trigger]);
 
   return (
     <div
@@ -54,20 +63,39 @@ function Navbar() {
     >
       {user?.length > 1 ? (
         <>
-          <Button>
+          {/* <Button>
             <Link href={`/`}>Home</Link>
+          </Button> */}
+          <Button>
+            <Link href="/">Home</Link>
           </Button>
+
           <Button>
             <Link href={`/profile`}>Profile</Link>
           </Button>
-          <Button
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage src="" alt="@shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem
             onClick={() => {
               localStorage.setItem("token", "");
               window.location.href = "/";
             }}
           >
-            Logout
-          </Button>
+Logout
+              </DropdownMenuItem>
+              {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
+              {/* <DropdownMenuItem>Subscription</DropdownMenuItem> */}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </>
       ) : (
         <>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useConnectContext } from "../../context/context";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function page() {
   const { userProfileObject, user, userDocumentId } = useConnectContext();
@@ -28,6 +29,10 @@ function page() {
 
   return (
     <div>
+      <Avatar>
+        <AvatarImage src="" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
       <h2 className="text-center text-xl">{user}</h2>
       <div className="flex justify-center gap-4 mt-10">
         <Button className="text-sm" onClick={getFollowers}>
