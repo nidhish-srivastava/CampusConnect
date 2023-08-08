@@ -82,7 +82,7 @@ function FetchUsers() {
   };
 
   useEffect(() => {
-    FetchAll();
+    FetchAll()
   }, [change, trigger]);
 
   return (

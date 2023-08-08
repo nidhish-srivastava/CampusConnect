@@ -66,13 +66,13 @@ function Navbar() {
           {/* <Button>
             <Link href={`/`}>Home</Link>
           </Button> */}
-          <Button>
+          <Button className="text-[1.1rem] px-6">
             <Link href="/">Home</Link>
           </Button>
-
-          <Button>
+{/* 
+          <Button className="text-[1.1rem] px-6">
             <Link href={`/profile`}>Profile</Link>
-          </Button>
+          </Button> */}
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
@@ -83,14 +83,18 @@ function Navbar() {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/create-profile">
+                Profile
+                </Link>
+                </DropdownMenuItem>
               <DropdownMenuItem
-            onClick={() => {
-              localStorage.setItem("token", "");
-              window.location.href = "/";
-            }}
-          >
-Logout
+                onClick={() => {
+                  localStorage.setItem("token", "");
+                  window.location.href = "/";
+                }}
+              >
+                Logout
               </DropdownMenuItem>
               {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
               {/* <DropdownMenuItem>Subscription</DropdownMenuItem> */}

@@ -87,3 +87,7 @@
 .center_button_form{
   @apply text-sm mx-auto;
 }
+
+.create-profile-form{
+  @apply flex flex-col items-start gap-8  mx-auto;
+}
