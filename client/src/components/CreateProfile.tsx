@@ -8,12 +8,26 @@ import { Button } from "./ui/button";
 
 function CreateProfile() {
   const [value, setValue] = useState(0);
+  const completeProfile = async()=>{
+    const response = await fetch(`http://localhost:4000/user-profile`,{
+
+    })
+  }
+
+  const submitHandlerForm = async(e : any) =>{
+    e.preventDefault()
+    setValue(100)
+  }
+  const nextSwitchHandler = async(e : any) =>{
+    e.preventDefault()
+    setValue(50)
+  }
   return (
     <>
       <Progress value={value} className="w-[40%] mx-auto my-10" />
-      <form className="create-profile-form w-[24%]">
+      <div className="create-profile-form">
         {value == 50 && (
-          <>
+          <form className="create-profile-form w-[24%]" onSubmit={submitHandlerForm}>
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Enter Email</Label>
               <Input
@@ -61,18 +75,16 @@ function CreateProfile() {
               </Button>
               <Button
                 className="text-sm px-6 py-4 mx-auto"
-                type="button"
-                onClick={() => setValue(100)}
               >
                 Submit
               </Button>
             </div>
-          </>
+          </form>
         )}
         {value == 0 && (
-          <>
+          <form className="create-profile-form w-[24%]" onSubmit={nextSwitchHandler} >
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="college">Enter College</Label>
+              <Label htmlFor="college">Enter College Name</Label>
               <Input
                 required
                 autoFocus={true}
@@ -94,14 +106,12 @@ function CreateProfile() {
             
             <Button
               className="text-sm w-fit mt-4 mx-auto px-6 py-4"
-              type="button"
-              onClick={() => setValue(50)}
             >
               Next
             </Button>
-          </>
+          </form>
         )}
-      </form>
+      </div>
     </>
   );
 }

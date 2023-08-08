@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Montserrat } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "./ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,21 +59,16 @@ function Navbar() {
   }, [change, trigger]);
 
   return (
+    <>
     <div
       className={`p-6 flex items-center justify-end gap-6 ${fontMontserrat.className}`}
-    >
+      >
+    <Input type="search" placeholder="Search user..." className="w-[30%] mr-auto text-[1.03rem] border-teal-400" />
       {user?.length > 1 ? (
         <>
-          {/* <Button>
-            <Link href={`/`}>Home</Link>
-          </Button> */}
           <Button className="text-[1.1rem] px-6">
             <Link href="/">Home</Link>
           </Button>
-{/* 
-          <Button className="text-[1.1rem] px-6">
-            <Link href={`/profile`}>Profile</Link>
-          </Button> */}
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
@@ -96,8 +92,6 @@ function Navbar() {
               >
                 Logout
               </DropdownMenuItem>
-              {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
-              {/* <DropdownMenuItem>Subscription</DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </>
@@ -112,6 +106,7 @@ function Navbar() {
         </>
       )}
     </div>
+      </>
   );
 }
 

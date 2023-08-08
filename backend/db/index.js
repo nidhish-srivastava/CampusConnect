@@ -7,6 +7,8 @@ const authSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     authId : {type : mongoose.Schema.Types.ObjectId,ref : "Auth",required : true},
+    college : {type  : String,required : true},
+    collegeLocation : {type : String,required : true},
     followers : [{type : mongoose.Schema.Types.ObjectId,ref : "User"}],
     following : [{type : mongoose.Schema.Types.ObjectId,ref : "User"}]
 })

@@ -1,21 +1,25 @@
 const express = require('express')
 const { User } = require('../db/index')
 const router = express.Router()
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+const { authenticateJwt } = require('../middleware/auth')
 
-// Fetch all users
-router.get('/', async (req, res) => {
+// Fetch all users by populating the authId object with the username from Auth model
+router.get('/fetchAll/:userDocumentId', authenticateJwt, async (req, res) => {
+    const { userDocumentId } = req.params
     const response = await User.find().populate('authId', 'username')
-    res.json(response)
+    const removeUser = response.filter(e => e._id != userDocumentId)
+    res.json(removeUser)
 })
 
-router.get('/:id',async(req,res)=>{
+// Getting a specific user
+router.get('/:id', async (req, res) => {
     try {
-        const {id} = req.params
-        const response = await User.findOne({authId : id})
+        const { id } = req.params
+        const response = await User.findOne({ authId: id })
         res.json(response)
     } catch (error) {
-       res.status(403).json(error)        
+        res.status(403).json(error)
     }
 })
 
@@ -44,28 +48,28 @@ router.put('/unfollow', async (req, res) => {
 
 })
 
-// GET FOLLOWERS
+// GET FOLLOWERS with their usernames
 router.get('/followers/:userId', async (req, res) => {
     const { userId } = req.params
     const response = await User.findById(userId)
 
-    const followersIds = response.followers.map(e=>e._id)
+    const followersIds = response.followers.map(e => e._id)
 
-    const followers = await User.find({ _id: { $in: followersIds } },'authId').populate('authId','username');
-    
+    const followers = await User.find({ _id: { $in: followersIds } }, 'authId').populate('authId', 'username');
+
     res.json(followers)
 
 })
 
-// GET FOLLOWING
+// GET FOLLOWING with their usernames
 router.get('/following/:userId', async (req, res) => {
     const { userId } = req.params
     const response = await User.findById(userId)
 
-    const followingIds = response.following.map(e=>e._id)
+    const followingIds = response.following.map(e => e._id)
 
-    const following = await User.find({ _id: { $in: followingIds } },'authId').populate('authId','username');
-    
+    const following = await User.find({ _id: { $in: followingIds } }, 'authId').populate('authId', 'username');
+
     res.json(following)
 })
 

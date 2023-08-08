@@ -20,45 +20,20 @@ export type UserType = {
 function FetchUsers() {
   const { userId, user, userDocumentId,trigger,setTrigger } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
-  const [change, setChange] = useState(false);
 
   const FetchAll = async () => {
-    const response = await fetch(`http://localhost:4000/user`, {
-      method: "GET",
+    const response = await fetch(`http://localhost:4000/user/fetchAll/${userDocumentId}`,{
+      method : "GET",
+      headers : {
+        Authorization : "Bearer "  + localStorage.getItem("token")
+      }
     });
     const data = await response.json();
-    // const filter = data.filter((e : UserType)=>e._id!=userDocumentId)
-    setFetchUser(data);
-    setTrigger((e) => !e); //* Just triggered one more reload so that it removes the user
-    filterHandler();
+    console.log(data);
+    setFetchUser(data)
   };
 
-  const filterHandler = () => {
-    setFetchUser((e: any) => {
-      const filter = e.filter((e: UserType) => e._id != userDocumentId);
-      return filter;
-    });
-  };
 
-  // useEffect(()=>{
-  //  filterHandler()
-  // },[])
-
-  // const FetchLoggedInUser =  async()=>{
-  //   const response =  await fetch(`http://localhost:4000/user/${userId}`)
-  //   const data = await response.json()
-  //   //  setUserDocumentId(data._id)
-  //    console.log(data);
-  //  }
-
-  // const checkFollow = () =>{
-  //   fetchUser.map((e : UserType)=>{
-  //     if(e.followers.find(e=>e==userDocumentId)){
-  //       console.log(e.followers.find(e=>e==userDocumentId));
-  //       setCheck(e.followers.find(e=>e==userDocumentId))
-  //     }
-  //   })
-  // }
 
   const follow = async (followUserId: string) => {
     const response = await fetch(`http://localhost:4000/user/follow`, {
@@ -68,7 +43,6 @@ function FetchUsers() {
     });
     const data = await response.json();
     console.log(data);
-    setChange((e) => !e);
   };
   const unfollow = async (unfollowUserId: string) => {
     const response = await fetch(`http://localhost:4000/user/unfollow`, {
@@ -78,12 +52,8 @@ function FetchUsers() {
     });
     const data = await response.json();
     console.log(data);
-    setChange((e) => !e);
   };
 
-  useEffect(() => {
-    FetchAll()
-  }, [change, trigger]);
 
   return (
     <div>
@@ -116,7 +86,7 @@ function FetchUsers() {
           }
         </div>
       ))}
-      {/* <button onClick={checkFollow}>Check</button> */}
+      <button onClick={FetchAll}>Check</button>
     </div>
   );
 }
