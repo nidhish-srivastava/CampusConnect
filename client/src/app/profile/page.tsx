@@ -29,8 +29,15 @@ function page() {
 
   console.log(userProfileObject);
 
+  const getCollegeInfo = async() =>{
+    const response = await fetch(`http://localhost:4000/user/college/${userDocumentId}`)
+    const data = await response.json()
+    console.log(data);
+  }
+
   return (
     <>
+    <button onClick={getCollegeInfo}>Get college info</button>
       <div className="flex justify-center gap-4 mt-10">
         <Button className="text-sm" onClick={getFollowers}>
           {userProfileObject?.followers?.length} <br /> Followers{" "}

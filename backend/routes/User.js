@@ -1,5 +1,5 @@
 const express = require('express')
-const { User } = require('../db/index')
+const { User, College } = require('../db/index')
 const router = express.Router()
 // const mongoose = require('mongoose')
 const { authenticateJwt } = require('../middleware/auth')
@@ -7,13 +7,38 @@ const { authenticateJwt } = require('../middleware/auth')
 // Creating a profile
 // If we create a new instance,then a new document inside the User model is created
 // So we will use the update method
-router.put('/user-profile/:userDocumentId',async(req,res)=>{
-    const {userDocumentId} = req.params
-    // const createProfile = new User(req.body)
-    // await createProfile.save()
-    await User.updateOne({_id : userDocumentId} , req.body)
-    // res.status(200).json({msg : "Updated Successfully",response})
+router.put('/user-profile/:userDocumentId', async (req, res) => {
+    const {college} = req.body
+    const { userDocumentId } = req.params
+    const collegeArray = new College()
+    collegeArray.colleges.push(college)
+    await collegeArray.save()
+    await User.updateOne({ _id: userDocumentId }, req.body)
 })
+
+router.get('/college/:userDocumentId', async (req, res) => {
+    // res.status(200).json({msg : "Updated Successfully",response})
+    const { userDocumentId } = req.params
+    const collegeUser = await User.findOne({ _id: userDocumentId });
+
+    const newCollege = new College({
+        collegeInfo: collegeUser._id
+    });
+
+    await newCollege.save();
+
+    // Now you can populate the collegeInfo field
+    // const populatedCollege = await College.findOne({}).populate('collegeInfo','college') //* Now we are populating multiple fields
+    const populatedCollege = await College.findOne({})
+        .populate({
+            path: 'collegeInfo',
+            model: 'User',
+            select: 'college collegeCity collegeLocation'
+        })
+        .exec();
+        res.json(populatedCollege)
+})
+
 
 // router.get('/fetch-profile/:userDocumentId',async(req,res)=>{
 //     const {userDocumentId} = req.params

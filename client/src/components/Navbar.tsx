@@ -38,6 +38,7 @@ function Navbar() {
     });
     const data = await response.json();
     setUser(data.username);
+    console.log(user);
     setUserId(data.id);
     setChange((e) => !e); //* For triggering the loggedIn User function after we fetch the user profile route(it can be optimised though)
   };

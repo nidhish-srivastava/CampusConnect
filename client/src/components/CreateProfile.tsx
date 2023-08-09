@@ -6,10 +6,8 @@ import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { useConnectContext } from "@/context/context";
-import { useRouter } from 'next/navigation'
 
 function CreateProfile() {
-  const router = useRouter()
   const {userId,userDocumentId} = useConnectContext()
   const [value, setValue] = useState(0);
   const [email, setEmail] = useState("");
@@ -18,6 +16,7 @@ function CreateProfile() {
   const [leetcode, setLeetcode] = useState("");
   const [college, setCollege] = useState("");
   const [collegeLocation, setCollegeLocation] = useState("");
+  const [collegeCity,setCollegeCity] = useState("")
 
   const submitHandlerForm = async (e: any) => {
     e.preventDefault();
@@ -29,6 +28,7 @@ function CreateProfile() {
       leetcode: leetcode,
       college: college,
       collegeLocation: collegeLocation,
+      collegeCity : collegeCity
     };
     setValue(100)
      await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
@@ -137,12 +137,22 @@ function CreateProfile() {
               <Label htmlFor="">College location</Label>
               <Textarea
                 required
-                autoFocus={true}
                 id="college"
                 spellCheck={false}
                 placeholder="Enter College location*"
                 value={collegeLocation}
                 onChange={(e) => setCollegeLocation(e.target.value)}
+              />
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="">College City</Label>
+              <Input
+                required
+                id="collegeCity"
+                spellCheck={false}
+                placeholder="Enter College city*"
+                value={collegeCity}
+                onChange={(e) => setCollegeCity(e.target.value)}
               />
             </div>
 

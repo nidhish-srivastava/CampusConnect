@@ -19,8 +19,8 @@ function Page() {
           password,
         });
         localStorage.setItem("token", response.data.token);
-        window.location.href = "/create-profile"  // causing the window reload
         alert("Account created");
+        window.location.href = "/"  // causing the window reload
       } else alert("Password not matching");
     } catch (error : any) {
        alert(error.response.data.message);
