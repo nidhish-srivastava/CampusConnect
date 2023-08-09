@@ -15,8 +15,6 @@ type ConnectContextTypes = {
   setUserDocumentId: React.Dispatch<React.SetStateAction<string>>;
   userProfileObject : UserType | null
   setUserProfileObject : React.Dispatch<React.SetStateAction<UserType | null>>;
-  trigger : boolean
-  setTrigger : React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -30,7 +28,6 @@ export const ConnectContextProvider = ({
   const [userId, setUserId] = useState(0);
   const [userDocumentId,setUserDocumentId] = useState("") 
   const [userProfileObject,setUserProfileObject] = useState<UserType | null>(null) 
-  const [trigger,setTrigger] = useState(false)
 
   return (
     <ConnectContext.Provider
@@ -43,8 +40,6 @@ export const ConnectContextProvider = ({
         setUserDocumentId,
         userProfileObject,
         setUserProfileObject,
-        trigger,
-        setTrigger
       }}
     >
       {children}

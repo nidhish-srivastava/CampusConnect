@@ -1,33 +1,65 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { useConnectContext } from "@/context/context";
+import { useRouter } from 'next/navigation'
 
 function CreateProfile() {
+  const router = useRouter()
+  const {userId,userDocumentId} = useConnectContext()
   const [value, setValue] = useState(0);
-  const completeProfile = async()=>{
-    const response = await fetch(`http://localhost:4000/user-profile`,{
+  const [email, setEmail] = useState("");
+  const [github, setGitHub] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [leetcode, setLeetcode] = useState("");
+  const [college, setCollege] = useState("");
+  const [collegeLocation, setCollegeLocation] = useState("");
 
-    })
-  }
-
-  const submitHandlerForm = async(e : any) =>{
-    e.preventDefault()
+  const submitHandlerForm = async (e: any) => {
+    e.preventDefault();
+    const formData = {
+      authId : userId,
+      email: email,
+      github: github,
+      linkedin: linkedin,
+      leetcode: leetcode,
+      college: college,
+      collegeLocation: collegeLocation,
+    };
     setValue(100)
-  }
-  const nextSwitchHandler = async(e : any) =>{
-    e.preventDefault()
-    setValue(50)
-  }
+     await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      
+  };
+
+  const nextSwitchHandler = async (e: any) => {
+    e.preventDefault();
+    setValue(50);
+  };
+
+  useEffect(()=>{
+    if(value==100){
+      console.log("fuck me");
+      window.location.href = "/profile"
+    }
+  },[value])
+
   return (
     <>
       <Progress value={value} className="w-[40%] mx-auto my-10" />
       <div className="create-profile-form">
         {value == 50 && (
-          <form className="create-profile-form w-[24%]" onSubmit={submitHandlerForm}>
+          <form
+            className="create-profile-form w-[24%]"
+            onSubmit={submitHandlerForm}
+          >
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Enter Email</Label>
               <Input
@@ -35,6 +67,8 @@ function CreateProfile() {
                 autoFocus={true}
                 type="email"
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Email id*"
               />
             </div>
@@ -44,6 +78,8 @@ function CreateProfile() {
                 required
                 type="url"
                 id="github"
+                value={github}
+                onChange={(e) => setGitHub(e.target.value)}
                 placeholder="Enter Github url*"
               />
             </div>
@@ -53,16 +89,19 @@ function CreateProfile() {
                 required
                 type="url"
                 id="linkedin"
+                value={linkedin}
+                onChange={(e) => setLinkedin(e.target.value)}
                 placeholder="Enter LinkedIn url*"
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="twitter">Twitter Profile</Label>
+              <Label htmlFor="leetcode">Leetcode Profile</Label>
               <Input
-                required
                 type="url"
-                id="twitter"
-                placeholder="Enter Twitter url*"
+                id="leetcode"
+                placeholder="Enter Leetcode url"
+                value={leetcode}
+                onChange={(e) => setLeetcode(e.target.value)}
               />
             </div>
             <div className="flex mt-2 justify-center gap-2 mx-auto">
@@ -73,16 +112,15 @@ function CreateProfile() {
               >
                 Prev
               </Button>
-              <Button
-                className="text-sm px-6 py-4 mx-auto"
-              >
-                Submit
-              </Button>
+              <Button className="text-sm px-6 py-4 mx-auto">Submit</Button>
             </div>
           </form>
         )}
         {value == 0 && (
-          <form className="create-profile-form w-[24%]" onSubmit={nextSwitchHandler} >
+          <form
+            className="create-profile-form w-[24%]"
+            onSubmit={nextSwitchHandler}
+          >
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="college">Enter College Name</Label>
               <Input
@@ -91,6 +129,8 @@ function CreateProfile() {
                 type="text"
                 id="college"
                 placeholder="Enter College*"
+                value={college}
+                onChange={(e) => setCollege(e.target.value)}
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -99,14 +139,14 @@ function CreateProfile() {
                 required
                 autoFocus={true}
                 id="college"
-                spellCheck = {false}
+                spellCheck={false}
                 placeholder="Enter College location*"
+                value={collegeLocation}
+                onChange={(e) => setCollegeLocation(e.target.value)}
               />
             </div>
-            
-            <Button
-              className="text-sm w-fit mt-4 mx-auto px-6 py-4"
-            >
+
+            <Button className="text-sm w-fit mt-4 mx-auto px-6 py-4">
               Next
             </Button>
           </form>

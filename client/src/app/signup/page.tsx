@@ -19,7 +19,7 @@ function Page() {
           password,
         });
         localStorage.setItem("token", response.data.token);
-        window.location.href = "/"  // causing the window reload
+        window.location.href = "/create-profile"  // causing the window reload
         alert("Account created");
       } else alert("Password not matching");
     } catch (error : any) {

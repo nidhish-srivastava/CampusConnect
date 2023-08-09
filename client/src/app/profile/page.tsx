@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useConnectContext } from "../../context/context";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 function page() {
   const { userProfileObject, user, userDocumentId } = useConnectContext();
@@ -27,13 +27,10 @@ function page() {
     setFollowing(data);
   };
 
+  console.log(userProfileObject);
+
   return (
-    <div>
-      <Avatar>
-        <AvatarImage src="" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-      <h2 className="text-center text-xl">{user}</h2>
+    <>
       <div className="flex justify-center gap-4 mt-10">
         <Button className="text-sm" onClick={getFollowers}>
           {userProfileObject?.followers?.length} <br /> Followers{" "}
@@ -42,13 +39,28 @@ function page() {
           {userProfileObject?.following?.length} <br /> Following{" "}
         </Button>
       </div>
-      {followers.map((e: any) => {
-        return <h2 className="text-sm">{e?.authId?.username}</h2>;
-      })}
-      {following.map((e: any) => {
-        return <h2 className="text-sm">{e?.authId?.username}</h2>;
-      })}
-    </div>
+      <div>
+        {followers.map((e: any) => {
+          return <h2 className="text-sm">{e?.authId?.username}</h2>;
+        })}
+      </div>
+      <div>
+        {following.map((e: any) => {
+          return <h2 className="text-sm">{e?.authId?.username}</h2>;
+        })}
+      </div>
+      {userProfileObject?.github?.length ?? 0 > 1 ? (  //* nullish coalescing operator providing default value 0
+        <></>
+      ) : (
+        <div className="text-center mt-6">
+          <Link href={`/create-profile`}>
+            <Button className="text-sm bg-amber-600 px-3">
+              Create your Profile
+            </Button>
+          </Link>
+        </div>
+      )}
+    </>
   );
 }
 

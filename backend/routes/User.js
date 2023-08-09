@@ -4,6 +4,23 @@ const router = express.Router()
 // const mongoose = require('mongoose')
 const { authenticateJwt } = require('../middleware/auth')
 
+// Creating a profile
+// If we create a new instance,then a new document inside the User model is created
+// So we will use the update method
+router.put('/user-profile/:userDocumentId',async(req,res)=>{
+    const {userDocumentId} = req.params
+    // const createProfile = new User(req.body)
+    // await createProfile.save()
+    await User.updateOne({_id : userDocumentId} , req.body)
+    // res.status(200).json({msg : "Updated Successfully",response})
+})
+
+// router.get('/fetch-profile/:userDocumentId',async(req,res)=>{
+//     const {userDocumentId} = req.params
+//     const fetchProfileData = await User.findById(userDocumentId)
+//     res.json(fetchProfileData)
+// })
+
 // Fetch all users by populating the authId object with the username from Auth model
 router.get('/fetchAll/:userDocumentId', authenticateJwt, async (req, res) => {
     const { userDocumentId } = req.params
@@ -17,7 +34,7 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const response = await User.findOne({ authId: id })
-        res.json(response)
+        res.json(response);
     } catch (error) {
         res.status(403).json(error)
     }

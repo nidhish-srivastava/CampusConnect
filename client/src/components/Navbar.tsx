@@ -25,7 +25,6 @@ function Navbar() {
     setUserId,
     setUserDocumentId,
     setUserProfileObject,
-    trigger,
   } = useConnectContext();
   const [change, setChange] = useState(false);
 
@@ -45,18 +44,18 @@ function Navbar() {
   const FetchLoggedInUser = async () => {
     const response = await fetch(`http://localhost:4000/user/${userId}`);
     const data = await response.json();
-    setUserProfileObject(data);
-    setUserDocumentId(data._id);
     console.log(data);
+    setUserProfileObject(data);
+    setUserDocumentId(data?._id);
   };
   useEffect(() => {
     check();
   }, []);
 
-  //* If we dont pass any dependency,and try using setTimeout,it wont work,do triggering and pass that as dependency
-  useEffect(() => {
-    FetchLoggedInUser();
-  }, [change, trigger]);
+  useEffect(()=>{
+    FetchLoggedInUser()
+  },[change])
+
 
   return (
     <>
@@ -80,7 +79,7 @@ function Navbar() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="/create-profile">
+                <Link href="/profile">
                 Profile
                 </Link>
                 </DropdownMenuItem>

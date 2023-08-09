@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Button } from "./ui/button";
-// import axios from "axios";
 import { useConnectContext } from "../context/context";
 
 type AuthId = {
@@ -15,10 +14,16 @@ export type UserType = {
   authId: AuthId;
   followers: string[];
   following: string[];
+  email: String,
+  github: String,
+  linkedin: String,
+  leetcode: String,
+  college: String,
+  collegeLocation: String
 };
 
 function FetchUsers() {
-  const { userId, user, userDocumentId,trigger,setTrigger } = useConnectContext();
+  const { userId, user, userDocumentId } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
 
   const FetchAll = async () => {
@@ -86,7 +91,7 @@ function FetchUsers() {
           }
         </div>
       ))}
-      <button onClick={FetchAll}>Check</button>
+      <Button onClick={FetchAll}>Check</Button>
     </div>
   );
 }
