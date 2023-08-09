@@ -87,9 +87,11 @@ function Navbar() {
     placeholder="Search user..." className="w-[30%] mr-auto text-[1.03rem] border-teal-400" />
       {user?.length > 1 ? (
         <>
+            <Link href="/">
           <Button className="text-[1.1rem] px-6">
-            <Link href="/">Home</Link>
+              Home
           </Button>
+              </Link>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
