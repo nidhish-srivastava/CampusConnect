@@ -5,7 +5,6 @@ import FetchUsers from "@/components/FetchUsers";
 export default function Home() {
   return (
     <>
-    Hello !!! This is the home page
     <FetchUsers/>
     </>
   );

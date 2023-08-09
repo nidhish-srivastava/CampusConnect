@@ -1,8 +1,19 @@
 const express = require('express')
-const { User, College } = require('../db/index')
+const { User, College,Auth } = require('../db/index')
 const router = express.Router()
 // const mongoose = require('mongoose')
 const { authenticateJwt } = require('../middleware/auth')
+
+// Searching a user
+router.get('/',async(req,res)=>{
+    const {username} = req.query
+    const queryObject = {}
+    if(username){
+        queryObject.username = {$regex : username,$options : "i"}
+    }
+    const getUsername = await Auth.find(queryObject)
+    res.json(getUsername)
+})
 
 // Creating a profile
 // If we create a new instance,then a new document inside the User model is created
@@ -16,6 +27,9 @@ router.put('/user-profile/:userDocumentId', async (req, res) => {
     await User.updateOne({ _id: userDocumentId }, req.body)
 })
 
+
+
+//* NOT IN USE RIGHT NOW
 router.get('/college/:userDocumentId', async (req, res) => {
     // res.status(200).json({msg : "Updated Successfully",response})
     const { userDocumentId } = req.params
@@ -47,6 +61,7 @@ router.get('/college/:userDocumentId', async (req, res) => {
 // })
 
 // Fetch all users by populating the authId object with the username from Auth model
+//* NOT IN USE RIGHT NOW
 router.get('/fetchAll/:userDocumentId', authenticateJwt, async (req, res) => {
     const { userDocumentId } = req.params
     const response = await User.find().populate('authId', 'username')

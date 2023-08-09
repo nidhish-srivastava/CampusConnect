@@ -3,6 +3,8 @@
 import {  useState } from "react";
 import { Button } from "./ui/button";
 import { useConnectContext } from "../context/context";
+import Link from "next/link";
+import {useRouter} from "next/navigation"
 
 type AuthId = {
   username: string;
@@ -23,7 +25,8 @@ export type UserType = {
 };
 
 function FetchUsers() {
-  const { userId, user, userDocumentId } = useConnectContext();
+  const router = useRouter()
+  const { userId,searchResultArray, user, userDocumentId,setSearchUserProfile } = useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
 
   const FetchAll = async () => {
@@ -59,13 +62,38 @@ function FetchUsers() {
     console.log(data);
   };
 
+  const fetchSingleSearchedUserData = async(id : string) =>{
+    const response = await fetch(`http://localhost:4000/user/${id}`)
+    const data = await response.json()
+    setSearchUserProfile(data)
+    router.push('/single')
+  }
+
 
   return (
     <div>
-      <h2 className="text-center">{user}</h2>
-      <h2>My user id is {userId}</h2>
-      <h2>My user document is {userDocumentId}</h2>
-      {fetchUser?.map((e: UserType, i) => (
+      <h2 className="text-center text-xl">Hello {user}</h2>
+      {searchResultArray?.length ?? 0 >1 ? (
+        <div className="w-1/2 mx-auto my-8">
+        {searchResultArray?.map((e)=>{
+          return(
+            <div className="p-4 border- border-2 bg-transparent">
+              {/* <Link href={`/${e._id}`}> */}
+            <h2 className="cursor-pointer" onClick={()=>fetchSingleSearchedUserData(e._id)}>{e.username}</h2>
+              {/* </Link> */}
+            </div>
+          )
+        })}
+      </div>
+      )
+    :(
+      <>
+      </>
+    )
+    }
+      {/* <h2>My user id is {userId}</h2> */}
+      {/* <h2>My user document is {userDocumentId}</h2> */}
+      {/* {fetchUser?.map((e: UserType, i) => (
         <div key={i}>
           <h2 className="text-2xl my-2">{e?.authId?.username}</h2>
           <h2>Followers : {e?.followers.length}</h2>
@@ -91,7 +119,7 @@ function FetchUsers() {
           }
         </div>
       ))}
-      <Button onClick={FetchAll}>Check</Button>
+      <Button onClick={FetchAll}>Check</Button> */}
     </div>
   );
 }

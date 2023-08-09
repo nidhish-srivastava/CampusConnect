@@ -6,6 +6,11 @@ type ConnectContextProviderProps = {
   children: React.ReactNode;
 };
 
+type SearchResult = {
+  username : string
+  _id : string
+}
+
 type ConnectContextTypes = {
   user: string;
   setUser: React.Dispatch<React.SetStateAction<string>>;
@@ -15,6 +20,10 @@ type ConnectContextTypes = {
   setUserDocumentId: React.Dispatch<React.SetStateAction<string>>;
   userProfileObject : UserType | null
   setUserProfileObject : React.Dispatch<React.SetStateAction<UserType | null>>;
+  searchResultArray : SearchResult[] | null
+  searchedUserProfile : UserType | null
+  setSearchUserProfile : React.Dispatch<React.SetStateAction<UserType | null>>;
+  setSearchResultArray : React.Dispatch<React.SetStateAction<SearchResult[] | null>>;
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -28,6 +37,8 @@ export const ConnectContextProvider = ({
   const [userId, setUserId] = useState(0);
   const [userDocumentId,setUserDocumentId] = useState("") 
   const [userProfileObject,setUserProfileObject] = useState<UserType | null>(null) 
+  const [searchResultArray,setSearchResultArray] = useState<SearchResult[] | null>(null)
+  const [searchedUserProfile,setSearchUserProfile] = useState<UserType | null>(null)
 
   return (
     <ConnectContext.Provider
@@ -40,6 +51,9 @@ export const ConnectContextProvider = ({
         setUserDocumentId,
         userProfileObject,
         setUserProfileObject,
+        searchResultArray,
+        setSearchResultArray,
+        searchedUserProfile,setSearchUserProfile
       }}
     >
       {children}
