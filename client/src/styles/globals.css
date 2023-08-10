@@ -92,3 +92,6 @@
   @apply flex flex-col items-start gap-8  mx-auto;
 }
 
+.profile-btn-label{
+  @apply text-[16px] cursor-default bg-orange-300 mr-20;
+}

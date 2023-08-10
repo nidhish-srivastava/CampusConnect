@@ -16,12 +16,13 @@ export type UserType = {
   authId: AuthId;
   followers: string[];
   following: string[];
-  email: String,
-  github: String,
-  linkedin: String,
-  leetcode: String,
-  college: String,
-  collegeLocation: String
+  email: string,
+  github: string,
+  linkedin: string,
+  leetcode: string,
+  college: string,
+  collegeCity : string,
+  collegeLocation: string
 };
 
 function FetchUsers() {
