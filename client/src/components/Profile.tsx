@@ -30,8 +30,9 @@ function Profile() {
     setFollowing(data);
   };
 
-  console.log(userProfileObject);
+  // console.log(userProfileObject);
 
+  //* Not in use at the moment
   // const getCollegeInfo = async() =>{
   //   const response = await fetch(`http://localhost:4000/user/college/${userDocumentId}`)
   //   const data = await response.json()
@@ -40,7 +41,7 @@ function Profile() {
 
   return (
     <>
-      <h2 className="text-center text-[18px]">
+      <h2 className="text-center text-[20px]">
         {userProfileObject?.authId?.username}
       </h2>
       <div className="flex justify-center gap-4 mt-4">
@@ -51,13 +52,10 @@ function Profile() {
           {userProfileObject?.following?.length} <br /> Following{" "}
         </Button>
       </div>
-      <FollowersCard followers={followers} />
-      <FollowingCard following={following} />
-      {/* <div>
-        {following.map((e: any) => {
-          return <h2 className="text-sm">{e?.authId?.username}</h2>;
-        })}
-      </div> */}
+
+      {/* <FollowersCard followers={followers} /> */}
+      {/* <FollowingCard following={following} /> */}
+
       {userProfileObject?.github?.length ?? 0 > 1 ? ( //* nullish coalescing operator providing default value 0
         // <div className="flex flex-col gap-4 items-start w-4/6 mx-auto my-10">
         <div className="grid grid-cols-2 gap-4 items-center w-4/6 mx-auto my-10">

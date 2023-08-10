@@ -1,10 +1,11 @@
 "use client";
 
-import {  useState } from "react";
-import { Button } from "./ui/button";
+import { Suspense, useState } from "react";
 import { useConnectContext } from "../context/context";
-import Link from "next/link";
-import {useRouter} from "next/navigation"
+import dynamic from "next/dynamic";
+import Loading from "@/app/loading";
+import FetchUserCard from "./FetchUserCard";
+// const FetchUserCard = dynamic(()=>import("./FetchUserCard"))
 
 type AuthId = {
   username: string;
@@ -12,37 +13,38 @@ type AuthId = {
 };
 
 export type UserType = {
-  _id : string;
+  _id: string;
   authId: AuthId;
   followers: string[];
   following: string[];
-  email: string,
-  github: string,
-  linkedin: string,
-  leetcode: string,
-  college: string,
-  collegeCity : string,
-  collegeLocation: string
+  email: string;
+  github: string;
+  linkedin: string;
+  leetcode: string;
+  college: string;
+  collegeCity: string;
+  collegeLocation: string;
 };
 
 function FetchUsers() {
-  const router = useRouter()
-  const { userId,searchResultArray, user, userDocumentId,setSearchUserProfile } = useConnectContext();
+  const { userId, searchResultArray, user, userDocumentId } =
+    useConnectContext();
   const [fetchUser, setFetchUser] = useState([]);
-
+/*
   const FetchAll = async () => {
-    const response = await fetch(`http://localhost:4000/user/fetchAll/${userDocumentId}`,{
-      method : "GET",
-      headers : {
-        Authorization : "Bearer "  + localStorage.getItem("token")
+    const response = await fetch(
+      `http://localhost:4000/user/fetchAll/${userDocumentId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
       }
-    });
+    );
     const data = await response.json();
     console.log(data);
-    setFetchUser(data)
+    setFetchUser(data);
   };
-
-
 
   const follow = async (followUserId: string) => {
     const response = await fetch(`http://localhost:4000/user/follow`, {
@@ -62,36 +64,17 @@ function FetchUsers() {
     const data = await response.json();
     console.log(data);
   };
-
-  const fetchSingleSearchedUserData = async(id : string) =>{
-    const response = await fetch(`http://localhost:4000/user/${id}`)
-    const data = await response.json()
-    setSearchUserProfile(data)
-    router.push('/single')
-  }
-
+*/
 
   return (
     <div>
-      <h2 className="text-center text-xl">Hello {user}</h2>
-      {searchResultArray?.length ?? 0 >1 ? (
-        <div className="w-1/2 mx-auto my-8">
-        {searchResultArray?.map((e)=>{
-          return(
-            <div className="p-4 border- border-2 bg-transparent">
-              {/* <Link href={`/${e._id}`}> */}
-            <h2 className="cursor-pointer" onClick={()=>fetchSingleSearchedUserData(e._id)}>{e.username}</h2>
-              {/* </Link> */}
-            </div>
-          )
-        })}
-      </div>
-      )
-    :(
-      <>
-      </>
-    )
-    }
+      {searchResultArray?.length ?? 0 > 1 ? (
+        <FetchUserCard />
+        ) : (
+          <>
+          <h2 className="text-center text-xl">Hello {user}</h2>
+        </>
+      )}
       {/* <h2>My user id is {userId}</h2> */}
       {/* <h2>My user document is {userDocumentId}</h2> */}
       {/* {fetchUser?.map((e: UserType, i) => (

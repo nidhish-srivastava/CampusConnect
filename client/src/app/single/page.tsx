@@ -1,8 +1,8 @@
 "use client"
-// Using Lazy components
+//* Using Lazy Loading
 import dynamic from 'next/dynamic'
 const SearchedUserProfile = dynamic(()=>import('../../components/FetchSingleUser'))
-import { Suspense } from "react"
+// import { Suspense } from "react"
 // import Loading from "./loading"
 
 function page() {
