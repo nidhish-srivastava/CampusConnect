@@ -1,8 +1,11 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useConnectContext } from "@/context/context";
+import dynamic from 'next/dynamic'
+import FollowersCard from "./FollowersCard";
+import FollowingCard from "./FollowingCard";
 
 function Profile() {
   const { userProfileObject, user, userDocumentId } = useConnectContext();
@@ -27,13 +30,13 @@ function Profile() {
     setFollowing(data);
   };
 
-  console.log(userProfileObject);
+  // console.log(userProfileObject);
 
-  const getCollegeInfo = async() =>{
-    const response = await fetch(`http://localhost:4000/user/college/${userDocumentId}`)
-    const data = await response.json()
-    console.log(data);
-  }
+  // const getCollegeInfo = async() =>{
+  //   const response = await fetch(`http://localhost:4000/user/college/${userDocumentId}`)
+  //   const data = await response.json()
+  //   console.log(data);
+  // }
 
   return (
     <>
@@ -45,16 +48,13 @@ function Profile() {
           {userProfileObject?.following?.length} <br /> Following{" "}
         </Button>
       </div>
-      <div>
-        {followers.map((e: any) => {
-          return <h2 className="text-sm">{e?.authId?.username}</h2>;
-        })}
-      </div>
-      <div>
+        <FollowersCard followers = {followers}/>
+        <FollowingCard following={following}/>
+      {/* <div>
         {following.map((e: any) => {
           return <h2 className="text-sm">{e?.authId?.username}</h2>;
         })}
-      </div>
+      </div> */}
       {userProfileObject?.github?.length ?? 0 > 1 ? (  //* nullish coalescing operator providing default value 0
         <></>
       ) : (
