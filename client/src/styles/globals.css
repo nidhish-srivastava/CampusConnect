@@ -93,5 +93,5 @@
 }
 
 .profile-btn-label{
-  @apply text-[16px] cursor-default bg-orange-300 mr-20;
+  @apply text-[16px] cursor-default bg-orange-300 mr-20 w-7/12;
 }

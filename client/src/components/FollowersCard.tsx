@@ -10,6 +10,7 @@ type Props = {
 }
 
 function FollowersCard({followers} : Props) {
+  
   return (
     <div>
         { followers.map((e: any) => {
