@@ -1,12 +1,16 @@
-import FetchSingleUser from "@/components/FetchSingleUser"
+"use client"
+// Using Lazy components
+import dynamic from 'next/dynamic'
+const SearchedUserProfile = dynamic(()=>import('../../components/FetchSingleUser'))
 import { Suspense } from "react"
-import Loading from "./loading"
+// import Loading from "./loading"
 
 function page() {
   return (
-    <Suspense fallback={<Loading/>}>
-    <FetchSingleUser/>
-    </Suspense>
+    // <Suspense fallback={<Loading/>}>
+    // <FetchSingleUser/>
+    <SearchedUserProfile/>
+    // </Suspense>
   )
 }
 

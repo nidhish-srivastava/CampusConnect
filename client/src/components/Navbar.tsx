@@ -102,7 +102,7 @@ function Navbar() {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-                <Link href="/profile">
+                <Link href={`/${user}`}>
               <DropdownMenuItem className="cursor-pointer">
                 Profile
                 </DropdownMenuItem>

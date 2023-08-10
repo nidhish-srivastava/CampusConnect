@@ -1,4 +1,3 @@
-"use client"
 import { useConnectContext } from "@/context/context"
 import { Button } from "./ui/button";
 

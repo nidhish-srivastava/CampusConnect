@@ -3,11 +3,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 export default function Loading() {
     // You can add any UI inside Loading, including a Skeleton.
     return (
-        <div className="flex items-center space-x-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="flex min-h-full gap-5 items-center justify-center">
+      <Skeleton className="h-12 w-20 rounded-full" />
       <div className="space-y-2">
-        <Skeleton className="h-4 w-[500px]" />
-        <Skeleton className="h-4 w-[400px]" />
+        <Skeleton className="h-8 w-[500px]" />
+        <Skeleton className="h-8 w-[400px]" />
       </div>
     </div>
     )
