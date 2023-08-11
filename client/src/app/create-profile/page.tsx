@@ -1,4 +1,4 @@
-import CreateProfile from "@/components/CreateProfile"
+import CreateProfile from "@/components/MyProfile/CreateProfile"
 
 function page() {
   return (

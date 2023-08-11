@@ -5,6 +5,5 @@ Create feature where the searched user when found,we click on the user's followe
 For this we need to create a new array then do some shit on that,we cant mutate the userProfileObject since the user is still the same,the person we are searching is different 
 
 
-Then create the follow unfollow button logic when we find the user either by search or in the follow unfollow list
 
 Create  route where user reaches to the profile when he clicks on the profile present in list of profiles among follow unfollow list

@@ -1,7 +1,7 @@
-import Profile from "@/components/ProfileDetails";
+import Profile from "@/components/MyProfile/ProfileDetails";
 import { Suspense } from "react";
 import Loading from "./loading";
-import ProfileBaseInfo from "@/components/ProfileBaseInfo";
+import ProfileBaseInfo from "@/components/MyProfile/ProfileBaseInfo";
 
 export default function ProfileLayout({
   children,

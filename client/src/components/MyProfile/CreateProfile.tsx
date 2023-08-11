@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useConnectContext } from "@/context/context";
 
 function CreateProfile() {

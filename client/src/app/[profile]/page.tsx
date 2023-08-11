@@ -1,4 +1,4 @@
-import ProfileDetails from "@/components/ProfileDetails"
+import ProfileDetails from "@/components/MyProfile/ProfileDetails"
 import { Suspense } from "react"
 import Loading from "./loading"
 

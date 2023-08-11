@@ -95,12 +95,18 @@ router.put('/follow', async (req, res) => {
 // Unfollow a user
 router.put('/unfollow', async (req, res) => {
     const { userDocumentId, unfollowUserId } = req.body
+
     // Remove unfollowUserId from the following list of userDocumentId
-    await User.findByIdAndUpdate(userDocumentId, { $pull: { following: unfollowUserId } });
-
+    const updateFollowers = await User.updateOne({_id : userDocumentId}, { $pull: { followers: unfollowUserId } });
+    if (!updateFollowers) {
+        return res.status(404).json({ message: 'User not found' });
+    }
     // Remove userDocumentId from the followers list of unfollowUserId
-    await User.findByIdAndUpdate(unfollowUserId, { $pull: { followers: userDocumentId } });
+    const updateFollowing = await User.updateOne({_id : unfollowUserId}, { $pull: { following: userDocumentId } });
 
+    if (!updateFollowing) {
+        return res.status(404).json({ message: 'User not found' });
+    }
     res.status(200).json({ message: 'User unfollowed successfully' });
 
 })
@@ -108,26 +114,34 @@ router.put('/unfollow', async (req, res) => {
 // GET FOLLOWERS with their usernames
 router.get('/followers/:userId', async (req, res) => {
     const { userId } = req.params
-    const response = await User.findById(userId)
-
-    const followersIds = response.followers.map(e => e._id)
-
-    const followers = await User.find({ _id: { $in: followersIds } }, 'authId').populate('authId', 'username');
-
-    res.json(followers)
+    try {
+        const response = await User.findById(userId)
+    
+        const followersIds = response.followers.map(e => e._id)
+    
+        const followers = await User.find({ _id: { $in: followersIds } }, 'authId').populate('authId', 'username');
+    
+        res.json(followers)
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 
 })
 
 // GET FOLLOWING with their usernames
 router.get('/following/:userId', async (req, res) => {
     const { userId } = req.params
-    const response = await User.findById(userId)
-
-    const followingIds = response.following.map(e => e._id)
-
-    const following = await User.find({ _id: { $in: followingIds } }, 'authId').populate('authId', 'username');
-
-    res.json(following)
+    try {
+        const response = await User.findById(userId)
+    
+        const followingIds = response.following.map(e => e._id)
+    
+        const following = await User.find({ _id: { $in: followingIds } }, 'authId').populate('authId', 'username');
+    
+        res.json(following)
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 })
 
 module.exports = router
