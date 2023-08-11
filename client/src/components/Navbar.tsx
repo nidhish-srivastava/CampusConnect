@@ -121,12 +121,16 @@ function Navbar() {
         </>
       ) : (
         <>
+            <Link href={`/signup`}>
           <Button>
-            <Link href={`/signup`}>SignUp</Link>
+              SignUp
           </Button>
+              </Link>
+            <Link href={`/login`}>
           <Button>
-            <Link href={`/login`}>Login</Link>
+              Login
           </Button>
+              </Link>
         </>
       )}
     </div>

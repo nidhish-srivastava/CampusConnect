@@ -36,6 +36,8 @@ type ConnectContextTypes = {
   setFollowers : React.Dispatch<React.SetStateAction<FollowersFollowingType[] | null>>
   following : FollowersFollowingType[] | null
   setFollowing : React.Dispatch<React.SetStateAction<FollowersFollowingType[] | null>>
+  changeBtn : boolean
+  setChangeBtn : React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -53,6 +55,7 @@ export const ConnectContextProvider = ({
   const [searchedUserProfile,setSearchUserProfile] = useState<UserType | null>(null)
   const [followers,setFollowers] = useState<FollowersFollowingType[] | null>(null)
   const [following,setFollowing] = useState<FollowersFollowingType[] | null>(null)
+  const [changeBtn,setChangeBtn] = useState(false)
 
   return (
     <ConnectContext.Provider
@@ -69,7 +72,8 @@ export const ConnectContextProvider = ({
         setSearchResultArray,
         searchedUserProfile,setSearchUserProfile,
         followers,setFollowers,
-        following,setFollowing
+        following,setFollowing,
+        changeBtn,setChangeBtn
       }}
     >
       {children}

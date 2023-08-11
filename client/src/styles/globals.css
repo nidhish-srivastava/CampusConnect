@@ -95,3 +95,7 @@
 .profile-btn-label{
   @apply text-[16px] cursor-default bg-orange-300 mr-20 w-7/12;
 }
+
+.follow-unfollow-btn{
+  @apply bg-yellow-600 text-sm px-2 py-0 w-fit
+}
