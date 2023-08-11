@@ -2,9 +2,22 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useConnectContext } from "@/context/context";
+import { useEffect } from "react";
 
 function ProfileDetails() {
-  const { userProfileObject } = useConnectContext();
+  const { userProfileObject,userId,setUserProfileObject,setUserDocumentId } = useConnectContext();
+
+  const FetchLoggedInUser = async () => {
+    const response = await fetch(`http://localhost:4000/user/${userId}`);
+    const data = await response.json();
+    console.log(data);
+    setUserProfileObject(data);
+    setUserDocumentId(data?._id);
+  };
+
+  useEffect(()=>{
+    FetchLoggedInUser()
+  },[])
 
   //* Not in use at the moment
   // const getCollegeInfo = async() =>{

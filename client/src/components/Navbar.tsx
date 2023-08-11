@@ -20,14 +20,10 @@ import { useConnectContext } from "../context/context";
 function Navbar() {
   const {
     user,
-    userId,
     setUser,
     setUserId,
-    setUserDocumentId,
-    setUserProfileObject,
     setSearchResultArray
   } = useConnectContext();
-  const [change, setChange] = useState(false);
   const [query,setQuery] = useState("")
 
   //* Using jwt authorization for accessing content after authentication from login/signup
@@ -40,30 +36,21 @@ function Navbar() {
     });
     const data = await response.json();
     setUser(data.username);
-    console.log(user);
     setUserId(data.id);
-    setChange((e) => !e); //* For triggering the loggedIn User function after we fetch the user profile route(it can be optimised though)
   };
-  const FetchLoggedInUser = async () => {
-    const response = await fetch(`http://localhost:4000/user/${userId}`);
-    const data = await response.json();
-    console.log(data);
-    setUserProfileObject(data);
-    setUserDocumentId(data?._id);
-  };
+
   const getUsername = async() =>{
        const response = await fetch(`http://localhost:4000/user?username=${query}`)
        const data = await response.json()
        console.log(data);
        setSearchResultArray(data)
   }
+
   useEffect(() => {
     check();
   }, []);
 
-  useEffect(()=>{
-    FetchLoggedInUser()
-  },[change])
+
 
   useEffect(()=>{
     let id = setTimeout(()=>{
@@ -102,7 +89,7 @@ function Navbar() {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-                <Link href={`/${user}`}>
+                <Link  href={`/${user}`}>
               <DropdownMenuItem className="cursor-pointer">
                 Profile
                 </DropdownMenuItem>
