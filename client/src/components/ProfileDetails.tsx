@@ -1,36 +1,10 @@
 "use client";
-import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useConnectContext } from "@/context/context";
-import dynamic from "next/dynamic";
-import FollowersCard from "./FollowersCard";
-import FollowingCard from "./FollowingCard";
 
-function Profile() {
-  const { userProfileObject, user, userDocumentId } = useConnectContext();
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
-
-  const getFollowers = async () => {
-    const response = await fetch(
-      `http://localhost:4000/user/followers/${userDocumentId}`
-    );
-    const data = await response.json();
-    console.log(data);
-    setFollowers(data);
-  };
-
-  const getFollowing = async () => {
-    const response = await fetch(
-      `http://localhost:4000/user/following/${userDocumentId}`
-    );
-    const data = await response.json();
-    console.log(data);
-    setFollowing(data);
-  };
-
-  // console.log(userProfileObject);
+function ProfileDetails() {
+  const { userProfileObject } = useConnectContext();
 
   //* Not in use at the moment
   // const getCollegeInfo = async() =>{
@@ -41,25 +15,6 @@ function Profile() {
 
   return (
     <>
-      <h2 className="text-center text-[20px]">
-        {userProfileObject?.authId?.username}
-      </h2>
-      <div className="flex justify-center gap-4 mt-4">
-        <Link href={`/${userProfileObject?.authId.username}/followers`}>
-        <Button className="text-[16px]" onClick={getFollowers}>
-          {userProfileObject?.followers?.length} <br /> Followers{" "}
-        </Button>
-        </Link>
-        <Link href={`/${userProfileObject?.authId.username}/following`}>
-        <Button className="text-[16px]" onClick={getFollowing}>
-          {userProfileObject?.following?.length} <br /> Following{" "}
-        </Button>
-        </Link>
-      </div>
-
-      {/* <FollowersCard followers={followers} /> */}
-      {/* <FollowingCard following={following} /> */}
-
       {userProfileObject?.github?.length ?? 0 > 1 ? ( //* nullish coalescing operator providing default value 0
         // <div className="flex flex-col gap-4 items-start w-4/6 mx-auto my-10">
         <div className="grid grid-cols-2 gap-4 items-center w-4/6 mx-auto my-10">
@@ -104,4 +59,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfileDetails;

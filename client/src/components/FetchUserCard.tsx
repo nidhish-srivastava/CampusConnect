@@ -5,11 +5,11 @@ async function FetchUserCard() {
     const router = useRouter()
     const {searchResultArray,setSearchUserProfile} = useConnectContext()
     
-  const fetchSingleSearchedUserData = async(id : string) =>{
+  const fetchSingleSearchedUserData = async(id : string,username : string) =>{
     const response = await fetch(`http://localhost:4000/user/${id}`)
     const data = await response.json()
     setSearchUserProfile(data)
-    router.push('/single')
+    router.push('/search')
   }
 
   return (
@@ -18,7 +18,7 @@ async function FetchUserCard() {
       return(
         <div className="p-4 border- border-2 bg-transparent">
           {/* <Link href={`/${e._id}`}> */}
-        <h2 className="cursor-pointer" onClick={()=>fetchSingleSearchedUserData(e._id)}>{e.username}</h2>
+        <h2 className="cursor-pointer" onClick={()=>fetchSingleSearchedUserData(e._id,e.username)}>{e.username}</h2>
           {/* </Link> */}
         </div>
       )

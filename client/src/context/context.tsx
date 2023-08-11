@@ -11,7 +11,7 @@ type SearchResult = {
   _id : string
 }
 
-type FollowersFollowingType = {
+export type FollowersFollowingType = {
   authId : {
     _id : string
     username : string

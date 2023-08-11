@@ -1,4 +1,4 @@
-import Profile from "@/components/Profile"
+import ProfileDetails from "@/components/ProfileDetails"
 import { Suspense } from "react"
 import Loading from "./loading"
 
@@ -17,11 +17,9 @@ const  page =  () => {
   // }
   // await delay()
   return (
-    <div>
-      <Suspense fallback = {<Loading/>}>
-      <Profile/>
-      </Suspense>
-    </div>
+    <Suspense fallback = {<Loading/>}>
+    <ProfileDetails/>
+    </Suspense>
   )
 }
 
