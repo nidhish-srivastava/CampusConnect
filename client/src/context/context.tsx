@@ -11,6 +11,14 @@ type SearchResult = {
   _id : string
 }
 
+type FollowersFollowingType = {
+  authId : {
+    _id : string
+    username : string
+}
+_id : string
+}
+
 type ConnectContextTypes = {
   user: string;
   setUser: React.Dispatch<React.SetStateAction<string>>;
@@ -20,10 +28,14 @@ type ConnectContextTypes = {
   setUserDocumentId: React.Dispatch<React.SetStateAction<string>>;
   userProfileObject : UserType | null
   setUserProfileObject : React.Dispatch<React.SetStateAction<UserType | null>>;
-  searchResultArray : SearchResult[] | null
   searchedUserProfile : UserType | null
   setSearchUserProfile : React.Dispatch<React.SetStateAction<UserType | null>>;
+  searchResultArray : SearchResult[] | null
   setSearchResultArray : React.Dispatch<React.SetStateAction<SearchResult[] | null>>;
+  followers : FollowersFollowingType[] | null
+  setFollowers : React.Dispatch<React.SetStateAction<FollowersFollowingType[] | null>>
+  following : FollowersFollowingType[] | null
+  setFollowing : React.Dispatch<React.SetStateAction<FollowersFollowingType[] | null>>
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -39,6 +51,8 @@ export const ConnectContextProvider = ({
   const [userProfileObject,setUserProfileObject] = useState<UserType | null>(null) 
   const [searchResultArray,setSearchResultArray] = useState<SearchResult[] | null>(null)
   const [searchedUserProfile,setSearchUserProfile] = useState<UserType | null>(null)
+  const [followers,setFollowers] = useState<FollowersFollowingType[] | null>(null)
+  const [following,setFollowing] = useState<FollowersFollowingType[] | null>(null)
 
   return (
     <ConnectContext.Provider
@@ -53,7 +67,9 @@ export const ConnectContextProvider = ({
         setUserProfileObject,
         searchResultArray,
         setSearchResultArray,
-        searchedUserProfile,setSearchUserProfile
+        searchedUserProfile,setSearchUserProfile,
+        followers,setFollowers,
+        following,setFollowing
       }}
     >
       {children}

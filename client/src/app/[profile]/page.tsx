@@ -2,8 +2,11 @@ import Profile from "@/components/Profile"
 import { Suspense } from "react"
 import Loading from "./loading"
 
+// without react suspense,66% is the lighthouse performance
+// with React suspense,89%
+
 const  page =  () => {
-  // //* Created a fake delay by making this function asynchronous
+ //* Created a fake delay by making this function asynchronous
 // const  page = async () => {
   // const delay = async() =>{
   //   return new Promise<void>((resolve)=>{
