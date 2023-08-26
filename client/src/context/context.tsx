@@ -38,6 +38,8 @@ type ConnectContextTypes = {
   setFollowing : React.Dispatch<React.SetStateAction<FollowersFollowingType[] | null>>
   changeBtn : boolean
   setChangeBtn : React.Dispatch<React.SetStateAction<boolean>>
+  imageUrl : string
+  setImageUrl : React.Dispatch<React.SetStateAction<string>>
 };
 
 const ConnectContext = createContext({} as ConnectContextTypes);
@@ -49,6 +51,7 @@ export const ConnectContextProvider = ({
 }: ConnectContextProviderProps) => {
   const [user, setUser] = useState("");
   const [userId, setUserId] = useState(0);
+  const [imageUrl,setImageUrl] = useState("")
   const [userDocumentId,setUserDocumentId] = useState("") 
   const [userProfileObject,setUserProfileObject] = useState<UserType | null>(null) 
   const [searchResultArray,setSearchResultArray] = useState<SearchResult[] | null>(null)
@@ -73,7 +76,8 @@ export const ConnectContextProvider = ({
         searchedUserProfile,setSearchUserProfile,
         followers,setFollowers,
         following,setFollowing,
-        changeBtn,setChangeBtn
+        changeBtn,setChangeBtn,
+        imageUrl,setImageUrl
       }}
     >
       {children}

@@ -22,7 +22,8 @@ function Navbar() {
     user,
     setUser,
     setUserId,
-    setSearchResultArray
+    setSearchResultArray,
+    userProfileObject
   } = useConnectContext();
   const [query,setQuery] = useState("")
 
@@ -62,6 +63,8 @@ function Navbar() {
     return () => clearInterval(id)
   },[query])
 
+  
+
 
   return (
     <>
@@ -82,14 +85,14 @@ function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src="" alt="@shadcn" />
+                <AvatarImage src={userProfileObject?.imageUrl} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-                <Link  href={`/${user}`}>
+                <Link href={`/${user}`}>
               <DropdownMenuItem className="cursor-pointer">
                 Profile
                 </DropdownMenuItem>

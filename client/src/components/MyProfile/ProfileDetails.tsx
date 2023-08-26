@@ -34,6 +34,7 @@ function ProfileDetails() {
           {/* <div> */}
           <Button className="profile-btn-label">College</Button>
           <label>{userProfileObject?.college}</label>
+
           {/* </div> */}
           {/* <div> */}
           <Button className="profile-btn-label">College City</Button>

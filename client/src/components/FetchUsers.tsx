@@ -24,6 +24,7 @@ export type UserType = {
   college: string;
   collegeCity: string;
   collegeLocation: string;
+  imageUrl : string
 };
 
 function FetchUsers() {

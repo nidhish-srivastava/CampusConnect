@@ -1,11 +1,11 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const { Auth, User } = require('../db/index')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv')
+import { Auth, User } from '../db/index.js'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 dotenv.config()
-const {authenticateJwt} = require('../middleware/auth')
+import {authenticateJwt} from '../middleware/auth.js'
 
 
 
@@ -70,4 +70,4 @@ router.post('/login', async (req, res) => {
 })
 
 
-module.exports = router
+export default router

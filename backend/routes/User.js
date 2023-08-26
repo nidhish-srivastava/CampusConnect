@@ -1,9 +1,11 @@
-const express = require('express')
-const { User, College,Auth } = require('../db/index')
+import express from 'express'
+import { User, College,Auth } from '../db/index.js'
 const router = express.Router()
 // const mongoose = require('mongoose')
-const { authenticateJwt } = require('../middleware/auth')
-
+import { authenticateJwt } from '../middleware/auth.js'
+import uploadImage from '../UploadImage.js'
+import { nanoid } from 'nanoid'
+nanoid(); 
 // Searching a user
 router.get('/',async(req,res)=>{
     const {username} = req.query
@@ -15,21 +17,23 @@ router.get('/',async(req,res)=>{
     res.json(getUsername)
 })
 
-// Creating a profile
-// If we create a new instance,then a new document inside the User model is created
-// So we will use the update method
+
+//* This api is work in progress state
+/* If we create a new instance,then a new document inside the User model is created which we dont want(we already have the document,which we created when we registered the user)
+So we will use the update method
+*/
+//* Creating a profile
 router.put('/user-profile/:userDocumentId', async (req, res) => {
-    const {college} = req.body
+    const {college,dp,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity} = req.body
+    const imageId = nanoid().split('-')[0]
+    const imageUrl =  await uploadImage(dp,imageId)
     const { userDocumentId } = req.params
-    const collegeArray = new College()
-    collegeArray.colleges.push(college)
-    await collegeArray.save()
-    await User.updateOne({ _id: userDocumentId }, req.body)
+    const updateBody = {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity,imageUrl}
+    await User.updateOne({ _id: userDocumentId }, updateBody  )
 })
 
 
-
-//* NOT IN USE RIGHT NOW
+//* RIGHT NOW NOT IN USE
 router.get('/college/:userDocumentId', async (req, res) => {
     // res.status(200).json({msg : "Updated Successfully",response})
     const { userDocumentId } = req.params
@@ -161,7 +165,7 @@ router.get('/following/:userId', async (req, res) => {
     }
 })
 
-module.exports = router
+export default router
 
 
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const authSchema = new mongoose.Schema({
     username : {type : String,required : true,unique : true},
@@ -7,7 +7,7 @@ const authSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     authId : {type : mongoose.Schema.Types.ObjectId,ref : "Auth",required : true},
-    dp : {type : String},
+    imageUrl : {type : String,default : ""},
     email : {type : String,default : ""},
     github : {type : String,default : ""},
     linkedin : {type : String,default :""},
@@ -37,11 +37,11 @@ const collegeSchema = new mongoose.Schema({
 })
 
 const User = mongoose.model("User",userSchema)
-const Auth = mongoose.model("Auth",authSchema)
+ const Auth = mongoose.model("Auth",authSchema)
 const College = mongoose.model("College",collegeSchema)
 
-module.exports = {
+export {
     User,
-    Auth,
-    College
+    College,
+    Auth
 }

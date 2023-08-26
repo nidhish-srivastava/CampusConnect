@@ -10,8 +10,10 @@ import Compress from "react-image-file-resizer";
 import Image from "next/image";
 
 import user from "../../assets/user.png";
+import { useRouter } from "next/navigation";
 
 function CreateProfile() {
+  const router = useRouter()
   const [userImg, setUserImg] = useState(user);
   const { userId, userDocumentId } = useConnectContext();
   const [value, setValue] = useState(0);
@@ -48,7 +50,7 @@ function CreateProfile() {
             0, // rotation
             (uri: any) => {
               // You upload logic goes here
-              console.log("uri", uri);
+              // console.log("uri", uri);
               setUserImg(uri);
             },
             "base64" // blob or base64 default base64
@@ -61,6 +63,8 @@ function CreateProfile() {
     fileInput.click();
   };
 
+  
+  
   const submitHandlerForm = async (e: any) => {
     e.preventDefault();
     const formData = {
@@ -89,7 +93,8 @@ function CreateProfile() {
 
   useEffect(() => {
     if (value == 100) {
-      window.location.href = "/profile";
+      //* window.location.href = "/"; This was causing a problem coz when we reload,then if we switch to profile,our userData state is lost
+      router.push("/")
     }
   }, [value]);
 
