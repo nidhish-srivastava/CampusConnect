@@ -8,11 +8,32 @@ import { Button } from "../ui/button";
 import { useConnectContext } from "@/context/context";
 import Compress from "react-image-file-resizer";
 import Image from "next/image";
-
+import {ZodType, z} from "zod"
+import {useForm} from 'react-hook-form'
+import {zodResolver} from "@hookform/resolvers/zod"
 import user from "../../assets/user.png";
 import { useRouter } from "next/navigation";
 
+type FormData = {
+  email ?: string
+  github ?: string
+  linkedin ?: string
+  leetcode ?: string
+  college ?: string
+  collegeLocation ?: string
+  collegeCity ?: string
+}
+
 function CreateProfile() {
+  const schema : ZodType<FormData> = z.object({
+    email : z.string().email(),
+    github : z.string().min(19),
+    linkedin : z.string().min(23),
+    leetcode : z.string().min(20),
+    college : z.string().min(8),
+    collegeLocation : z.string().min(3),
+    collegeCity : z.string().min(3),
+  })
   const router = useRouter()
   const [userImg, setUserImg] = useState(user);
   const { userId, userDocumentId } = useConnectContext();
@@ -63,19 +84,28 @@ function CreateProfile() {
     fileInput.click();
   };
 
+  console.log("render create profile");
+
+  
+  // * RIGHT NOW ITS NOT WORKING  Connecting zod with react hook form(using resolver package)
+  // const {register,handleSubmit,formState : {errors}} = useForm<FormData>({resolver : zodResolver(schema)})
+
+  const {register,handleSubmit} = useForm()
   
   
-  const submitHandlerForm = async (e: any) => {
-    e.preventDefault();
+  
+  const submitHandlerForm = async (data : FormData) => {
+    
+    // e.preventDefault();
     const formData = {
       authId: userId,
-      email: email,
-      github: github,
-      linkedin: linkedin,
-      leetcode: leetcode,
-      college: college,
-      collegeLocation: collegeLocation,
-      collegeCity: collegeCity,
+      email: data.email,
+      github: data.github,
+      linkedin: data.linkedin,
+      leetcode: data.leetcode,
+      college: data.college,
+      collegeLocation: data.collegeLocation,
+      collegeCity: data.collegeCity,
       dp: userImg,
     };
     setValue(100);
@@ -86,8 +116,8 @@ function CreateProfile() {
     });
   };
 
-  const nextSwitchHandler = async (e: any) => {
-    e.preventDefault();
+  const nextSwitchHandler = async (e : any) => {
+    e.preventDefault()
     setValue(66);
   };
 
@@ -105,7 +135,8 @@ function CreateProfile() {
         {value == 66 && (
           <form
             className="create-profile-form w-[24%]"
-            onSubmit={submitHandlerForm}
+            onSubmit={handleSubmit(submitHandlerForm)}
+            // onSubmit={()=>submitHandlerForm}
           >
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Enter Email</Label>
@@ -114,8 +145,9 @@ function CreateProfile() {
                 autoFocus={true}
                 type="email"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
+                // value={email}
+                // onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Email id*"
               />
             </div>
@@ -125,8 +157,9 @@ function CreateProfile() {
                 required
                 type="url"
                 id="github"
-                value={github}
-                onChange={(e) => setGitHub(e.target.value)}
+                // value={github}
+                // onChange={(e) => setGitHub(e.target.value)}
+                {...register("github")}
                 placeholder="Enter Github url*"
               />
             </div>
@@ -136,8 +169,9 @@ function CreateProfile() {
                 required
                 type="url"
                 id="linkedin"
-                value={linkedin}
-                onChange={(e) => setLinkedin(e.target.value)}
+                // value={linkedin}
+                // onChange={(e) => setLinkedin(e.target.value)}
+                {...register("linkedin")}
                 placeholder="Enter LinkedIn url*"
               />
             </div>
@@ -147,8 +181,9 @@ function CreateProfile() {
                 type="url"
                 id="leetcode"
                 placeholder="Enter Leetcode url"
-                value={leetcode}
-                onChange={(e) => setLeetcode(e.target.value)}
+                // value={leetcode}
+                // onChange={(e) => setLeetcode(e.target.value)}
+                {...register("leetcode")}
               />
             </div>
             <div className="flex mt-2 justify-center gap-2 mx-auto">
@@ -176,8 +211,9 @@ function CreateProfile() {
                 type="text"
                 id="college"
                 placeholder="Enter College*"
-                value={college}
-                onChange={(e) => setCollege(e.target.value)}
+                // value={college}
+                // onChange={(e) => setCollege(e.target.value)}
+                {...register("college")}
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -187,8 +223,9 @@ function CreateProfile() {
                 id="college"
                 spellCheck={false}
                 placeholder="Enter College location*"
-                value={collegeLocation}
-                onChange={(e) => setCollegeLocation(e.target.value)}
+                // value={collegeLocation}
+                // onChange={(e) => setCollegeLocation(e.target.value)}
+                {...register("collegeLocation")}
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -198,8 +235,9 @@ function CreateProfile() {
                 id="collegeCity"
                 spellCheck={false}
                 placeholder="Enter College city*"
-                value={collegeCity}
-                onChange={(e) => setCollegeCity(e.target.value)}
+                // value={collegeCity}
+                // onChange={(e) => setCollegeCity(e.target.value)}
+                {...register("collegeCity")}
               />
             </div>
             <div className="flex gap-2 mx-auto">
@@ -209,7 +247,9 @@ function CreateProfile() {
               >
                 Back
               </Button>
-              <Button className="text-sm w-fit mt-4 mx-auto px-6 py-4">
+              <Button
+              className="text-sm w-fit mt-4 mx-auto px-6 py-4"
+              >
                 Next
               </Button>
             </div>
