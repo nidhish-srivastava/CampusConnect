@@ -6,9 +6,14 @@ import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { useConnectContext } from "@/context/context";
+import Compress from "react-image-file-resizer";
+import Image from "next/image";
+
+import user from "../../assets/user.png";
 
 function CreateProfile() {
-  const {userId,userDocumentId} = useConnectContext()
+  const [userImg, setUserImg] = useState(user);
+  const { userId, userDocumentId } = useConnectContext();
   const [value, setValue] = useState(0);
   const [email, setEmail] = useState("");
   const [github, setGitHub] = useState("");
@@ -16,46 +21,83 @@ function CreateProfile() {
   const [leetcode, setLeetcode] = useState("");
   const [college, setCollege] = useState("");
   const [collegeLocation, setCollegeLocation] = useState("");
-  const [collegeCity,setCollegeCity] = useState("")
+  const [collegeCity, setCollegeCity] = useState("");
+
+  //* !!!  Logic for base64 image conversion so that we can preview it as well
+  const handleImage = (e: any) => {
+    // create a file input dynamically
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+
+    // define a onChange image to read and show the file
+    fileInput.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          // onFileResize()
+
+          //* Below it the functionality of on FileResize function which we trigger if we choose a file using input type equals file
+          Compress.imageFileResizer(
+            file, // the file from input
+            480, // width
+            480, // height
+            "JPEG", // compress format WEBP, JPEG, PNG
+            70, // quality
+            0, // rotation
+            (uri: any) => {
+              // You upload logic goes here
+              console.log("uri", uri);
+              setUserImg(uri);
+            },
+            "base64" // blob or base64 default base64
+          );
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    // simulate a click
+    fileInput.click();
+  };
 
   const submitHandlerForm = async (e: any) => {
     e.preventDefault();
     const formData = {
-      authId : userId,
+      authId: userId,
       email: email,
       github: github,
       linkedin: linkedin,
       leetcode: leetcode,
       college: college,
       collegeLocation: collegeLocation,
-      collegeCity : collegeCity
+      collegeCity: collegeCity,
+      dp: userImg,
     };
-    setValue(100)
-     await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-      
+    setValue(100);
+    await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
   };
 
   const nextSwitchHandler = async (e: any) => {
     e.preventDefault();
-    setValue(50);
+    setValue(66);
   };
 
-  useEffect(()=>{
-    if(value==100){
-      console.log("fuck me");
-      window.location.href = "/profile"
+  useEffect(() => {
+    if (value == 100) {
+      window.location.href = "/profile";
     }
-  },[value])
+  }, [value]);
 
   return (
     <>
       <Progress value={value} className="w-[40%] mx-auto my-10" />
       <div className="create-profile-form">
-        {value == 50 && (
+        {value == 66 && (
           <form
             className="create-profile-form w-[24%]"
             onSubmit={submitHandlerForm}
@@ -108,15 +150,15 @@ function CreateProfile() {
               <Button
                 className="text-sm px-6 py-4"
                 type="button"
-                onClick={() => setValue(0)}
+                onClick={() => setValue(33)}
               >
-                Prev
+                Back
               </Button>
               <Button className="text-sm px-6 py-4 mx-auto">Submit</Button>
             </div>
           </form>
         )}
-        {value == 0 && (
+        {value == 33 && (
           <form
             className="create-profile-form w-[24%]"
             onSubmit={nextSwitchHandler}
@@ -155,11 +197,40 @@ function CreateProfile() {
                 onChange={(e) => setCollegeCity(e.target.value)}
               />
             </div>
-
-            <Button className="text-sm w-fit mt-4 mx-auto px-6 py-4">
+            <div className="flex gap-2 mx-auto">
+              <Button
+                className="text-sm w-fit mt-4 mx-auto px-6 py-4"
+                onClick={() => setValue(0)}
+              >
+                Back
+              </Button>
+              <Button className="text-sm w-fit mt-4 mx-auto px-6 py-4">
+                Next
+              </Button>
+            </div>
+          </form>
+        )}
+        {value == 0 && (
+          <>
+            <div
+              className=" w-48 h-48 mx-auto overflow-hidden cursor-pointer rounded-[50%]  bg-black"
+              onClick={handleImage}
+            >
+              <Image
+                src={userImg}
+                width={200}
+                height={200}
+                alt="Picture of the author"
+              />
+              {/* // <img src={userImg} alt="" /> */}
+            </div>
+            <Button
+              className="text-sm w-fit mt-4 mx-auto px-6 py-4"
+              onClick={(e) => setValue(33)}
+            >
               Next
             </Button>
-          </form>
+          </>
         )}
       </div>
     </>
