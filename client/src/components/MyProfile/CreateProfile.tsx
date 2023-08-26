@@ -8,9 +8,9 @@ import { Button } from "../ui/button";
 import { useConnectContext } from "@/context/context";
 import Compress from "react-image-file-resizer";
 import Image from "next/image";
-import {ZodType, z} from "zod"
+// import {ZodType, z} from "zod"
 import {useForm} from 'react-hook-form'
-import {zodResolver} from "@hookform/resolvers/zod"
+// import {zodResolver} from "@hookform/resolvers/zod"
 import user from "../../assets/user.png";
 import { useRouter } from "next/navigation";
 
@@ -25,26 +25,12 @@ type FormData = {
 }
 
 function CreateProfile() {
-  const schema : ZodType<FormData> = z.object({
-    email : z.string().email(),
-    github : z.string().min(19),
-    linkedin : z.string().min(23),
-    leetcode : z.string().min(20),
-    college : z.string().min(8),
-    collegeLocation : z.string().min(3),
-    collegeCity : z.string().min(3),
-  })
+ 
   const router = useRouter()
   const [userImg, setUserImg] = useState(user);
   const { userId, userDocumentId } = useConnectContext();
   const [value, setValue] = useState(0);
-  const [email, setEmail] = useState("");
-  const [github, setGitHub] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [leetcode, setLeetcode] = useState("");
-  const [college, setCollege] = useState("");
-  const [collegeLocation, setCollegeLocation] = useState("");
-  const [collegeCity, setCollegeCity] = useState("");
+  
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
   const handleImage = (e: any) => {
@@ -146,8 +132,6 @@ function CreateProfile() {
                 type="email"
                 id="email"
                 {...register("email")}
-                // value={email}
-                // onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Email id*"
               />
             </div>
@@ -157,8 +141,6 @@ function CreateProfile() {
                 required
                 type="url"
                 id="github"
-                // value={github}
-                // onChange={(e) => setGitHub(e.target.value)}
                 {...register("github")}
                 placeholder="Enter Github url*"
               />
@@ -169,8 +151,6 @@ function CreateProfile() {
                 required
                 type="url"
                 id="linkedin"
-                // value={linkedin}
-                // onChange={(e) => setLinkedin(e.target.value)}
                 {...register("linkedin")}
                 placeholder="Enter LinkedIn url*"
               />
@@ -181,8 +161,6 @@ function CreateProfile() {
                 type="url"
                 id="leetcode"
                 placeholder="Enter Leetcode url"
-                // value={leetcode}
-                // onChange={(e) => setLeetcode(e.target.value)}
                 {...register("leetcode")}
               />
             </div>
@@ -211,8 +189,6 @@ function CreateProfile() {
                 type="text"
                 id="college"
                 placeholder="Enter College*"
-                // value={college}
-                // onChange={(e) => setCollege(e.target.value)}
                 {...register("college")}
               />
             </div>
@@ -223,8 +199,6 @@ function CreateProfile() {
                 id="college"
                 spellCheck={false}
                 placeholder="Enter College location*"
-                // value={collegeLocation}
-                // onChange={(e) => setCollegeLocation(e.target.value)}
                 {...register("collegeLocation")}
               />
             </div>
@@ -235,8 +209,6 @@ function CreateProfile() {
                 id="collegeCity"
                 spellCheck={false}
                 placeholder="Enter College city*"
-                // value={collegeCity}
-                // onChange={(e) => setCollegeCity(e.target.value)}
                 {...register("collegeCity")}
               />
             </div>
@@ -267,7 +239,6 @@ function CreateProfile() {
                 height={200}
                 alt="Picture of the author"
               />
-              {/* // <img src={userImg} alt="" /> */}
             </div>
             <Button
               className="text-sm w-fit mt-4 mx-auto px-6 py-4"
