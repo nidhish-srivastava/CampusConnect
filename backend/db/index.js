@@ -33,7 +33,7 @@ const collegeSchema2 = new mongoose.Schema({
 })
 
 const collegeSchema = new mongoose.Schema({
-    colleges : {type : [String],default :  [""]},
+    colleges : {type : [String]},
 })
 
 const User = mongoose.model("User",userSchema)

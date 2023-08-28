@@ -3,34 +3,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { useConnectContext } from "@/context/context";
 import Compress from "react-image-file-resizer";
 import Image from "next/image";
 // import {ZodType, z} from "zod"
-import {useForm} from 'react-hook-form'
+import { useForm } from "react-hook-form";
 // import {zodResolver} from "@hookform/resolvers/zod"
 import user from "../../assets/user.png";
 import { useRouter } from "next/navigation";
 
 type FormData = {
-  email ?: string
-  github ?: string
-  linkedin ?: string
-  leetcode ?: string
-  college ?: string
-  collegeLocation ?: string
-  collegeCity ?: string
-}
+  email?: string;
+  github?: string;
+  linkedin?: string;
+  leetcode?: string;
+  college?: string;
+  collegeLocation?: string;
+  collegeCity?: string;
+};
 
 function CreateProfile() {
- 
-  const router = useRouter()
+  const router = useRouter();
   const [userImg, setUserImg] = useState(user);
   const { userId, userDocumentId } = useConnectContext();
   const [value, setValue] = useState(0);
-  
+  const [college, setCollege] = useState("");
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
   const handleImage = (e: any) => {
@@ -72,16 +71,12 @@ function CreateProfile() {
 
   console.log("render create profile");
 
-  
   // * RIGHT NOW ITS NOT WORKING  Connecting zod with react hook form(using resolver package)
   // const {register,handleSubmit,formState : {errors}} = useForm<FormData>({resolver : zodResolver(schema)})
 
-  const {register,handleSubmit} = useForm()
-  
-  
-  
-  const submitHandlerForm = async (data : FormData) => {
-    
+  const { register, handleSubmit } = useForm();
+
+  const submitHandlerForm = async (data: FormData) => {
     // e.preventDefault();
     const formData = {
       authId: userId,
@@ -89,7 +84,7 @@ function CreateProfile() {
       github: data.github,
       linkedin: data.linkedin,
       leetcode: data.leetcode,
-      college: data.college,
+      college: college,
       collegeLocation: data.collegeLocation,
       collegeCity: data.collegeCity,
       dp: userImg,
@@ -102,15 +97,22 @@ function CreateProfile() {
     });
   };
 
-  const nextSwitchHandler = async (e : any) => {
-    e.preventDefault()
+  const nextSwitchHandler = async (e: any) => {
+    e.preventDefault();
+    const send = await fetch(`http://localhost:4000/user/colleges`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({college : college}),
+    });
+    console.log(send);
     setValue(66);
   };
+
 
   useEffect(() => {
     if (value == 100) {
       //* window.location.href = "/"; This was causing a problem coz when we reload,then if we switch to profile,our userData state is lost
-      router.push("/")
+      router.push("/");
     }
   }, [value]);
 
@@ -189,7 +191,9 @@ function CreateProfile() {
                 type="text"
                 id="college"
                 placeholder="Enter College*"
-                {...register("college")}
+                // {...register("college")}
+                value={college}
+                onChange={e=>setCollege(e.target.value)}
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -219,9 +223,7 @@ function CreateProfile() {
               >
                 Back
               </Button>
-              <Button
-              className="text-sm w-fit mt-4 mx-auto px-6 py-4"
-              >
+              <Button className="text-sm w-fit mt-4 mx-auto px-6 py-4">
                 Next
               </Button>
             </div>
