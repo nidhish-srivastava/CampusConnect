@@ -18,7 +18,7 @@ router.get('/',async(req,res)=>{
 })
 
 
-//* This api is work in progress state
+
 /* If we create a new instance,then a new document inside the User model is created which we dont want(we already have the document,which we created when we registered the user)
 So we will use the update method
 */
