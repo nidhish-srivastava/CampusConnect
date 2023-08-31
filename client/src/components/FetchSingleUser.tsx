@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 function FetchSingleUser() {
     const {searchedUserProfile} = useConnectContext()
-    console.log(searchedUserProfile);
+    // console.log(searchedUserProfile);
     
   return (
     <div>
