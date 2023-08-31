@@ -165,18 +165,7 @@ router.get('/following/:userId', async (req, res) => {
     }
 })
 
-// Update the colleges
-router.post('/colleges',async(req,res)=>{
-    const {documentId,college} = req.body
-    console.log(college);
-    // const find = await College.findByIdAndUpdate("64e994388093ece70dfb44cf",)
-    // res.json(find)
-    // const update = find.colleges.push(college)/
-    // console.log(find);
-    // console.log(update);
-    const updateColleges = await College.updateOne({_id : "64ec8d374caf807e65468c71"},{ $push : {colleges : college}})
-    res.json("working")
-})
+
 
 export default router
 

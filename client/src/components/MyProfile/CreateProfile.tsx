@@ -99,11 +99,11 @@ function CreateProfile() {
 
   const nextSwitchHandler = async (e: any) => {
     e.preventDefault();
-    const send = await fetch(`http://localhost:4000/user/colleges`, {
+    const send = await fetch(`http://localhost:4000/college`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({college : college}),
-    });
+      body: JSON.stringify({college : college})
+    })
     console.log(send);
     setValue(66);
   };

@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 dotenv.config()
 import UserRoute from './routes/User.js'
 import AuthRoute from "./routes/Auth.js"
+import CollegeRoute from './routes/College.js'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { v2 as cloudinary } from 'cloudinary'
@@ -34,5 +35,6 @@ const start = async () => {
 }
 start()
 
-app.use('/user', UserRoute)
 app.use('/auth', AuthRoute)
+app.use('/user', UserRoute)
+app.use('/college',CollegeRoute)
