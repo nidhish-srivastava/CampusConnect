@@ -14,6 +14,7 @@ router.get('/',async(req,res)=>{
         queryObject.username = {$regex : username,$options : "i"}
     }
     const getUsername = await Auth.find(queryObject)
+    console.log(getUsername);
     res.json(getUsername)
 })
 

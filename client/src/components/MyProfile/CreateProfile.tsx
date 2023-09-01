@@ -76,6 +76,43 @@ function CreateProfile() {
 
   const { register, handleSubmit } = useForm();
 
+  const nextPromise = async(college : string | undefined) : Promise<any> => {
+    console.log("next");
+   return await fetch(`http://localhost:4000/college`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({college : college})
+    })
+  }
+
+  // * No need to create a new promise
+  const submitPromise2 = async(formData : FormData) : Promise<any> =>{
+    console.log("submit");
+   return new Promise(async(resolve,reject)=>{
+    try {
+      resolve(await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
+         method: "PUT",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(formData),
+       }))
+    } catch (error) {
+        reject(error)
+    }
+   })
+  }
+
+  
+  const submitPromise = async(formData : FormData) : Promise<any> =>{
+    console.log("submit");
+      return await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
+         method: "PUT",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(formData),
+       })
+    } 
+  
+
+
   const submitHandlerForm = async (data: FormData) => {
     // e.preventDefault();
     const formData = {
@@ -84,29 +121,23 @@ function CreateProfile() {
       github: data.github,
       linkedin: data.linkedin,
       leetcode: data.leetcode,
-      college: college,
+      college: data.college,
       collegeLocation: data.collegeLocation,
       collegeCity: data.collegeCity,
       dp: userImg,
     };
-    setValue(100);
-    await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      await Promise.all([nextPromise(formData.college),submitPromise(formData)])
+    } catch (error) {
+      
+    }
+    //  await nextPromise(formData.college)
+    //  await submitPromise(formData)
   };
 
-  const nextSwitchHandler = async (e: any) => {
-    e.preventDefault();
-    const send = await fetch(`http://localhost:4000/college`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({college : college})
-    })
-    console.log(send);
-    setValue(66);
-  };
+  // const nextSwitchHandler =  () => {
+    // setValue(66);
+  // };
 
 
   useEffect(() => {
@@ -179,9 +210,9 @@ function CreateProfile() {
           </form>
         )}
         {value == 33 && (
-          <form
+          <div
             className="create-profile-form w-[24%]"
-            onSubmit={nextSwitchHandler}
+            // onSubmit={}
           >
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="college">Enter College Name</Label>
@@ -191,9 +222,9 @@ function CreateProfile() {
                 type="text"
                 id="college"
                 placeholder="Enter College*"
-                // {...register("college")}
-                value={college}
-                onChange={e=>setCollege(e.target.value)}
+                {...register("college")}
+                // value={college}
+                // onChange={e=>setCollege(e.target.value)}
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -223,11 +254,11 @@ function CreateProfile() {
               >
                 Back
               </Button>
-              <Button className="text-sm w-fit mt-4 mx-auto px-6 py-4">
+              <Button onClick={()=>setValue(66)} className="text-sm w-fit mt-4 mx-auto px-6 py-4">
                 Next
               </Button>
             </div>
-          </form>
+          </div>
         )}
         {value == 0 && (
           <>

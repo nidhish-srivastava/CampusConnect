@@ -1,7 +1,7 @@
 import { useConnectContext } from "@/context/context"
 import {useRouter} from "next/navigation"
 
-async function FetchUserCard() {
+async function SearchResults() {
     const router = useRouter()
     const {searchResultArray,setSearchUserProfile} = useConnectContext()
     
@@ -27,4 +27,4 @@ async function FetchUserCard() {
   )
 }
 
-export default FetchUserCard
+export default SearchResults

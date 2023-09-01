@@ -1,7 +1,7 @@
 "use client";
 import { useConnectContext } from "@/context/context";
 import { useEffect, useState,Fragment } from "react";
-import FetchUserCard from "./FetchUserCard";
+import SearchResults from "./SearchResults";
 
 type AuthId = {
   username: string;
@@ -38,7 +38,7 @@ function FetchUsers() {
   return (
     <Fragment>
       {searchResultArray?.length ?? 0 > 1 ? (
-        <FetchUserCard />
+        <SearchResults />
         ) : (
           <div className="w-4/5 mx-auto mt-10">
           {/* <h2 className="text-center text-xl">Hello {user}</h2> */}

@@ -7,6 +7,13 @@ router.get('/',async(req,res)=>{
     res.json(response[0])
 })
 
+// router.post('/create',async(req,res)=>{
+//     const {college} = req.body
+//     const c = new College({colleges : "NMIT"})
+//     await c.save()
+//     // await College.create(college)
+// })
+
 
 // Update the colleges
 router.post('/',async(req,res)=>{
@@ -17,7 +24,7 @@ router.post('/',async(req,res)=>{
     // const update = find.colleges.push(college)/
     // console.log(find);
     // console.log(update);
-    await College.updateOne({_id : "64ecb8d4f3dd802863580a47"},{ $push : {colleges : college}})
+    await College.updateOne({_id : "64f1dbc96de85ef5995de771"},{ $push : {colleges : college}})
 })
 
 export default router
