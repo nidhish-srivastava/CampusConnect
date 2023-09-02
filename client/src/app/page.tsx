@@ -1,11 +1,11 @@
 "use client"
-import FetchUsers from "@/components/FetchUsers";
+import HomePageFetch from "@/components/HomePageFetch";
 import { Fragment } from "react";
 export default function Home() {
   
   return (
     <Fragment>
-    <FetchUsers/>
+    <HomePageFetch/>
     </Fragment>
   );
 }

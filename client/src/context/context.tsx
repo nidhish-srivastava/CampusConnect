@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { UserType } from "@/components/FetchUsers";
+import { UserType } from "@/components/HomePageFetch";
 
 type ConnectContextProviderProps = {
   children: React.ReactNode;

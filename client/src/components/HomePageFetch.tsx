@@ -23,7 +23,7 @@ export type UserType = {
   imageUrl: string;
 };
 
-function FetchUsers() {
+function HomePageFetch() {
   const [collegesArray, setCollegesArray] = useState([]);
   const {searchResultArray,user} = useConnectContext()
 
@@ -57,4 +57,4 @@ function FetchUsers() {
     </Fragment>
   );
 }
-export default FetchUsers;
+export default HomePageFetch;
