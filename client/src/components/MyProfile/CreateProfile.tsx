@@ -11,8 +11,9 @@ import Image from "next/image";
 // import {ZodType, z} from "zod"
 import { useForm } from "react-hook-form";
 // import {zodResolver} from "@hookform/resolvers/zod"
-import user from "../../assets/user.png";
+// import user from "../../assets/user.png";
 import { useRouter } from "next/navigation";
+import { base64 } from "@/assets/base64";
 
 type FormData = {
   email?: string;
@@ -26,10 +27,9 @@ type FormData = {
 
 function CreateProfile() {
   const router = useRouter();
-  const [userImg, setUserImg] = useState(user);
-  const { userId, userDocumentId } = useConnectContext();
+  const [userImg, setUserImg] = useState(base64);
+  const { userId, userDocumentId, user } = useConnectContext();
   const [value, setValue] = useState(0);
-  const [college, setCollege] = useState("");
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
   const handleImage = (e: any) => {
@@ -76,45 +76,58 @@ function CreateProfile() {
 
   const { register, handleSubmit } = useForm();
 
-  const nextPromise = async(college : string | undefined) : Promise<any> => {
-    console.log("next");
-   return await fetch(`http://localhost:4000/college`, {
+  const imageUploadPromise = async (): Promise<any> => {
+    console.log("image upload");
+    return await fetch(`http://localhost:4000/auth/uploadImage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({college : college})
-    })
-  }
+      body: JSON.stringify({ username: user, dp: userImg }),
+    });
+  };
+
+  const nextPromise = async (college: string | undefined): Promise<any> => {
+    console.log("next");
+    return await fetch(`http://localhost:4000/college`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ college: college }),
+    });
+  };
 
   // * No need to create a new promise
-  const submitPromise2 = async(formData : FormData) : Promise<any> =>{
+  const submitPromise2 = async (formData: FormData): Promise<any> => {
     console.log("submit");
-   return new Promise(async(resolve,reject)=>{
-    try {
-      resolve(await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
-         method: "PUT",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify(formData),
-       }))
-    } catch (error) {
-        reject(error)
-    }
-   })
-  }
+    return new Promise(async (resolve, reject) => {
+      try {
+        resolve(
+          await fetch(
+            `http://localhost:4000/user/user-profile/${userDocumentId}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
+            }
+          )
+        );
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 
-  
-  const submitPromise = async(formData : FormData) : Promise<any> =>{
+  const submitPromise = async (formData: FormData): Promise<any> => {
     console.log("submit");
-      return await fetch(`http://localhost:4000/user/user-profile/${userDocumentId}`, {
-         method: "PUT",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify(formData),
-       })
-    } 
-  
-
+    return await fetch(
+      `http://localhost:4000/user/user-profile/${userDocumentId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      }
+    );
+  };
 
   const submitHandlerForm = async (data: FormData) => {
-    // e.preventDefault();
     const formData = {
       authId: userId,
       email: data.email,
@@ -124,28 +137,19 @@ function CreateProfile() {
       college: data.college,
       collegeLocation: data.collegeLocation,
       collegeCity: data.collegeCity,
-      dp: userImg,
     };
     try {
-      await Promise.all([nextPromise(formData.college),submitPromise(formData)])
-    } catch (error) {
-      
-    }
-    //  await nextPromise(formData.college)
-    //  await submitPromise(formData)
-  };
-
-  // const nextSwitchHandler =  () => {
-    // setValue(66);
-  // };
-
-
-  useEffect(() => {
-    if (value == 100) {
-      //* window.location.href = "/"; This was causing a problem coz when we reload,then if we switch to profile,our userData state is lost
+      setValue(100);
       router.push("/");
+      await Promise.all([
+        imageUploadPromise(),
+        nextPromise(formData.college),
+        submitPromise(formData),
+      ]);
+    } catch (error) {
+      alert(error);
     }
-  }, [value]);
+  };
 
   return (
     <>
@@ -155,7 +159,6 @@ function CreateProfile() {
           <form
             className="create-profile-form w-[24%]"
             onSubmit={handleSubmit(submitHandlerForm)}
-            // onSubmit={()=>submitHandlerForm}
           >
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Enter Email</Label>
@@ -223,8 +226,6 @@ function CreateProfile() {
                 id="college"
                 placeholder="Enter College*"
                 {...register("college")}
-                // value={college}
-                // onChange={e=>setCollege(e.target.value)}
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -254,7 +255,10 @@ function CreateProfile() {
               >
                 Back
               </Button>
-              <Button onClick={()=>setValue(66)} className="text-sm w-fit mt-4 mx-auto px-6 py-4">
+              <Button
+                onClick={() => setValue(66)}
+                className="text-sm w-fit mt-4 mx-auto px-6 py-4"
+              >
                 Next
               </Button>
             </div>
@@ -275,7 +279,7 @@ function CreateProfile() {
             </div>
             <Button
               className="text-sm w-fit mt-4 mx-auto px-6 py-4"
-              onClick={(e) => setValue(33)}
+              onClick={() => setValue(33)}
             >
               Next
             </Button>

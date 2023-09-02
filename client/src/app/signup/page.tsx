@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
+import { base64 } from "@/assets/base64";
 
 
 function Page() {
@@ -17,6 +18,7 @@ function Page() {
         const response = await axios.post(`http://localhost:4000/auth/signup`, {
           username,
           password,
+          dp : base64
         });
         localStorage.setItem("token", response.data.token);
         alert("Account created");
@@ -32,7 +34,6 @@ function Page() {
       className="form"
     >
             <h2 className="center_heading_form">Register Form</h2>
-
       <Input
         required
         autoFocus={true}

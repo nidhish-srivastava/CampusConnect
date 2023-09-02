@@ -6,6 +6,7 @@ import { authenticateJwt } from '../middleware/auth.js'
 import uploadImage from '../UploadImage.js'
 import { nanoid } from 'nanoid'
 nanoid(); 
+
 // Searching a user
 router.get('/',async(req,res)=>{
     const {username} = req.query
@@ -25,11 +26,9 @@ So we will use the update method
 */
 //* Creating a profile
 router.put('/user-profile/:userDocumentId', async (req, res) => {
-    const {college,dp,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity} = req.body
-    const imageId = nanoid().split('-')[0]
-    const imageUrl =  await uploadImage(dp,imageId)
+    const {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity} = req.body
     const { userDocumentId } = req.params
-    const updateBody = {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity,imageUrl}
+    const updateBody = {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity}
     await User.updateOne({ _id: userDocumentId }, updateBody  )
 })
 

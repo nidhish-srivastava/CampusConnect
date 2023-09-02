@@ -2,12 +2,12 @@ import mongoose from 'mongoose'
 
 const authSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    dp : {type : String}
 })
 
 const userSchema = new mongoose.Schema({
     authId: { type: mongoose.Schema.Types.ObjectId, ref: "Auth", required: true },
-    imageUrl: { type: String, default: "" },
     email: { type: String, default: "" },
     github: { type: String, default: "" },
     linkedin: { type: String, default: "" },
@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
     collegeCity: { type: String, default: "" },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    colleges : [{type : String}]
 })
 
 // const collegeSchema = new mongoose.Schema({
@@ -28,7 +27,7 @@ const userSchema = new mongoose.Schema({
 // })
 
 const collegeSchema = new mongoose.Schema({
-    colleges : [String]
+    colleges : {type : [String],default : ""}
 })
 
 const User = mongoose.model("User", userSchema)
