@@ -2,12 +2,12 @@
 import { FollowersFollowingType, useConnectContext } from "@/context/context";
 import {Fragment, useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 
 function FollowingCard() {
   // const [following, setFollowing] = useState<FollowersFollowingType[]>([]);
-  const { userDocumentId,following,setFollowing,changeBtn,setChangeBtn } = useConnectContext();
+  const { userDocumentId,following,setFollowing } = useConnectContext();
   const [show,setShow] = useState(false)
 
   const getFollowing = async () => {

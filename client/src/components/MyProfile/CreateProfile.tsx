@@ -28,7 +28,7 @@ type FormData = {
 function CreateProfile() {
   const router = useRouter();
   const [userImg, setUserImg] = useState(base64);
-  const { userId, userDocumentId, user } = useConnectContext();
+  const { userId, userDocumentId, user ,setImageUrl} = useConnectContext();
   const [value, setValue] = useState(0);
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
@@ -139,15 +139,15 @@ function CreateProfile() {
       collegeCity: data.collegeCity,
     };
     try {
+      setImageUrl(userImg)
       setValue(100);
-      router.push("/");
+      router.push("/")
       await Promise.all([
         imageUploadPromise(),
         nextPromise(formData.college),
         submitPromise(formData),
       ]);
     } catch (error) {
-      alert(error);
     }
   };
 

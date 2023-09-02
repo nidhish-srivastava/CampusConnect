@@ -1,14 +1,12 @@
 "use client";
 import { useConnectContext } from "@/context/context";
-import { Fragment, useEffect, useState } from "react";
-import { FollowersFollowingType } from "@/context/context";
-import { Button } from "./ui/button";
+import { Fragment, useEffect} from "react";
+import { Button } from "../ui/button";
 import { Montserrat } from "next/font/google";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 
 function FollowersCard() {
-  const { userDocumentId,followers,setFollowers,following,changeBtn,setChangeBtn } = useConnectContext();
-  // const [followers, setFollowers] = useState<FollowersFollowingType[] | null>([]);
+  const { userDocumentId,followers,setFollowers,following} = useConnectContext();
   const getFollowers = async () => {
     try {
       const response = await fetch(

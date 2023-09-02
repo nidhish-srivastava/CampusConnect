@@ -15,8 +15,12 @@ router.get('/',async(req,res)=>{
         queryObject.username = {$regex : username,$options : "i"}
     }
     const getUsername = await Auth.find(queryObject)
-    console.log(getUsername);
-    res.json(getUsername)
+    const filteredUsers = getUsername.map(user => ({
+        _id: user._id,
+        username: user.username,
+        dp: user.dp,
+      }));
+    res.json(filteredUsers)
 })
 
 

@@ -23,9 +23,10 @@ function Navbar() {
     setUser,
     setUserId,
     setSearchResultArray,
-    userProfileObject
+    imageUrl,setImageUrl
   } = useConnectContext();
   const [query,setQuery] = useState("")
+  // const [imageUrl,setImageUrl] = useState("")
 
   //* Using jwt authorization for accessing content after authentication from login/signup
   const check = async () => {
@@ -35,9 +36,11 @@ function Navbar() {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    console.log("run");
     const data = await response.json();
     setUser(data.username);
     setUserId(data.id);
+    setImageUrl(data.dp)
   };
 
   const getUsername = async() =>{
@@ -85,8 +88,8 @@ function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src={userProfileObject?.imageUrl} alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={imageUrl} alt="@shadcn" />
+                <AvatarFallback>{user.charAt(0)}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

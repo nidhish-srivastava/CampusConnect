@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 function ProfileBaseInfo() {
-  const { userProfileObject,setUserProfileObject,setUserDocumentId ,userId} = useConnectContext();
+  const { userProfileObject} = useConnectContext();
 
 //* AVOID USING USEFFECT HERE IF WE USE THIS AS A LAYOUT,so we will fetch the user data inside the Children component which is also fetched on the route 
 

@@ -11,7 +11,4 @@ Migrate the backend to typescript
 
 //* Issue which need to be solved now-->
 
-1. Dp fallback image shud be the first letter of the username
-2. dp shud be fethced from the auth section which contains the imageUrl
-3. When we search a person based on username,his dp shud be there in the search results along with the username
-4. When we create a profile,a bio shud also be there
+1. When we create a profile,a bio shud also be there

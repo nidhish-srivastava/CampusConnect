@@ -21,7 +21,8 @@ router.get('/me', authenticateJwt, async (req, res) => {
     }
     res.json({
         username: admin.username,
-        id: admin._id
+        id: admin._id,
+        dp : admin.dp
     })
 })
 

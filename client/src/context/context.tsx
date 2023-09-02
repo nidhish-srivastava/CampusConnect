@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { UserType } from "@/components/HomePageFetch";
+import { UserType } from "@/components/Home/HomePageFetch";
 
 type ConnectContextProviderProps = {
   children: React.ReactNode;
@@ -9,6 +9,7 @@ type ConnectContextProviderProps = {
 type SearchResult = {
   username : string
   _id : string
+  dp : string
 }
 
 export type FollowersFollowingType = {

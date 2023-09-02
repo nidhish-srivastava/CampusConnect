@@ -25,7 +25,7 @@ export type UserType = {
 
 function HomePageFetch() {
   const [collegesArray, setCollegesArray] = useState([]);
-  const {searchResultArray,user} = useConnectContext()
+  const {searchResultArray} = useConnectContext()
 
   const fetchColleges = async () => {
     const response = await fetch(`http://localhost:4000/college`);
