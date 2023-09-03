@@ -41,17 +41,16 @@ function HomePageFetch() {
         <SearchResults />
         ) : (
           <div className="w-4/5 mx-auto mt-10">
-          {/* <h2 className="text-center text-xl">Hello {user}</h2> */}
           <h2 className="text-2xl text-center">List of Colleges associated with us</h2>
+          <div className="p-4 grid grid-cols-5 gap-4 ">
           {
             collegesArray.map((e,i)=>{
               return(
-                <div className="p-4" key={i}>
-                <li>{e}</li>
-                </div>
-              )
-            })
-          }
+                <div className="p-4 border-gray-100 text-center border-2" key={i}>{e}</div>
+                )
+              })
+            }
+            </div>
         </div>
       )}
     </Fragment>

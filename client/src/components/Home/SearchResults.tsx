@@ -9,6 +9,7 @@ async function SearchResults() {
   const fetchSingleSearchedUserData = async(id : string,username : string) =>{
     const response = await fetch(`http://localhost:4000/user/${id}`)
     const data = await response.json()
+    console.log(data);
     setSearchUserProfile(data)
     router.push('/search')
   }

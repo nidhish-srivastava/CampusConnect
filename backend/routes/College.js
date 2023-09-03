@@ -8,9 +8,8 @@ router.get('/',async(req,res)=>{
 })
 
 router.post('/create',async(req,res)=>{
-    const c = new College({colleges : ""})
+    const c = new College({colleges : "NMIT"})
     await c.save()
-    // await College.create(college)
 })
 
 

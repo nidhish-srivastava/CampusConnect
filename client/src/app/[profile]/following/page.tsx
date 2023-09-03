@@ -1,4 +1,4 @@
-import FollowingCard from "@/components/FollowingCard"
+import FollowingCard from "@/components/MyProfile/FollowingCard"
 
 function page() {
   return (

@@ -81,7 +81,14 @@ router.get('/fetchAll/:userDocumentId', authenticateJwt, async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params
-        const response = await User.findOne({ authId: id }).populate('authId','username')
+        const response = await User.findOne({ authId: id })
+        .populate({
+            path: 'authId',
+            model: 'Auth',
+            select: 'username dp'
+        })
+        .exec();
+        //* wont use this since we need to populate multiple fields .populate('authId','username')
         res.json(response);
     } catch (error) {
         res.status(403).json(error)

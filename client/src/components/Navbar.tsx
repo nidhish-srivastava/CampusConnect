@@ -46,7 +46,7 @@ function Navbar() {
   const getUsername = async() =>{
        const response = await fetch(`http://localhost:4000/user?username=${query}`)
        const data = await response.json()
-       console.log(data);
+      //  console.log(data);
        setSearchResultArray(data)
   }
 
