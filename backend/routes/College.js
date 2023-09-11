@@ -22,7 +22,7 @@ router.post('/',async(req,res)=>{
     // const update = find.colleges.push(college)/
     // console.log(find);
     // console.log(update);
-    await College.updateOne({_id : "64f2b97691a00b34c512a430"},{ $push : {colleges : college}})
+    await College.updateOne({_id : "64f40d03fbbae58f2af2f07a"},{ $push : {colleges : college}})
 })
 
 export default router
