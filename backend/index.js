@@ -35,6 +35,10 @@ const start = async () => {
 }
 start()
 
+app.get('/',async(req,res)=>{
+    res.send(`Welcome to Campus Connect`)
+})
+
 app.use('/auth', AuthRoute)
 app.use('/user', UserRoute)
 app.use('/college',CollegeRoute)
