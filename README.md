@@ -120,7 +120,6 @@ Happy connecting on CampusConnect! If you have any questions or encounter issues
 -->
 ## Technologies Used
 
-  - [Typescript](https://www.typescriptlang.org/)
   - [Next.js](https://nextjs.org/)
   - [Tailwind CSS](https://tailwindcss.com/)
   - [shadcn/ui](https://ui.shadcn.com/)
