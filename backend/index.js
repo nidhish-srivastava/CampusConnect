@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }))
 app.use(cors({ origin: 'http://localhost:3000' }))
 
 cloudinary.config({
-    cloud_name: "dvlz73wcr",
-    api_key: 414997947386377,
-    api_secret: "pcZZGkrChX5shu5MoWOpNqEztp4"
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
 })
 
 const PORT = process.env.PORT || 4000
