@@ -55,7 +55,7 @@ function FollowersCard() {
 
   useEffect(() => {
     getFollowers();
-  }, []);
+  });
   return (
     <>
     <h2 className="text-left ml-10 text-xl mt-10">Followers</h2>

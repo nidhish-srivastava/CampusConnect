@@ -45,24 +45,13 @@ function FetchSingleUser() {
 
   useEffect(() => {
     checkList();
-  }, []);
+  });
 
   return (
     <div>
       <h2 className="text-[20px] text-center">
         {searchedUserProfile?.authId.username}
       </h2>
-      {/* <button onClick={checkList} >Check</button> */}
-      {/* <div className="flex justify-center gap-3 mt-2">
-        <Button className="px-4 text-[15px]">
-          Followers <br />
-          {searchedUserProfile?.followers?.length}
-        </Button>
-        <Button className="px-4 text-[15px]">
-          Following <br />
-          {searchedUserProfile?.following?.length}
-        </Button>
-      </div> */}
       <div className="flex gap-4 mt-4 justify-center">
         {/* <button onClick={unfollow}>Unfollow</button> */}
         {/* <Button className="follow-unfollow-btn">Follow</Button> */}

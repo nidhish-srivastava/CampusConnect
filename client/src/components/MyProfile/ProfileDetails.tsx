@@ -18,7 +18,7 @@ function ProfileDetails() {
 
   useEffect(()=>{
     FetchLoggedInUser()
-  },[])
+  })
 
   //* Not in use at the moment
   // const getCollegeInfo = async() =>{

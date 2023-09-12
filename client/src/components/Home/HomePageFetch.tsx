@@ -34,7 +34,7 @@ function HomePageFetch() {
   };
   useEffect(() => {
     fetchColleges();
-  }, []);
+  });
   return (
     <Fragment>
       {searchResultArray?.length ?? 0 > 1 ? (
