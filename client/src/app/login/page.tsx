@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Input } from "@/components/ui/input"
+import { url } from "../page";
 
 
 function Page() {
@@ -12,7 +13,7 @@ function Page() {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const response = await axios.post(`http://localhost:4000/auth/login`, {
+      const response = await axios.post(`${url}/auth/login`, {
         username,
         password,
       });

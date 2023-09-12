@@ -2,7 +2,7 @@
 import { useConnectContext } from "@/context/context";
 import { useEffect, useState,Fragment } from "react";
 import SearchResults from "./SearchResults";
-
+import { url } from "@/app/page";
 type AuthId = {
   username: string;
   _id: number;
@@ -28,7 +28,7 @@ function HomePageFetch() {
   const {searchResultArray} = useConnectContext()
 
   const fetchColleges = async () => {
-    const response = await fetch(`http://localhost:4000/college`);
+    const response = await fetch(`${url}/college`);
     const data = await response.json();
     setCollegesArray(data.colleges);
   };

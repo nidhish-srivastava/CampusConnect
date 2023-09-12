@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useConnectContext } from "@/context/context";
 import { useEffect } from "react";
+import { url } from "@/app/page";
 
 function ProfileDetails() {
   const { userProfileObject,userId,setUserProfileObject,setUserDocumentId } = useConnectContext();
 
   const FetchLoggedInUser = async () => {
-    const response = await fetch(`http://localhost:4000/user/${userId}`);
+    const response = await fetch(`${url}/user/${userId}`);
     const data = await response.json();
     console.log(data);
     setUserProfileObject(data);

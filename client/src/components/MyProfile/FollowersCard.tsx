@@ -3,6 +3,7 @@ import { useConnectContext } from "@/context/context";
 import { Fragment, useEffect} from "react";
 import { Button } from "../ui/button";
 import { Montserrat } from "next/font/google";
+import url from '@/app/page'
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 
 function FollowersCard() {
@@ -10,7 +11,7 @@ function FollowersCard() {
   const getFollowers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/user/followers/${userDocumentId}`
+        `${url}/user/followers/${userDocumentId}`
       );
       if(response.status==200){
         const data = await response.json();
@@ -22,7 +23,7 @@ function FollowersCard() {
     }
   };
   const remove = async (unfollowUserId: string) => {
-    const response = await fetch(`http://localhost:4000/user/remove`, {
+    const response = await fetch(`${url}/user/remove`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userDocumentId, unfollowUserId }),
@@ -32,7 +33,7 @@ function FollowersCard() {
   };
 
   const follow = async(followUserId : string) =>{
-    const response = await fetch(`http://localhost:4000/user/follow`, {
+    const response = await fetch(`${url}/user/follow`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userDocumentId, followUserId }),
@@ -43,7 +44,7 @@ function FollowersCard() {
   }
 
   const unfollow = async (unfollowUserId: string) => {
-    const response = await fetch(`http://localhost:4000/user/unfollow`, {
+    const response = await fetch(`${url}/user/unfollow`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userDocumentId, unfollowUserId }),

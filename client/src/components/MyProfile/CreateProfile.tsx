@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 // import user from "../../assets/user.png";
 import { useRouter } from "next/navigation";
 import { base64 } from "@/assets/base64";
+import { url } from "@/app/page";
 
 type FormData = {
   email?: string;
@@ -78,7 +79,7 @@ function CreateProfile() {
 
   const imageUploadPromise = async (): Promise<any> => {
     console.log("image upload");
-    return await fetch(`http://localhost:4000/auth/uploadImage`, {
+    return await fetch(`${url}/auth/uploadImage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: user, dp: userImg }),
@@ -87,7 +88,7 @@ function CreateProfile() {
 
   const nextPromise = async (college: string | undefined): Promise<any> => {
     console.log("next");
-    return await fetch(`http://localhost:4000/college`, {
+    return await fetch(`${url}/college`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ college: college }),
@@ -101,7 +102,7 @@ function CreateProfile() {
       try {
         resolve(
           await fetch(
-            `http://localhost:4000/user/user-profile/${userDocumentId}`,
+            `${url}/user/user-profile/${userDocumentId}`,
             {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
@@ -118,7 +119,7 @@ function CreateProfile() {
   const submitPromise = async (formData: FormData): Promise<any> => {
     console.log("submit");
     return await fetch(
-      `http://localhost:4000/user/user-profile/${userDocumentId}`,
+      `${url}/user/user-profile/${userDocumentId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

@@ -1,13 +1,13 @@
 import { useConnectContext } from "@/context/context"
 import {useRouter} from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { url } from "@/app/page";
 async function SearchResults() {
     const router = useRouter()
     const {searchResultArray,setSearchUserProfile} = useConnectContext()
     
   const fetchSingleSearchedUserData = async(id : string,username : string) =>{
-    const response = await fetch(`http://localhost:4000/user/${id}`)
+    const response = await fetch(`${url}/user/${id}`)
     const data = await response.json()
     console.log(data);
     setSearchUserProfile(data)

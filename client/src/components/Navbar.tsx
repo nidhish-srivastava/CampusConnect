@@ -16,6 +16,7 @@ import {
 
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
+import { url } from "@/app/page";
 
 function Navbar() {
   const {
@@ -30,7 +31,7 @@ function Navbar() {
 
   //* Using jwt authorization for accessing content after authentication from login/signup
   const check = async () => {
-    const response = await fetch(`http://localhost:4000/auth/me`, {
+    const response = await fetch(`${url}/auth/me`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -44,7 +45,7 @@ function Navbar() {
   };
 
   const getUsername = async() =>{
-       const response = await fetch(`http://localhost:4000/user?username=${query}`)
+       const response = await fetch(`${url}/user?username=${query}`)
        const data = await response.json()
       //  console.log(data);
        setSearchResultArray(data)

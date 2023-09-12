@@ -3,13 +3,14 @@ import { useConnectContext } from "@/context/context";
 import { Fragment, useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import { Button } from "../ui/button";
+import { url } from "@/app/page";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 
 export const followPromise = async (
   followUserId: string | undefined,
   userDocumentId: string | undefined
 ): Promise<any> => {
-  const response = await fetch(`http://localhost:4000/user/follow`, {
+  const response = await fetch(`${url}/user/follow`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userDocumentId, followUserId }),
@@ -21,7 +22,7 @@ export const unfollowPromise = async(
   unfollowUserId : string | undefined,
   userDocumentId : string | undefined
 ) : Promise<any> =>{
-  const response = await fetch(`http://localhost:4000/user/unfollow`, {
+  const response = await fetch(`${url}/user/unfollow`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -40,7 +41,7 @@ function FollowingCard() {
   const getFollowing = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/user/following/${userProfileObject?._id}`
+        `${url}/user/following/${userProfileObject?._id}`
       );
       if (response.status == 200) {
         const data = await response.json();

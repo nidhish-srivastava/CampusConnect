@@ -2,8 +2,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useConnectContext } from "@/context/context";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 function ProfileBaseInfo() {
   const { userProfileObject} = useConnectContext();
