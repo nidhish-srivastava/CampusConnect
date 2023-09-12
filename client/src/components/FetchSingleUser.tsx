@@ -44,10 +44,23 @@ function FetchSingleUser() {
   };
 
   useEffect(() => {
-    checkList();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
+    const checkList = () => {
+      for (const key in searchedUserProfile) {
+        // console.log(key,searchedUserProfile[key]);
+        if (key == "followers") {
+          const array = searchedUserProfile[key];
+          const filter = array.find((e) => e === userProfileObject?._id);
+  
+          if (filter) {
+            console.log(true);
+            setShow(true);
+          } else {
+            console.log(false);
+            setShow(false);
+          }
+        }
+      }
+    };
   }, []);
 
   return (
