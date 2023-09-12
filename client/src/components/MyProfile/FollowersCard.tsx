@@ -55,7 +55,9 @@ function FollowersCard() {
 
   useEffect(() => {
     getFollowers();
-  });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   return (
     <>
     <h2 className="text-left ml-10 text-xl mt-10">Followers</h2>

@@ -65,7 +65,9 @@ function FollowingCard() {
 
   useEffect(() => {
     getFollowing();
-  });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   return (
     <div
       className={`grid grid-cols-2 w-[20%] mx-auto items-center mt-20 gap-10 ${fontMontserrat.className} `}

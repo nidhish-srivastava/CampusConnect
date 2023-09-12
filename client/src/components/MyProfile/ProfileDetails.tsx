@@ -18,7 +18,9 @@ function ProfileDetails() {
 
   useEffect(()=>{
     FetchLoggedInUser()
-  })
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   //* Not in use at the moment
   // const getCollegeInfo = async() =>{
