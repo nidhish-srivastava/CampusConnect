@@ -31,7 +31,7 @@ function FetchSingleUser() {
       userProfileObject?._id
     );
     console.log(response);
-    setShow(true)
+    setShow(true);
   };
 
   const unfollow = async () => {
@@ -40,28 +40,13 @@ function FetchSingleUser() {
       userProfileObject?._id
     );
     console.log(response);
-    setShow(false)
+    setShow(false);
   };
 
   useEffect(() => {
-    const checkList = () => {
-      for (const key in searchedUserProfile) {
-        // console.log(key,searchedUserProfile[key]);
-        if (key == "followers") {
-          const array = searchedUserProfile[key];
-          const filter = array.find((e) => e === userProfileObject?._id);
-  
-          if (filter) {
-            console.log(true);
-            setShow(true);
-          } else {
-            console.log(false);
-            setShow(false);
-          }
-        }
-      }
-    };
-  }, []);
+    checkList
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);  
 
   return (
     <div>
