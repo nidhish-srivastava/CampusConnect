@@ -64,8 +64,7 @@ function FollowingCard() {
   };
 
   useEffect(() => {
-    getFollowing();
-
+    getFollowing
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   return (

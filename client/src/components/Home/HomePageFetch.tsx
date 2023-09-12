@@ -33,7 +33,7 @@ function HomePageFetch() {
     setCollegesArray(data.colleges);
   };
   useEffect(() => {
-    fetchColleges();
+    fetchColleges
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   return (

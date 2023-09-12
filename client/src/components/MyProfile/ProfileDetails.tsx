@@ -17,8 +17,7 @@ function ProfileDetails() {
   };
 
   useEffect(()=>{
-    FetchLoggedInUser()
-    
+    FetchLoggedInUser
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
