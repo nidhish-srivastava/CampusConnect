@@ -120,11 +120,12 @@ Happy connecting on CampusConnect! If you have any questions or encounter issues
 -->
 ## Technologies Used
 
-  - [Next.js](https://nextjs.org/)
-  - [Tailwind CSS](https://tailwindcss.com/)
-  - [shadcn/ui](https://ui.shadcn.com/)
-  - [react-hook-form](https://www.react-hook-form.com/)
-  - [Express.js](https://expressjs.com/)
-  - [MongoDB](https://www.mongodb.com/)
-  - [Cloudinary](https://cloudinary.com/)
-  - [Vercel](https://vercel.com/)
+  - [Next.js](https://nextjs.org/) , [ExpressJs](https://expressjs.com/) - Framework
+  - [Tailwind CSS](https://tailwindcss.com/) , [shadcn/ui](https://ui.shadcn.com/) - Styling
+  - [Typescipt](https://www.typescriptlang.org/) , [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Language
+    <!--  - [react-hook-form](https://www.react-hook-form.com/) -->
+  - [MongoDB](https://www.mongodb.com/) - Database
+  - [Cloudinary](https://cloudinary.com/) - ImageStorage
+  - [Vercel](https://vercel.com/) - Deployment
+
+##### !! Right now the frontend aint deployed because of Eslint issues,will fix it in near future
