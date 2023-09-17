@@ -1,5 +1,5 @@
 
-# CampusConnect - A College Social Networking Platform
+## CampusConnect - A College Social Networking Platform
 
 CampusConnect is a social networking platform designed specifically for college students. It aims to connect students within the same campus and all the profiles and bios like github,linkedin,leetcode are present.
 
