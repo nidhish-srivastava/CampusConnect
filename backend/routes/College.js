@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { College } from '../db/index.js'
+import { College, User } from '../db/index.js'
 
 router.get('/',async(req,res)=>{
     const response =  await College.find({})
@@ -12,6 +12,18 @@ router.post('/create',async(req,res)=>{
     await c.save()
 })
 
+router.get('/fetchCollegeStudents/:college',async(req,res)=>{
+    const {college} = req.params
+    // const response = await User.find({college : college})
+    // console.log(response);
+    const response = await User.find({college : college}).populate({
+        path : "authId",
+        model : "Auth",
+        select : "username dp"
+    })
+    const result = response.map(e=>e.authId)
+    res.json(result)
+})
 
 // Update the colleges
 router.post('/',async(req,res)=>{
@@ -22,7 +34,7 @@ router.post('/',async(req,res)=>{
     // const update = find.colleges.push(college)/
     // console.log(find);
     // console.log(update);
-    await College.updateOne({_id : "64f40d03fbbae58f2af2f07a"},{ $push : {colleges : college}})
+    await College.updateOne({_id : "64f40d03fbbae58f2af2f07a"},{ $addToSet : {colleges : college}})
 })
 
 export default router

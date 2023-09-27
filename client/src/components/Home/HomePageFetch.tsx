@@ -2,7 +2,7 @@
 import { useConnectContext } from "@/context/context";
 import { useEffect, useState,Fragment } from "react";
 import SearchResults from "./SearchResults";
-import { url } from "@/app/page";
+import Link from "next/link";
 type AuthId = {
   username: string;
   _id: number;
@@ -47,7 +47,9 @@ function HomePageFetch() {
           {
             collegesArray.map((e,i)=>{
               return(
+                <Link href={`/colleges/${e}`}>
                 <div className="p-4 border-gray-100 text-center border-2" key={i}>{e}</div>
+                </Link>
                 )
               })
             }

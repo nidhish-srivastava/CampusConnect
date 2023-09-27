@@ -6,7 +6,7 @@ type ConnectContextProviderProps = {
   children: React.ReactNode;
 };
 
-type SearchResult = {
+export type SearchResult = {
   username : string
   _id : string
   dp : string
