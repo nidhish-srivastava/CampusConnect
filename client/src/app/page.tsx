@@ -1,7 +1,7 @@
 "use client";
 import { SearchResult } from "@/context/context";
 import { useEffect, useState, Fragment } from "react";
-import SearchResults from "@/components/Home/SearchResults";
+import SearchResults from "@/components/SearchResults";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 

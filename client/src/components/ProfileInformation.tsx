@@ -7,7 +7,7 @@ import { Fragment } from "react";
 const ProfileInformation = ({ profileObject }: { profileObject: UserType }) => {
   return (
     <Fragment>
-      <div className="flex justify-center gap-8 items-center">
+      {/* <div className="flex justify-center gap-8 items-center">
         <Image
           src={profileObject?.authId?.dp}
           width={50}
@@ -33,7 +33,7 @@ const ProfileInformation = ({ profileObject }: { profileObject: UserType }) => {
             Following{" "}
           </Button>
         </Link>
-      </div>
+      </div> */}
       <div className="grid grid-cols-2 gap-4 items-center w-4/6 mx-auto my-10">
         {/* <div> */}
         <Button className="profile-btn-label">College</Button>

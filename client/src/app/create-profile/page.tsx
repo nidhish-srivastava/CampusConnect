@@ -10,7 +10,7 @@ import Compress from "react-image-file-resizer";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { base64 } from "@/components/assets/base64";
+import { base64 } from "@/assets/base64";
 
 type FormData = {
   email?: string;

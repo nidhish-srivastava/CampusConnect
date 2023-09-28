@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
-import { base64 } from "@/components/assets/base64";
+import { base64 } from "@/assets/base64";
 
 
 function Page() {

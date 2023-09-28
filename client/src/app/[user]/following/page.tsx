@@ -1,4 +1,4 @@
-import FollowingCard from '@/components/MyProfile/FollowingCard'
+import FollowingCard from '@/components/FollowingCard'
 import React from 'react'
 
 const page = () => {

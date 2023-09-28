@@ -1,7 +1,26 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { UserType } from "@/components/Home/HomePageFetch";
 
+type AuthId = {
+  username: string;
+  _id: number;
+  dp : string
+};
+
+export type UserType = {
+  _id: string;
+  authId: AuthId;
+  followers: string[];
+  following: string[];
+  email: string;
+  github: string;
+  linkedin: string;
+  leetcode: string;
+  college: string;
+  collegeCity: string;
+  collegeLocation: string;
+  imageUrl: string;
+};
 type ConnectContextProviderProps = {
   children: React.ReactNode;
 };
