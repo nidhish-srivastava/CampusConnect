@@ -28,7 +28,7 @@ router.get('/',async(req,res)=>{
 /* If we create a new instance,then a new document inside the User model is created which we dont want(we already have the document,which we created when we registered the user)
 So we will use the update method
 */
-//* Creating a profile
+// Creating a profile
 router.put('/user-profile/:userDocumentId', async (req, res) => {
     const {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity} = req.body
     const { userDocumentId } = req.params
@@ -36,52 +36,11 @@ router.put('/user-profile/:userDocumentId', async (req, res) => {
     await User.updateOne({ _id: userDocumentId }, updateBody  )
 })
 
-
-//* RIGHT NOW NOT IN USE
-router.get('/college/:userDocumentId', async (req, res) => {
-    // res.status(200).json({msg : "Updated Successfully",response})
-    const { userDocumentId } = req.params
-    const collegeUser = await User.findOne({ _id: userDocumentId });
-
-    const newCollege = new College({
-        collegeInfo: collegeUser._id
-    });
-
-    await newCollege.save();
-
-    // Now you can populate the collegeInfo field
-    // const populatedCollege = await College.findOne({}).populate('collegeInfo','college') //* Now we are populating multiple fields
-    const populatedCollege = await College.findOne({})
-        .populate({
-            path: 'collegeInfo',
-            model: 'User',
-            select: 'college collegeCity collegeLocation'
-        })
-        .exec();
-        res.json(populatedCollege)
-})
-
-
-// router.get('/fetch-profile/:userDocumentId',async(req,res)=>{
-//     const {userDocumentId} = req.params
-//     const fetchProfileData = await User.findById(userDocumentId)
-//     res.json(fetchProfileData)
-// })
-
-// Fetch all users by populating the authId object with the username from Auth model
-//* NOT IN USE RIGHT NOW
-router.get('/fetchAll/:userDocumentId', authenticateJwt, async (req, res) => {
-    const { userDocumentId } = req.params
-    const response = await User.find().populate('authId', 'username')
-    const removeUser = response.filter(e => e._id != userDocumentId)
-    res.json(removeUser)
-})
-
 // Getting a specific user
-router.get('/:id', async (req, res) => {
+router.get('/:username', async (req, res) => {
     try {
-        const { id } = req.params
-        const response = await User.findOne({ authId: id })
+        const { username } = req.params
+        const response = await User.findOne({ username: username })
         .populate({
             path: 'authId',
             model: 'Auth',

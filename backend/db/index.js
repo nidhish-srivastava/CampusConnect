@@ -7,6 +7,7 @@ const authSchema = new mongoose.Schema({
 })
 
 const userSchema = new mongoose.Schema({
+    username : {type : String,default : "",required : true},
     authId: { type: mongoose.Schema.Types.ObjectId, ref: "Auth", required: true },
     email: { type: String, default: "" },
     github: { type: String, default: "" },
