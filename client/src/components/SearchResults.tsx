@@ -1,5 +1,4 @@
 import { SearchResult, useConnectContext } from "@/context/context";
-import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 

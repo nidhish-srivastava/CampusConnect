@@ -1,32 +1,50 @@
 "use client";
-import { useConnectContext } from "@/context/context";
-import { Fragment, useEffect} from "react";
+import { FollowersFollowingType } from "@/context/context";
+import { Fragment, useEffect, useState} from "react";
 import { Button } from "./ui/button";
 import { Montserrat } from "next/font/google";
 import url from '@/app/page'
+import { useParams } from "next/navigation";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 
 function FollowersCard() {
-  const { userDocumentId} = useConnectContext();
+  const {user} = useParams()
+  const [followers,setFollowers] = useState<FollowersFollowingType[]>([])
+  const [following,setFollowing] = useState<FollowersFollowingType[]>([])
+
+  
   const getFollowers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/user/followers/${userDocumentId}`
+        `http://localhost:4000/user/followers/${user}`
       );
       if(response.status==200){
         const data = await response.json();
         console.log(data);
-        setFollowers(data);
       }
     } catch (error) {
             
     }
-  };
+  }
+  const getFollowing = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/user/following/${user}`
+      );
+      if(response.status==200){
+        const data = await response.json();
+        console.log(data);
+        setFollowing(data)
+      }
+    } catch (error) {
+            
+    }
+  }
   const remove = async (unfollowUserId: string) => {
     const response = await fetch(`http://localhost:4000/user/remove`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userDocumentId, unfollowUserId }),
+      body: JSON.stringify({ user, unfollowUserId }),
     });
     const data = await response.json();
   };
@@ -35,16 +53,17 @@ function FollowersCard() {
     const response = await fetch(`http://localhost:4000/user/follow`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userDocumentId, followUserId }),
+      body: JSON.stringify({ user, followUserId }),
     });
     const data = await response.json();
+    setFollowers(data)
   }
 
   const unfollow = async (unfollowUserId: string) => {
     const response = await fetch(`http://localhost:4000/user/unfollow`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userDocumentId, unfollowUserId }),
+      body: JSON.stringify({ user, unfollowUserId }),
     });
     const data = await response.json();
     console.log(data);
@@ -52,8 +71,10 @@ function FollowersCard() {
 
   useEffect(() => {
     getFollowers()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+  useEffect(()=>{
+    getFollowing()
+  },[])
   return (
     <>
     <h2 className="text-left ml-10 text-xl mt-10">Followers</h2>

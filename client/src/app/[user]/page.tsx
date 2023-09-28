@@ -4,6 +4,7 @@ import { useConnectContext } from "@/context/context";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ProfileBaseInfo from "@/components/ProfileBaseInfo";
+import ProfileInformation from "@/components/ProfileInformation";
 
 async function fetchUser(){
     const {user} = useParams()
@@ -26,9 +27,9 @@ export default async function FetchUser(){
                       Create your Profile
                     </Button>
                   </Link>
-                </div> : null
+                </div> : 
+              <ProfileInformation profileObject = {data} /> 
               }
-              {/* <ProfileInformation profileObject = {data} /> */}
               </div>
       )
 }

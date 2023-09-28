@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import Image from "next/image";
-import { UserType } from "./Home/HomePageFetch";
 import Link from 'next/link';
+import { UserType } from '@/context/context';
 import { Button } from './ui/button';
 
 const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
