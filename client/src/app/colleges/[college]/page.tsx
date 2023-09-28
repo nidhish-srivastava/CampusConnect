@@ -21,7 +21,7 @@ const page = () => {
     <div className="w-1/2 mx-auto my-8">
       {collegeStudents.map((e,i)=>(
         <div>
-          <Link href={`/colleges/${college}/${e.username}`}>
+          <Link href={`/${e.username}`}>
           <div
             className="p-4 mb-2 border-2 bg-transparent flex gap-8 items-center"
             key={i}

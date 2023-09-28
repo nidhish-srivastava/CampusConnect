@@ -3,10 +3,21 @@ import { useConnectContext } from "@/context/context";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { followPromise, unfollowPromise } from "./MyProfile/FollowingCard";
+import { UserType } from "./Home/HomePageFetch";
+import { useParams } from "next/navigation";
 
 function FetchSingleUser() {
-  const { searchedUserProfile, userProfileObject } = useConnectContext();
+  const {username} = useParams()
+  const {  userProfileObject } = useConnectContext();
   const [show, setShow] = useState(false);
+  const [searchedUserProfile,setSearchUserProfile] = useState<UserType>()
+
+  const fetchSingleSearchedUserData = async (id: string) => {
+    const response = await fetch(`http://localhost:4000/user/${username}`);
+    const data = await response.json();
+    console.log(data);
+    // setSearchUserProfile(data);
+  };
 
   const checkList = () => {
     for (const key in searchedUserProfile) {
@@ -47,6 +58,10 @@ function FetchSingleUser() {
     checkList()
      // eslint-disable-next-line react-hooks/exhaustive-deps
   },[show]);  
+
+  useEffect(()=>{
+    fetchSingleSearchedUserData()
+  },[])
 
   return (
     <div>

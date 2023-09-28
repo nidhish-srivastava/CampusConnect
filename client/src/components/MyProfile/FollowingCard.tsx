@@ -3,7 +3,6 @@ import { useConnectContext } from "@/context/context";
 import { Fragment, useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import { Button } from "../ui/button";
-import { url } from "@/app/page";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 
 export const followPromise = async (

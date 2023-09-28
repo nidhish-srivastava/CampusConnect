@@ -29,7 +29,6 @@ function FollowersCard() {
       body: JSON.stringify({ userDocumentId, unfollowUserId }),
     });
     const data = await response.json();
-    console.log(data);
   };
 
   const follow = async(followUserId : string) =>{
@@ -37,10 +36,8 @@ function FollowersCard() {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userDocumentId, followUserId }),
-      cache : "no-cache"
     });
     const data = await response.json();
-    console.log(data);
   }
 
   const unfollow = async (unfollowUserId: string) => {
