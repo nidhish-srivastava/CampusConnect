@@ -1,34 +1,15 @@
 "use client";
-import { SearchResult } from "@/context/context";
+import { AuthId } from "@/types";
 import { useEffect, useState, Fragment } from "react";
 import SearchResults from "@/components/SearchResults";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 
-type AuthId = {
-  username: string;
-  _id: number;
-};
-
-export type UserType = {
-  _id: string;
-  authId: AuthId;
-  followers: string[];
-  following: string[];
-  email: string;
-  github: string;
-  linkedin: string;
-  leetcode: string;
-  college: string;
-  collegeCity: string;
-  collegeLocation: string;
-  imageUrl: string;
-};
 
 function Home() {
   const [query, setQuery] = useState("");
   const [collegesArray, setCollegesArray] = useState([]);
-  const [searchResultArray, setSearchResultArray] = useState<SearchResult[]>(
+  const [searchResultArray, setSearchResultArray] = useState<AuthId[]>(
     []
   );
 

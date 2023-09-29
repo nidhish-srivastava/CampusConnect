@@ -37,14 +37,7 @@ const uploadImagePromise = async (dp, imageId) => {
     }
 }
 
-const newAdminSavePromise = async(newAdmin) =>{
-    // console.log("new admin poromise");
-    return await newAdmin.save()   
-}
 
-const findUserinAuthPromise = async(username) =>{
-    return await Auth.findOne({username})
-}
 
 const userCreatePromise = async(newAdmin) =>{
     // console.log("user create promise");
@@ -76,14 +69,13 @@ router.post('/signup', async (req, res) => {
     try {
         const imageUrl = await uploadImagePromise(dp, imageId)
 
-        const admin = await findUserinAuthPromise(username)
+        const admin = await Auth.findOne({username})
         if (admin) {
             res.status(403).json({ message: "User already exists" })
         }
         else {
             const newAdmin = new Auth({ username: username, password: bcrypt.hashSync(password), dp: imageUrl })
-            // await newAdmin.save()
-            await newAdminSavePromise(newAdmin)
+            await newAdmin.save()
             const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
             res.json({ message: "User created successfully", token })
             // await User.create({

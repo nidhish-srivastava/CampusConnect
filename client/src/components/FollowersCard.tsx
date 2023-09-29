@@ -1,9 +1,7 @@
 "use client";
-import { FollowersFollowingType } from "@/context/context";
 import { Fragment, useEffect, useState} from "react";
 import { Button } from "./ui/button";
 import { Montserrat } from "next/font/google";
-import url from '@/app/page'
 import { useParams } from "next/navigation";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 

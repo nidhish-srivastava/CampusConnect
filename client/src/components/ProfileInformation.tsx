@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { UserType } from "@/context/context";
-import Link from "next/link";
-import Image from "next/image";
 import { Fragment } from "react";
+import { UserType } from "@/types";
 
 const ProfileInformation = ({ profileObject }: { profileObject: UserType }) => {
   return (

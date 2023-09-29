@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Montserrat } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "./ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,28 +22,43 @@ function Navbar() {
     setUser,
     setUserId,
     imageUrl,
+    userDocumentId,
     setImageUrl,
+    setUserDocumentId,
   } = useConnectContext();
 
-  //* Using jwt authorization for accessing content after authentication from login/signup
-  const check = async () => {
+  const findUserDocumentPromise = async (username: string): Promise<any> => {
+    const response = await fetch(`http://localhost:4000/user/${username}`);
+    return await response.json();
+  };
+
+  const authenticateUserPromise = async (): Promise<any> => {
     const response = await fetch(`http://localhost:4000/auth/me`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const data = await response.json();
-    setUser(data.username);
-    setUserId(data.id);
-    setImageUrl(data.dp);
+    return await response.json();
   };
 
+  //* Using jwt authorization for accessing content after authentication from login/signup
+  const check = async () => {
+    const authenticateUser = await authenticateUserPromise();
+    const findUserDocument = await findUserDocumentPromise(
+      authenticateUser.username
+    );
+    await Promise.all([authenticateUser, findUserDocument]);
+    setUser(authenticateUser.username);
+    setUserId(authenticateUser.id);
+    setUserDocumentId(findUserDocument._id);
+    setImageUrl(authenticateUser.dp);
+  };
 
   useEffect(() => {
     check();
+    console.log(userDocumentId);
   }, []);
-
 
   return (
     <>

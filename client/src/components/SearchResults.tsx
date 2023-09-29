@@ -1,8 +1,8 @@
-import { SearchResult, useConnectContext } from "@/context/context";
+import { AuthId } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
- function SearchResults({searchResultArray} : {searchResultArray : SearchResult[]}) {
+ function SearchResults({searchResultArray} : {searchResultArray : AuthId[]}) {
 
   return (
     <div className="w-1/2 mx-auto my-8">

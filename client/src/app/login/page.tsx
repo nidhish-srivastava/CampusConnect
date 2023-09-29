@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Input } from "@/components/ui/input"
-import { url } from "../page";
 
 
 function Page() {

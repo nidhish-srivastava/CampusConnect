@@ -1,43 +1,9 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 
-type AuthId = {
-  username: string;
-  _id: number;
-  dp : string
-};
-
-export type UserType = {
-  _id: string;
-  authId: AuthId;
-  followers: string[];
-  following: string[];
-  email: string;
-  github: string;
-  linkedin: string;
-  leetcode: string;
-  college: string;
-  collegeCity: string;
-  collegeLocation: string;
-  imageUrl: string;
-};
-type ConnectContextProviderProps = {
+export type ConnectContextProviderProps = {
   children: React.ReactNode;
 };
-
-export type SearchResult = {
-  username : string
-  _id : string
-  dp : string
-}
-
-export type FollowersFollowingType = {
-  authId : {
-    _id : string
-    username : string
-}
-_id : string
-}
 
 type ConnectContextTypes = {
   user: string;

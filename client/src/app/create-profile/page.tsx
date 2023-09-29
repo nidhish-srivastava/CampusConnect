@@ -11,22 +11,16 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { base64 } from "@/assets/base64";
+import { UserType } from "@/types";
 
-type FormData = {
-  email?: string;
-  github?: string;
-  linkedin?: string;
-  leetcode?: string;
-  college?: string;
-  collegeLocation?: string;
-  collegeCity?: string;
-};
 
 function CreateProfile() {
   const router = useRouter();
   const [userImg, setUserImg] = useState(base64);
-  const { userId, userDocumentId, user ,setImageUrl} = useConnectContext();
+  const { userDocumentId, user ,setImageUrl} = useConnectContext();
   const [value, setValue] = useState(0);
+
+  
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
   const handleImage = (e: any) => {
@@ -66,10 +60,6 @@ function CreateProfile() {
     fileInput.click();
   };
 
-  console.log("render create profile");
-
-  // * RIGHT NOW ITS NOT WORKING  Connecting zod with react hook form(using resolver package)
-  // const {register,handleSubmit,formState : {errors}} = useForm<FormData>({resolver : zodResolver(schema)})
 
   const { register, handleSubmit } = useForm();
 
@@ -92,7 +82,7 @@ function CreateProfile() {
   };
 
 
-  const submitPromise = async (formData: FormData): Promise<any> => {
+  const submitPromise = async (formData: Partial<UserType>): Promise<any> => {
     console.log("submit");
     return await fetch(
       `http://localhost:4000/user/user-profile/${userDocumentId}`,
@@ -104,7 +94,7 @@ function CreateProfile() {
     );
   };
 
-  const submitHandlerForm = async (data: FormData) => {
+  const submitHandlerForm = async (data: Partial<UserType>) => {
     const formData = {
       email: data.email,
       github: data.github,

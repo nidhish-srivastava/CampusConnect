@@ -3,12 +3,12 @@ import mongoose from 'mongoose'
 const authSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    dp : {type : String}
+    dp: { type: String }
 })
 
 const userSchema = new mongoose.Schema({
-    username : {type : String,default : "",required : true},
-    authId: { type: mongoose.Schema.Types.ObjectId, ref: "Auth", required: true },
+    username: { type: String, default: "", required: true },
+    authId: { type: mongoose.Schema.Types.ObjectId, default: "", ref: "Auth" },
     email: { type: String, default: "" },
     github: { type: String, default: "" },
     linkedin: { type: String, default: "" },
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
 // })
 
 const collegeSchema = new mongoose.Schema({
-    colleges : {type : [String],default : ""}
+    colleges: { type: [String], default: "", required: true }
 })
 
 const User = mongoose.model("User", userSchema)

@@ -2,12 +2,12 @@
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SearchResult } from "@/context/context";
 import Link from "next/link";
+import { AuthId } from "@/types";
 
 const page = () => {
     const {college} = useParams()
-    const [collegeStudents,setCollegeStudents] = useState<SearchResult[]>([])
+    const [collegeStudents,setCollegeStudents] = useState<AuthId[]>([])
     const fetchCollegeStudents = async() =>{
         const response = await fetch(`http://localhost:4000/college/fetchCollegeStudents/${college}`)
         const data = await response.json()

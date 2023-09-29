@@ -1,25 +1,25 @@
 import express from 'express'
-import { User, College,Auth } from '../db/index.js'
+import { User, College, Auth } from '../db/index.js'
 const router = express.Router()
 // const mongoose = require('mongoose')
 import { authenticateJwt } from '../middleware/auth.js'
 import uploadImage from '../UploadImage.js'
 import { nanoid } from 'nanoid'
-nanoid(); 
+nanoid();
 
 // Searching a user
-router.get('/',async(req,res)=>{
-    const {username} = req.query
+router.get('/', async (req, res) => {
+    const { username } = req.query
     const queryObject = {}
-    if(username){
-        queryObject.username = {$regex : username,$options : "i"}
+    if (username) {
+        queryObject.username = { $regex: username, $options: "i" }
     }
     const getUsername = await Auth.find(queryObject)
     const filteredUsers = getUsername.map(user => ({
         _id: user._id,
         username: user.username,
         dp: user.dp,
-      }));
+    }));
     res.json(filteredUsers)
 })
 
@@ -30,10 +30,10 @@ So we will use the update method
 */
 // Creating a profile
 router.put('/user-profile/:userDocumentId', async (req, res) => {
-    const {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity} = req.body
+    const { college, authId, email, github, leetcode, linkedin, collegeLocation, collegeCity } = req.body
     const { userDocumentId } = req.params
-    const updateBody = {college,authId,email,github,leetcode,linkedin,collegeLocation,collegeCity}
-    await User.updateOne({ _id: userDocumentId }, updateBody  )
+    const updateBody = { college, authId, email, github, leetcode, linkedin, collegeLocation, collegeCity }
+    await User.updateOne({ _id: userDocumentId }, updateBody)
 })
 
 // Getting a specific user
@@ -41,12 +41,12 @@ router.get('/:username', async (req, res) => {
     try {
         const { username } = req.params
         const response = await User.findOne({ username: username })
-        .populate({
-            path: 'authId',
-            model: 'Auth',
-            select: 'username dp'
-        })
-        .exec();
+            .populate({
+                path: 'authId',
+                model: 'Auth',
+                select: 'username dp'
+            })
+            .exec();
         //* wont use this since we need to populate multiple fields .populate('authId','username')
         res.json(response);
     } catch (error) {
@@ -71,12 +71,12 @@ router.put('/remove', async (req, res) => {
     const { userDocumentId, unfollowUserId } = req.body
 
     // Remove unfollowUserId from the following list of userDocumentId
-    const updateFollowers = await User.updateOne({_id : userDocumentId}, { $pull: { followers: unfollowUserId } });
+    const updateFollowers = await User.updateOne({ _id: userDocumentId }, { $pull: { followers: unfollowUserId } });
     if (!updateFollowers) {
         return res.status(404).json({ message: 'User not found' });
     }
     // Remove userDocumentId from the followers list of unfollowUserId
-    const updateFollowing = await User.updateOne({_id : unfollowUserId}, { $pull: { following: userDocumentId } });
+    const updateFollowing = await User.updateOne({ _id: unfollowUserId }, { $pull: { following: userDocumentId } });
 
     if (!updateFollowing) {
         return res.status(404).json({ message: 'User not found' });
@@ -86,14 +86,14 @@ router.put('/remove', async (req, res) => {
 })
 
 // Unfollow a user from followingList
-router.put('/unfollow',async(req,res)=>{
+router.put('/unfollow', async (req, res) => {
     const { userDocumentId, unfollowUserId } = req.body
 
-    const updateFollowing = await User.updateOne({_id : userDocumentId}, { $pull: { following: unfollowUserId } });
+    const updateFollowing = await User.updateOne({ _id: userDocumentId }, { $pull: { following: unfollowUserId } });
     if (!updateFollowing) {
         return res.status(404).json({ message: 'User not found' });
     }
-    const updateFollowers = await User.updateOne({_id : unfollowUserId}, { $pull: { followers: userDocumentId } });
+    const updateFollowers = await User.updateOne({ _id: unfollowUserId }, { $pull: { followers: userDocumentId } });
 
     if (!updateFollowers) {
         return res.status(404).json({ message: 'User not found' });
@@ -107,11 +107,11 @@ router.get('/followers/:userId', async (req, res) => {
     const { userId } = req.params
     try {
         const response = await User.findById(userId)
-    
+
         const followersIds = response.followers.map(e => e._id)
-    
+
         const followers = await User.find({ _id: { $in: followersIds } }, 'authId').populate('authId', 'username');
-    
+
         res.json(followers)
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -124,11 +124,11 @@ router.get('/following/:userId', async (req, res) => {
     const { userId } = req.params
     try {
         const response = await User.findById(userId)
-    
+
         const followingIds = response.following.map(e => e._id)
-    
+
         const following = await User.find({ _id: { $in: followingIds } }, 'authId').populate('authId', 'username');
-    
+
         res.json(following)
     } catch (error) {
         res.status(500).json({ message: error.message });
