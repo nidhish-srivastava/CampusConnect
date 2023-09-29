@@ -135,6 +135,24 @@ router.get('/following/:userId', async (req, res) => {
     }
 })
 
+router.post('/following/check', async (req, res) => {
+    const { userId, myId } = req.body
+    try {
+        const response = await User.findById(myId)
+        const check = response.following.map(e => e._id)
+        if (check.length == 0) res.status(200).json("true")
+        else {
+            check.forEach(element => {
+                if (element.toString() == userId) {
+                    console.log(true);
+                    res.status(200).json("true")
+                }
+            })
+        }
+    } catch (error) {
+
+    }
+})
 
 
 export default router
