@@ -7,8 +7,8 @@ import ProfileBaseInfo from "@/components/ProfileBaseInfo";
 import ProfileInformation from "@/components/ProfileInformation";
 
 async function fetchUser(){
-    const {user} = useParams()
-    const response = await fetch(`http://localhost:4000/user/${user}`)
+    const {userProfile} = useParams()
+    const response = await fetch(`http://localhost:4000/user/${userProfile}`)
     return response.json()
 }
 

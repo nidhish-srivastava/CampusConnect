@@ -13,12 +13,12 @@ import { followPromise } from '@/utils';
 
 const page =  () => {
   const [check,setCheck] = useState(false)
-  const {userDocumentId} = useConnectContext()
-  const {user} = useParams()
+  const {userDocumentId,user} = useConnectContext()
+  const {userProfile} = useParams()
   const [followers,setFollowers] = useState<UserType[]>([])
 
   const getFollowers = async(user:string | string[]) =>{
-    const response = await fetch(`http://localhost:4000/user/followers/${user}`)
+    const response = await fetch(`http://localhost:4000/user/followers/${userProfile}`)
     return await response.json()
   }
 
@@ -40,12 +40,18 @@ const page =  () => {
     })
   }
 
+  /*
+  We need to trigger map method
+  We have the array,inside array,we have objects,each object has its id
+  We have the ids,now will the data,we accesss the followers,following
+  */
 
   useEffect(()=>{
       const checkFollowingFollowers = async() =>{
         try {
-          const followers = await getFollowers(user)
-          setFollowers(followers)
+          const followers = await getFollowers(userProfile)
+          console.log(followers);
+          setFollowers(followers.followers)
           //* This logic is tough since now i have to check in all the followers wether i follow them or not
           // const response = await checkFollowersFollowingPromise(followers._id,userDocumentId)
           // await Promise.all([followers,response])
@@ -68,12 +74,16 @@ const page =  () => {
             height={70}
             alt='dp'
             />
+            {
+              user == userProfile && (
                 <Button
                 className="follow-unfollow-btn"
                 onClick={()=>removeFollower(e._id)}
               >
                 Remove
               </Button>
+              )
+            }
               <Button
                 className="follow-unfollow-btn"
                 onClick={()=>follow(e._id)}
