@@ -5,6 +5,7 @@ export type AuthId = {
 };
 
 export type UserType = {
+  username : string
   _id: string;
   authId: AuthId;
   followers: string[];

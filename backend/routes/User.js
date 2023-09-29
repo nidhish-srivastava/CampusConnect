@@ -69,7 +69,6 @@ router.put('/follow', async (req, res) => {
 // Remove a user(from followers list)
 router.put('/remove', async (req, res) => {
     const { userDocumentId, unfollowUserId } = req.body
-
     // Remove unfollowUserId from the following list of userDocumentId
     const updateFollowers = await User.updateOne({ _id: userDocumentId }, { $pull: { followers: unfollowUserId } });
     if (!updateFollowers) {
@@ -88,13 +87,11 @@ router.put('/remove', async (req, res) => {
 // Unfollow a user from followingList
 router.put('/unfollow', async (req, res) => {
     const { userDocumentId, unfollowUserId } = req.body
-
     const updateFollowing = await User.updateOne({ _id: userDocumentId }, { $pull: { following: unfollowUserId } });
     if (!updateFollowing) {
         return res.status(404).json({ message: 'User not found' });
     }
     const updateFollowers = await User.updateOne({ _id: unfollowUserId }, { $pull: { followers: userDocumentId } });
-
     if (!updateFollowers) {
         return res.status(404).json({ message: 'User not found' });
     }
@@ -135,16 +132,15 @@ router.get('/following/:userId', async (req, res) => {
     }
 })
 
-router.post('/following/check', async (req, res) => {
+router.post('/followingfollowers/check', async (req, res) => {
     const { userId, myId } = req.body
     try {
         const response = await User.findById(myId)
         const check = response.following.map(e => e._id)
-        if (check.length == 0) res.status(200).json("true")
+        if (check.length == 0) res.status(200).json("false")
         else {
             check.forEach(element => {
                 if (element.toString() == userId) {
-                    console.log(true);
                     res.status(200).json("true")
                 }
             })

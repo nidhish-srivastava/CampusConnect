@@ -12,12 +12,11 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
 
   // I need to check in my following list,so first i need my documentId
   const { userDocumentId } = useConnectContext();
-  const [check,setCheck] = useState(false)
 
-  const checkFollowing = async () => {
+  const checkFollowingFollowers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/user/following/check`,
+        `http://localhost:4000/user/followingfollowers/check`,
         {
           method: "POST",
           headers: {
@@ -30,21 +29,9 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
         }
       );
       const data = await response.json();
-      setCheck(data)
     } catch (error) {}
   };
-  const follow = async () => {
-    await fetch(`http://localhost:4000/user/follow`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userDocumentId: userDocumentId,
-        followUserId: profileObject._id,
-      }),
-    });
-  };
+
   const unfollow = async () => {
     await fetch(`http://localhost:4000/user/unfollow`, {
       method: "PUT",
@@ -57,13 +44,27 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
       }),
     });
   };
-   useEffect(()=>{
-    checkFollowing()
-   },[])
+
+  const follow = async () => {
+    await fetch(`http://localhost:4000/user/follow`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userDocumentId: userDocumentId,
+        followUserId: profileObject._id,
+      }),
+    });
+  };
+
+  useEffect(() => {
+    checkFollowingFollowers();
+  }, []);
+
 
   return (
     <div className="flex justify-center gap-10 items-center">
-      {/* <button onClick={checkFollowing}>Check</button> */}
       <div>
         <Image
           src={profileObject?.authId?.dp}
@@ -77,7 +78,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
       </div>
       <div className="">
         <div className="flex gap-2">
-          <Link href={`/${profileObject?.authId?.username}/followers`}>
+          <Link href={`/${profileObject?.username}/followers`}>
             <Button className="text-[16px] px-2 py-2">
               {profileObject?.followers?.length}
               <br />
@@ -93,17 +94,12 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
           </Link>
         </div>
         <div className="mt-4 text-center">
-          {check && 
-          <Button className="follow-unfollow-btn" onClick={unfollow}>
-            UnFollow
-          </Button>
-          }
-          {!check
-          &&
-          <Button className="follow-unfollow-btn mx-2" onClick={follow}>
-            Follow
-          </Button>
-          }
+            <Button className="follow-unfollow-btn" onClick={unfollow}>
+              Unfollow
+            </Button>
+              <Button className="follow-unfollow-btn mx-2" onClick={follow}>
+              Follow
+            </Button>
         </div>
       </div>
     </div>
