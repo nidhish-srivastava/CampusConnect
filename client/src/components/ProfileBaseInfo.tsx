@@ -4,6 +4,7 @@ import Link from "next/link";
 import { UserType } from "@/types";
 import { Button } from "./ui/button";
 import { useConnectContext } from "@/context/context";
+import { checkFollowersFollowingPromise, followPromise,unfollowPromise } from "@/utils";
 
 const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
   // NOw i need to check wether I follow this person or not
@@ -11,54 +12,26 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
   // If i dont follow this person,show follow btn
 
   // I need to check in my following list,so first i need my documentId
-  const { userDocumentId } = useConnectContext();
-
-  const checkFollowingFollowers = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/user/followingfollowers/check`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: profileObject._id,
-            myId: userDocumentId,
-          }),
-        }
-      );
-      const data = await response.json();
-    } catch (error) {}
-  };
-
+  const {user, userDocumentId } = useConnectContext();
+  const [check,setCheck] = useState(false)
+  
   const unfollow = async () => {
-    await fetch(`http://localhost:4000/user/unfollow`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userDocumentId: userDocumentId,
-        unfollowUserId: profileObject._id,
-      }),
-    });
+    await unfollowPromise(profileObject._id,userDocumentId)
+    setCheck(false)
   };
-
+  
   const follow = async () => {
-    await fetch(`http://localhost:4000/user/follow`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userDocumentId: userDocumentId,
-        followUserId: profileObject._id,
-      }),
-    });
+    await followPromise(profileObject._id,userDocumentId)
+    setCheck(true)
   };
-
+  
   useEffect(() => {
+      const checkFollowingFollowers = async () => {
+        try {
+          const data = await checkFollowersFollowingPromise(profileObject._id,userDocumentId)
+          data=="true" ?  setCheck(true) : setCheck(false)
+        } catch (error) {}
+      };
     checkFollowingFollowers();
   }, []);
 
@@ -86,20 +59,27 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
             </Button>
           </Link>
           <Link href={`/${profileObject?.authId?.username}/following`}>
-            <Button className="text-sm px-2 py-2">
+            <Button className="text-[16px] px-2 py-2">
               {profileObject?.following?.length}
               <br />
               Following{" "}
             </Button>
           </Link>
         </div>
-        <div className="mt-4 text-center">
-            <Button className="follow-unfollow-btn" onClick={unfollow}>
+        <div className="mt-4 text-center">{
+           profileObject?.username !== user &&  user.length!=0 ? <>
+            {check
+            ?
+            <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={unfollow}>
               Unfollow
             </Button>
-              <Button className="follow-unfollow-btn mx-2" onClick={follow}>
+            : 
+              <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={follow}>
               Follow
             </Button>
+            }
+          </> : null
+        }
         </div>
       </div>
     </div>

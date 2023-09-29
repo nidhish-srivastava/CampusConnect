@@ -54,7 +54,7 @@ router.get('/:username', async (req, res) => {
     }
 })
 
-// Follow a user(from followers list)     
+// Follow a user(from followers list or followers list)     
 router.put('/follow', async (req, res) => {
     const { userDocumentId, followUserId } = req.body
     // Add followUserId to the following list of userId
@@ -100,15 +100,16 @@ router.put('/unfollow', async (req, res) => {
 })
 
 // GET FOLLOWERS with their usernames
-router.get('/followers/:userId', async (req, res) => {
-    const { userId } = req.params
+router.get('/followers/:username', async (req, res) => {
+    const { username } = req.params
     try {
-        const response = await User.findById(userId)
-
-        const followersIds = response.followers.map(e => e._id)
-
-        const followers = await User.find({ _id: { $in: followersIds } }, 'authId').populate('authId', 'username');
-
+        const response = await User.find({username : username})
+        const followerIds = response.map(e=>e.followers)
+        const followers = await User.find({ _id: { $in: followerIds } }, 'authId').populate({
+            path : "authId",
+            select : 'username dp',
+            model : "Auth"
+        });
         res.json(followers)
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -117,15 +118,16 @@ router.get('/followers/:userId', async (req, res) => {
 })
 
 // GET FOLLOWING with their usernames
-router.get('/following/:userId', async (req, res) => {
-    const { userId } = req.params
+router.get('/following/:username', async (req, res) => {
+    const { username } = req.params
     try {
-        const response = await User.findById(userId)
-
-        const followingIds = response.following.map(e => e._id)
-
-        const following = await User.find({ _id: { $in: followingIds } }, 'authId').populate('authId', 'username');
-
+        const response = await User.find({username : username})
+        const followingIds = response.map(e => e.following)
+        const following = await User.find({ _id: { $in: followingIds } }, 'authId').populate({
+            path : "authId",
+            select : 'username dp',
+            model : "Auth"
+        });
         res.json(following)
     } catch (error) {
         res.status(500).json({ message: error.message });
