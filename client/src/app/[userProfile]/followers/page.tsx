@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { checkFollowersFollowingPromise } from '@/utils';
 import { useConnectContext } from '@/context/context';
 import { followPromise } from '@/utils';
+import Link from 'next/link';
 
 const page =  () => {
   const [check,setCheck] = useState(false)
@@ -66,31 +67,33 @@ const page =  () => {
       className={`grid grid-cols-2 w-[20%] mx-auto items-center mt-20 gap-10 ${fontMontserrat.className} `}
     >
       {followers.map((e,i)=>(
-        <Fragment key={i}>
+        <Link href={`/${e.authId.username}`} key={i}>
+          <div className='flex gap-8 items-center'>
              <label className="text-xl">{e?.authId?.username}</label>
             <Image
             src = {e.authId.dp}
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             alt='dp'
             />
-            {
+            </div>
+            {/* {
               user == userProfile && (
                 <Button
                 className="follow-unfollow-btn"
                 onClick={()=>removeFollower(e._id)}
-              >
+                >
                 Remove
-              </Button>
-              )
-            }
+                </Button>
+                )
+              }
               <Button
                 className="follow-unfollow-btn"
                 onClick={()=>follow(e._id)}
               >
                 Follow
-              </Button>
-        </Fragment>
+              </Button> */}
+        </Link>
       ))}
     </div>
   )

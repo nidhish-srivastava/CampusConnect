@@ -6,6 +6,7 @@ import { Montserrat } from "next/font/google";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const page = () => {
   const { userProfile } = useParams();
@@ -25,25 +26,27 @@ const page = () => {
     >
       {data?.map((e,i)=>{
         return(
-          <Fragment>
+          <Link href={`/${e.authId.username}`} key={i}>
+            <div className="flex gap-8 items-center">
              <label className="text-xl">{e?.authId?.username}</label>
             <Image
             src = {e.authId?.dp}
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             alt='dp'
             />
-              <Button
+              {/* <Button
                 className="follow-unfollow-btn"
-              >
+                >
                 UnFollow
-              </Button>
-              <Button
+                </Button>
+                <Button
                 className="follow-unfollow-btn"
-              >
+                >
                 Follow
-              </Button>
-          </Fragment>
+              </Button> */}
+              </div>
+          </Link>
         )
       })}
     </div>
