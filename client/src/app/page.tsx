@@ -19,12 +19,16 @@ function Home() {
   };
 
   const getUsername = async () => {
-    const response = await fetch(
-      `http://localhost:4000/user?username=${query}`
-    );
-    const data = await response.json();
-    console.log(data);
-    setSearchResultArray(data);
+    try {
+      const response = await fetch(
+        `http://localhost:4000/user?username=${query}`
+      );
+      const data = await response.json();
+      console.log(data);
+      setSearchResultArray(data);
+    } catch (error) {
+      
+    }
   };
 
   useEffect(() => {

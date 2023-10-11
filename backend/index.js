@@ -36,7 +36,7 @@ const start = async () => {
 start()
 
 app.get('/',async(req,res)=>{
-    res.send(`Welcome to Campus Connect`)
+    res.send(`Welcome to Backend deployment of Campus Connect,Check /auth,/user and /college routes`)
 })
 
 app.use('/auth', AuthRoute)

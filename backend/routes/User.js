@@ -1,5 +1,5 @@
 import express from 'express'
-import { User } from '../db/index.js'
+import { User,Auth } from '../db/index.js'
 const router = express.Router()
 
 // Searching a user
