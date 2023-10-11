@@ -8,7 +8,7 @@ const authSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     username: { type: String, default: "", required: true },
-    authId: { type: mongoose.Schema.Types.ObjectId, default: "", ref: "Auth" },
+    authId: { type: mongoose.Schema.Types.ObjectId, ref: "Auth" },
     email: { type: String, default: "" },
     github: { type: String, default: "" },
     linkedin: { type: String, default: "" },

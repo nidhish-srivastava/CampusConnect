@@ -1,10 +1,6 @@
 import express from 'express'
-import { User, College, Auth } from '../db/index.js'
+import { User } from '../db/index.js'
 const router = express.Router()
-import { authenticateJwt } from '../middleware/auth.js'
-import uploadImage from '../UploadImage.js'
-import { nanoid } from 'nanoid'
-nanoid();
 
 // Searching a user
 router.get('/', async (req, res) => {
@@ -104,15 +100,16 @@ router.get('/followers/:username', async (req, res) => {
     try {
         const response = await User.find({username : username})
         const followerIds = response.map(e=>e.followers)
-        const followers = await User.find({ _id: { $in: followerIds } }).populate({
+        const followers = await User.find({ _id: { $in: followerIds[0] }}).populate({
             path : "authId",
             select : 'username dp',
             model : "Auth"
-        });
-        const followers2 = await User.find({ _id: { $in: followerIds } })
-        const f2 = followers2.map(e=>e.followers)
-        const f3 = followers2.map(e=>e.following)
-        res.json({followers,userFollowers : f2,userFollowing : f3})
+        })
+        // const followers2 = await User.find({ _id: { $in: followerIds } })
+        // const f2 = followers2.map(e=>e.followers)
+        // const f3 = followers2.map(e=>e.following)
+        // res.json({followers,userFollowers : f2,userFollowing : f3})
+        res.json({followers})
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -125,15 +122,16 @@ router.get('/following/:username', async (req, res) => {
     try {
         const response = await User.find({username : username})
         const followingIds = response.map(e => e.following)
-        const following = await User.find({ _id: { $in: followingIds }}).populate({
+        const following = await User.find({ _id: { $in: followingIds[0] }}).populate({
             path : "authId",
             select : 'username dp',
             model : "Auth"
         })
-        const following2 = await User.find({ _id: { $in: followingIds }})
-        const f2 = following2.map(e=>e.followers)
-        const f3 = following2.map(e=>e.following)
-        res.json({following,userFollowers : f2,userFollowing : f3})
+        // const following2 = await User.find({ _id: { $in: followingIds }})
+        // const f2 = following2.map(e=>e.followers)
+        // const f3 = following2.map(e=>e.following)
+        // res.json({following,userFollowers : f2,userFollowing : f3})
+        res.json({following})
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -153,6 +151,7 @@ router.post('/followingfollowers/check', async (req, res) => {
             })
         }
     } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 })
 

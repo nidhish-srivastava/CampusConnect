@@ -5,33 +5,6 @@ import { UserType } from "@/types";
 const ProfileInformation = ({ profileObject }: { profileObject: UserType }) => {
   return (
     <Fragment>
-      {/* <div className="flex justify-center gap-8 items-center">
-        <Image
-          src={profileObject?.authId?.dp}
-          width={50}
-          height={50}
-          alt="Picture of the author"
-        />
-        <h2 className="text-center text-[20px]">
-          {profileObject?.authId?.username}
-        </h2>
-      </div>
-      <div className="flex justify-center gap-4 mt-4">
-        <Link href={`/${profileObject?.authId?.username}/followers`}>
-          <Button className="text-[16px]">
-            {profileObject?.followers?.length}
-            <br />
-            Followers{" "}
-          </Button>
-        </Link>
-        <Link href={`/${profileObject?.authId?.username}/following`}>
-          <Button className="text-[16px]">
-            {profileObject?.following?.length}
-            <br />
-            Following{" "}
-          </Button>
-        </Link>
-      </div> */}
       <div className="grid grid-cols-2 gap-4 items-center w-4/6 mx-auto my-10">
         {/* <div> */}
         <Button className="profile-btn-label">College</Button>

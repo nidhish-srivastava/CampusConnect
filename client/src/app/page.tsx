@@ -5,18 +5,17 @@ import SearchResults from "@/components/SearchResults";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 
-
 function Home() {
   const [query, setQuery] = useState("");
   const [collegesArray, setCollegesArray] = useState([]);
-  const [searchResultArray, setSearchResultArray] = useState<AuthId[]>(
-    []
-  );
+  const [searchResultArray, setSearchResultArray] = useState<AuthId[]>([]);
 
   const fetchColleges = async () => {
-    const response = await fetch(`http://localhost:4000/college`);
-    const data = await response.json();
-    setCollegesArray(data.colleges);
+    try {
+      const response = await fetch(`http://localhost:4000/college`);
+      const data = await response.json();
+      setCollegesArray(data.colleges);
+    } catch (error) {}
   };
 
   const getUsername = async () => {

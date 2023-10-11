@@ -3,8 +3,11 @@ const router = express.Router()
 import { College, User } from '../db/index.js'
 
 router.get('/', async (req, res) => {
-    const response = await College.find({})
-    res.json(response[0])
+    try {
+        const response = await College.find({})
+        res.json(response[0])
+    } catch (error) {        
+    }
 })
 
 router.post('/create', async (req, res) => {
