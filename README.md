@@ -3,6 +3,8 @@
 
 CampusConnect is a social networking platform designed specifically for college students. It aims to connect students within the same campus and all the profiles and bios like github,linkedin,leetcode are present.
 
+So it gets very easy for college students to know each other's professional socials and explore other college students as well and get in contact
+
 <!--
 ![CampusConnect Logo](https://yourwebsite.com/path-to-logo.png)
 ## Table of Contents
@@ -128,4 +130,8 @@ Happy connecting on CampusConnect! If you have any questions or encounter issues
   - [Cloudinary](https://cloudinary.com/) - ImageStorage
   - [Vercel](https://vercel.com/) - Deployment
 
-##### !! Right now the frontend aint deployed because of Eslint issues,will fix it in near future
+## Demo
+https://github.com/nidhish-srivastava/Campus-Connect/assets/108972571/3abca198-8f08-4bfe-a3cf-4337e9ef003e
+
+
+
