@@ -133,5 +133,20 @@ Happy connecting on CampusConnect! If you have any questions or encounter issues
 ## Demo
 https://github.com/nidhish-srivastava/Campus-Connect/assets/108972571/3abca198-8f08-4bfe-a3cf-4337e9ef003e
 
+## Features
+* Login, SignUp and Logout using JWT token,localStorage and authentication middleware using Bearer header
+
+* Profile Picture upload using Cloudinary and react-image-file-resizer libr.
+
+* Follow and Unfollow a student or remove him from your followers list
+
+* Search a person based on his username
+
+* Colleges are also saved based on student's profile registration
+
+* Explore students by searching them through their college
+
+* MultiStep Profile Creation with react hook form libr. for managing it
+
 
 
