@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
@@ -16,12 +15,17 @@ function Page() {
     e.preventDefault();
     try {
       if (confirmPassword === password) {
-        const response = await axios.post(`${baseUrl}/auth/signup`, {
-          username,
-          password,
-          dp : base64
+        const response = await fetch(`${baseUrl}/auth/signup`, {
+          method : "POST",
+          headers : {
+            "Content-Type" : "application/json"
+          },
+          body : JSON.stringify({
+            username : username,password : password,dp : base64
+          })
         });
-        localStorage.setItem("token", response.data.token);
+        const data = await response.json()
+        localStorage.setItem("token", data.token);
         alert("Account created");
         window.location.href = "/"  // causing the window reload
       } else alert("Password not matching");

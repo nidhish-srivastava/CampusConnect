@@ -13,6 +13,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
 
   // I need to check in my following list,so first i need my documentId
   const {user, userDocumentId } = useConnectContext();
+  console.log(user);
   const [check,setCheck] = useState(false)
   
   const unfollow = async () => {
@@ -42,7 +43,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
     <div className="flex justify-center gap-10 items-center">
       <div>
         <Image
-          src={profileObject?.authId?.dp}
+          src={profileObject?.authId?.dp as string}
           width={80}
           height={80}
           alt="Picture of the author"
@@ -69,7 +70,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
           </Link>
         </div>
         <div className="mt-4 text-center">{
-           profileObject?.username !== user &&  user.length!=0 ? <>
+           profileObject?.username !== user &&  user?.length!=0 ? <>
             {check
             ?
             <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={unfollow}>

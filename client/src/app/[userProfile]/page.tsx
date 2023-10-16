@@ -14,15 +14,21 @@ export default  function FetchUser(){
   const {user} = useConnectContext()
   const [data,setData] = useState<UserType>()
 
+
+
   const fetchProfileInfo = async()=>{
-    const response = await fetch(`${baseUrl}/user/${userProfile}`)
-    const data = await response.json()
-    setData(data)
+    try {
+      const response = await fetch(`${baseUrl}/user/${userProfile}`)
+      const data = await response.json()
+      setData(data)
+    } catch (error) {
+      
+    }
   }
 
   useEffect(()=>{
     fetchProfileInfo()
-  })
+  },[])
       
       return(
               <div>

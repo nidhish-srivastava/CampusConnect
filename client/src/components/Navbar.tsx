@@ -29,31 +29,39 @@ function Navbar() {
   } = useConnectContext();
 
   const findUserDocumentPromise = async (username: string): Promise<any> => {
-    const response = await fetch(`${baseUrl}/user/${username}`);
-    return await response.json();
+    try {
+      const response = await fetch(`${baseUrl}/user/${username}`);
+      return await response.json();
+    } catch (error) {
+      
+    }
   };
 
   const authenticateUserPromise = async (): Promise<any> => {
-    const response = await fetch(`${baseUrl}/auth/me`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    return await response.json();
+    try {
+      const response = await fetch(`${baseUrl}/auth/me`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      
+    }
   };
 
   //* Using jwt authorization for accessing content after authentication from login/signup
   const check = async () => {
     const authenticateUser = await authenticateUserPromise();
     const findUserDocument = await findUserDocumentPromise(
-      authenticateUser.username
+      authenticateUser?.username
     );
     await Promise.all([authenticateUser, findUserDocument]);
-    setUser(authenticateUser.username);
-    setUserId(authenticateUser.id);
-    setUserDocumentId(findUserDocument._id);
-    setImageUrl(authenticateUser.dp);
+    setUser(authenticateUser?.username);
+    setUserId(authenticateUser?.id);
+    setUserDocumentId(findUserDocument?._id);
+    setImageUrl(authenticateUser?.dp);
   };
 
   useEffect(() => {

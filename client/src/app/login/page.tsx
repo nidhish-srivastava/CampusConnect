@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/lib/utils";
 
@@ -13,13 +12,18 @@ function Page() {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const response = await axios.post(`${baseUrl}/auth/login`, {
-        username,
-        password,
+      const response = await fetch(`${baseUrl}/auth/login`, {
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+          username : username,password : password
+        })
       });
-      localStorage.setItem("token", response.data.token);
+      const data = await response.json()
+      localStorage.setItem("token", data.token);
       alert("Logged In Successfully");
-
       window.location.href = "/";
     } catch (error: any) {
       alert(error.response.data.message);
