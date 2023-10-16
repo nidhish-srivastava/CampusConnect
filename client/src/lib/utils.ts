@@ -4,3 +4,5 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export const baseUrl = `https://campus-connect-one.vercel.app`

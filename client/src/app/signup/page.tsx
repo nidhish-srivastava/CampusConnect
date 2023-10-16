@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { base64 } from "@/assets/base64";
+import { baseUrl } from "@/lib/utils";
 
 
 function Page() {
@@ -15,7 +16,7 @@ function Page() {
     e.preventDefault();
     try {
       if (confirmPassword === password) {
-        const response = await axios.post(`http://localhost:4000/auth/signup`, {
+        const response = await axios.post(`${baseUrl}/auth/signup`, {
           username,
           password,
           dp : base64

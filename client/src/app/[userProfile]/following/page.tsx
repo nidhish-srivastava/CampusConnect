@@ -6,13 +6,14 @@ import { Montserrat } from "next/font/google";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import Image from "next/image";
 import Link from "next/link";
+import { baseUrl } from "@/lib/utils";
 
 const page = () => {
   const { userProfile } = useParams();
   const [data,setData] = useState<UserType[]>([])
   useEffect(()=>{
     const getFollowing = async ()=> {
-      const response = await fetch(`http://localhost:4000/user/following/${userProfile}`);
+      const response = await fetch(`${baseUrl}/user/following/${userProfile}`);
       const data = await  response.json();
       console.log(data);
       setData(data.following)

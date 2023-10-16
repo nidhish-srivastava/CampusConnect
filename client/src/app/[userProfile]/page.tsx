@@ -5,10 +5,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ProfileBaseInfo from "@/components/ProfileBaseInfo";
 import ProfileInformation from "@/components/ProfileInformation";
+import { baseUrl } from "@/lib/utils";
 
 async function fetchUser(){
     const {userProfile} = useParams()
-    const response = await fetch(`http://localhost:4000/user/${userProfile}`)
+    const response = await fetch(`${baseUrl}/user/${userProfile}`)
     return response.json()
 }
 

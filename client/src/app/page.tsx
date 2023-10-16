@@ -4,6 +4,7 @@ import { useEffect, useState, Fragment } from "react";
 import SearchResults from "@/components/SearchResults";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { baseUrl } from "@/lib/utils";
 
 function Home() {
   const [query, setQuery] = useState("");
@@ -12,7 +13,7 @@ function Home() {
 
   const fetchColleges = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/college`);
+      const response = await fetch(`${baseUrl}/college`);
       const data = await response.json();
       setCollegesArray(data.colleges);
     } catch (error) {}
@@ -21,7 +22,7 @@ function Home() {
   const getUsername = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/user?username=${query}`
+        `${baseUrl}/user?username=${query}`
       );
       const data = await response.json();
       console.log(data);

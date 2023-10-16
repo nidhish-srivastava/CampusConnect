@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useConnectContext } from '@/context/context';
+import { baseUrl } from '@/lib/utils';
 
 const page =  () => {
   const { userProfile } = useParams();
@@ -15,7 +16,7 @@ const page =  () => {
   const [followers,setFollowers] = useState<UserType[]>([])
 
   const getFollowers = async():Promise<any> =>{
-    const response = await fetch(`http://localhost:4000/user/followers/${userProfile}`)
+    const response = await fetch(`${baseUrl}/user/followers/${userProfile}`)
     return response.json()
   }
 
@@ -25,7 +26,7 @@ const page =  () => {
   // }
 
   const removeFollower = async(removeUserId : string)=>{
-     await fetch(`http://localhost:4000/user/remove`,{
+     await fetch(`${baseUrl}/user/remove`,{
       method : "PUT",
       body : JSON.stringify({
         userDocumentId : userDocumentId,

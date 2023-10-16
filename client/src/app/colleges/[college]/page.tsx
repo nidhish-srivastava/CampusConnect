@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { AuthId } from "@/types";
+import { baseUrl } from "@/lib/utils";
 
 const page = () => {
     const {college} = useParams()
     const [collegeStudents,setCollegeStudents] = useState<AuthId[]>([])
     const fetchCollegeStudents = async() =>{
-        const response = await fetch(`http://localhost:4000/college/fetchCollegeStudents/${college}`)
+        const response = await fetch(`${baseUrl}/college/fetchCollegeStudents/${college}`)
         const data = await response.json()
         console.log(data);
         setCollegeStudents(data)

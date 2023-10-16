@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { base64 } from "@/assets/base64";
 import { UserType } from "@/types";
+import { baseUrl } from "@/lib/utils";
 
 
 function CreateProfile() {
@@ -65,7 +66,7 @@ function CreateProfile() {
 
   const imageUploadPromise = async (): Promise<any> => {
     console.log("image upload");
-    return await fetch(`http://localhost:4000/auth/uploadImage`, {
+    return await fetch(`${baseUrl}/auth/uploadImage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: user, dp: userImg }),
@@ -74,7 +75,7 @@ function CreateProfile() {
 
   const nextPromise = async (college: string | undefined): Promise<any> => {
     console.log("next");
-    return await fetch(`http://localhost:4000/college`, {
+    return await fetch(`${baseUrl}/college`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ college: college }),
@@ -85,7 +86,7 @@ function CreateProfile() {
   const submitPromise = async (formData: Partial<UserType>): Promise<any> => {
     console.log("submit");
     return await fetch(
-      `http://localhost:4000/user/user-profile/${userDocumentId}`,
+      `${baseUrl}/user/user-profile/${userDocumentId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

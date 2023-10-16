@@ -15,6 +15,7 @@ import {
 
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
+import { baseUrl } from "@/lib/utils";
 
 function Navbar() {
   const {
@@ -28,12 +29,12 @@ function Navbar() {
   } = useConnectContext();
 
   const findUserDocumentPromise = async (username: string): Promise<any> => {
-    const response = await fetch(`http://localhost:4000/user/${username}`);
+    const response = await fetch(`${baseUrl}/user/${username}`);
     return await response.json();
   };
 
   const authenticateUserPromise = async (): Promise<any> => {
-    const response = await fetch(`http://localhost:4000/auth/me`, {
+    const response = await fetch(`${baseUrl}/auth/me`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
