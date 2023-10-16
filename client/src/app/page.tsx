@@ -25,7 +25,7 @@ function Home() {
         `${baseUrl}/user?username=${query}`
       );
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setSearchResultArray(data);
     } catch (error) {
       
@@ -34,7 +34,7 @@ function Home() {
 
   useEffect(() => {
     fetchColleges();
-  }, []);
+  })
 
   useEffect(() => {
     let id = setTimeout(() => {
@@ -65,10 +65,11 @@ function Home() {
           <div className="p-4 grid grid-cols-5 gap-4 ">
             {collegesArray.map((e, i) => {
               return (
-                <Link href={`/colleges/${e}`}>
+                <Link href={`/colleges/${e}`}
+                key={i}
+                >
                   <div
                     className="p-4 border-gray-100 text-center border-2"
-                    key={i}
                   >
                     {e}
                   </div>

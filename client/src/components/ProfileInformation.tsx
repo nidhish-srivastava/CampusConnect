@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Fragment } from "react";
 import { UserType } from "@/types";
 
-const ProfileInformation = ({ profileObject }: { profileObject: UserType }) => {
+const ProfileInformation = ({ profileObject }: { profileObject: UserType | undefined }) => {
   return (
     <Fragment>
       <div className="grid grid-cols-2 gap-4 items-center w-4/6 mx-auto my-10">

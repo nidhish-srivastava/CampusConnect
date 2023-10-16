@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { useConnectContext } from '@/context/context';
 import { baseUrl } from '@/lib/utils';
 
-const page =  () => {
+const Page =  () => {
   const { userProfile } = useParams();
   const {userDocumentId} = useConnectContext()
   const [followers,setFollowers] = useState<UserType[]>([])
@@ -48,16 +48,16 @@ const page =  () => {
         } catch (error) {}
       }
       checkFollowingFollowers()
-  },[])
+  })
 
   return (
      <div
       className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
     >
       {followers?.map((e,i)=>(
-        <div className='w-1/2'>
+        <div className='w-1/2'  key={i}>
               <div className='flex items-center justify-between'>
-            <Link href={`/${e.authId.username}`}  key={i}>
+            <Link href={`/${e.authId.username}`} >
                 <div className='gap-8 flex items-center'>
             <Image
             src = {e.authId.dp}
@@ -81,4 +81,4 @@ const page =  () => {
   )
 }
 
-export default page
+export default Page

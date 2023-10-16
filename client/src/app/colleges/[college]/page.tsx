@@ -6,7 +6,7 @@ import Link from "next/link";
 import { AuthId } from "@/types";
 import { baseUrl } from "@/lib/utils";
 
-const page = () => {
+const Page = () => {
     const {college} = useParams()
     const [collegeStudents,setCollegeStudents] = useState<AuthId[]>([])
     const fetchCollegeStudents = async() =>{
@@ -17,15 +17,15 @@ const page = () => {
     }
     useEffect(()=>{
         fetchCollegeStudents()
-    },[])
+    })
   return (
     <div className="w-1/2 mx-auto my-8">
       {collegeStudents.map((e,i)=>(
-        <div>
-          <Link href={`/${e.username}`}>
+          <Link href={`/${e.username}`}
+            key={i}
+          >
           <div
             className="p-4 mb-2 border-2 bg-transparent flex gap-8 items-center"
-            key={i}
           >
             <Avatar>
               <AvatarImage src={e.dp} alt="@shadcn" />
@@ -38,10 +38,9 @@ const page = () => {
             </h2>
           </div>
             </Link>
-        </div>
       ))}
     </div>
   )
 }
 
-export default page
+export default Page

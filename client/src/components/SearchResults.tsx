@@ -8,10 +8,11 @@ import Link from "next/link";
     <div className="w-1/2 mx-auto my-8">
       {searchResultArray?.map((e, i) => {
         return (
-          <Link href={`/${e.username}`}>
+          <Link href={`/${e.username}`}
+          key={i}
+          >
           <div
             className="p-4 mb-2 border-2 bg-transparent flex gap-8 items-center"
-            key={i}
           >
             <Avatar>
               <AvatarImage src={e.dp} alt="@shadcn" />

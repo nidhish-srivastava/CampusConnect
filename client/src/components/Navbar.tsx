@@ -58,8 +58,8 @@ function Navbar() {
 
   useEffect(() => {
     check();
-    console.log(userDocumentId);
-  }, []);
+    // console.log(userDocumentId);
+  });
 
   return (
     <>

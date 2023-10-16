@@ -6,16 +6,23 @@ import { Button } from "@/components/ui/button";
 import ProfileBaseInfo from "@/components/ProfileBaseInfo";
 import ProfileInformation from "@/components/ProfileInformation";
 import { baseUrl } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { UserType } from "@/types";
 
-async function fetchUser(){
-    const {userProfile} = useParams()
+export default  function FetchUser(){
+  const {userProfile} = useParams()
+  const {user} = useConnectContext()
+  const [data,setData] = useState<UserType>()
+
+  const fetchProfileInfo = async()=>{
     const response = await fetch(`${baseUrl}/user/${userProfile}`)
-    return response.json()
-}
+    const data = await response.json()
+    setData(data)
+  }
 
-export default async function FetchUser(){
-    const {user} = useConnectContext()
-      const data  = await fetchUser()
+  useEffect(()=>{
+    fetchProfileInfo()
+  })
       
       return(
               <div>

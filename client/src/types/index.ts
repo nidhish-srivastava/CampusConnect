@@ -1,7 +1,9 @@
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
 export type AuthId = {
   username: string;
   _id: number;
-  dp: string;
+  dp: string | StaticImport;
 };
 
 export type UserType = {

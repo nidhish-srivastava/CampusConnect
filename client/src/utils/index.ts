@@ -25,7 +25,7 @@ export const followPromise = async (
     });
   }
   
-export const checkFollowersFollowingPromise = async(userId : string,myId : string) =>{
+export const checkFollowersFollowingPromise = async(userId : string | undefined,myId : string) =>{
   const response = await fetch(`${baseUrl}/user/followingfollowers/check`,
   {
     method : "POST",

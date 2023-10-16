@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { baseUrl } from "@/lib/utils";
 
-const page = () => {
+const Page = () => {
   const { userProfile } = useParams();
   const [data,setData] = useState<UserType[]>([])
   useEffect(()=>{
@@ -19,7 +19,7 @@ const page = () => {
       setData(data.following)
     };
     getFollowing()
-  },[])
+  })
   return (
     <div
       className={`flex flex-col items-center justify-center gap-10 w-[20%] mx-auto mt-20 ${fontMontserrat.className} `}
@@ -43,4 +43,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

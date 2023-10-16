@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserType } from "@/types";
 import { Button } from "./ui/button";
-import { useConnectContext } from "@/context/context";
 import { checkFollowersFollowingPromise, followPromise,unfollowPromise } from "@/utils";
+import { useConnectContext } from "@/context/context";
 
-const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
+const ProfileBaseInfo = ({ profileObject }: { profileObject: Partial<UserType | undefined> }) => {
   // NOw i need to check wether I follow this person or not
   // If i follow this person,show unfollow btn
   // If i dont follow this person,show follow btn
@@ -16,31 +16,33 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType }) => {
   const [check,setCheck] = useState(false)
   
   const unfollow = async () => {
-    await unfollowPromise(profileObject._id,userDocumentId)
+    await unfollowPromise(profileObject?._id,userDocumentId)
     setCheck(false)
   };
   
   const follow = async () => {
-    await followPromise(profileObject._id,userDocumentId)
+    await followPromise(profileObject?._id,userDocumentId)
     setCheck(true)
   };
   
   useEffect(() => {
       const checkFollowingFollowers = async () => {
         try {
-          const data = await checkFollowersFollowingPromise(profileObject._id,userDocumentId)
+          const data = await checkFollowersFollowingPromise(profileObject?._id,userDocumentId)
           data=="true" ?  setCheck(true) : setCheck(false)
         } catch (error) {}
       };
     checkFollowingFollowers();
-  }, []);
+  });
+
+
 
 
   return (
     <div className="flex justify-center gap-10 items-center">
       <div>
         <Image
-          src={profileObject?.authId?.dp}
+          src={profileObject?.authId?.dp || ""}
           width={80}
           height={80}
           alt="Picture of the author"
