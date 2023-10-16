@@ -12,7 +12,7 @@ const Page = () => {
     const fetchCollegeStudents = async() =>{
         const response = await fetch(`${baseUrl}/college/fetchCollegeStudents/${college}`)
         const data = await response.json()
-        console.log(data);
+        // console.log(data);
         setCollegeStudents(data)
     }
     useEffect(()=>{

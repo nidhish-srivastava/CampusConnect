@@ -43,7 +43,7 @@ const Page =  () => {
       const checkFollowingFollowers = async() =>{
         try {
           const followers = await getFollowers()
-          console.log(followers);
+          // console.log(followers);
           setFollowers(followers.followers)
         } catch (error) {}
       }

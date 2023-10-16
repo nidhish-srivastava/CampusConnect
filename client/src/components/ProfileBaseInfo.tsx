@@ -13,7 +13,6 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
 
   // I need to check in my following list,so first i need my documentId
   const {user, userDocumentId } = useConnectContext();
-  console.log(user);
   const [check,setCheck] = useState(false)
   
   const unfollow = async () => {
@@ -22,8 +21,12 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
   };
   
   const follow = async () => {
-    await followPromise(profileObject?._id,userDocumentId)
-    setCheck(true)
+    try {
+      await followPromise(profileObject?._id,userDocumentId)
+      setCheck(true)
+    } catch (error) {
+      
+    }
   };
   
   useEffect(() => {
@@ -35,8 +38,6 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
       };
     checkFollowingFollowers();
   });
-
-
 
 
   return (
@@ -69,20 +70,21 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
             </Button>
           </Link>
         </div>
-        <div className="mt-4 text-center">{
-           profileObject?.username !== user &&  user?.length!=0 ? <>
+        <div className="mt-4 text-center">
+              profileObject?.username !== user &&  user?.length!=0 ? (
+                <>
             {check
             ?
             <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={unfollow}>
               Unfollow
             </Button>
             : 
-              <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={follow}>
+            <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={follow}>
               Follow
             </Button>
             }
-          </> : null
-        }
+            </>
+            ): null
         </div>
       </div>
     </div>

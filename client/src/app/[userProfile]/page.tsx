@@ -15,7 +15,6 @@ export default  function FetchUser(){
   const [data,setData] = useState<UserType>()
 
 
-
   const fetchProfileInfo = async()=>{
     try {
       const response = await fetch(`${baseUrl}/user/${userProfile}`)
@@ -29,6 +28,7 @@ export default  function FetchUser(){
   useEffect(()=>{
     fetchProfileInfo()
   },[])
+
       
       return(
               <div>

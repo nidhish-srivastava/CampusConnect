@@ -15,7 +15,7 @@ const Page = () => {
     const getFollowing = async ()=> {
       const response = await fetch(`${baseUrl}/user/following/${userProfile}`);
       const data = await  response.json();
-      console.log(data);
+      // console.log(data);
       setData(data.following)
     };
     getFollowing()

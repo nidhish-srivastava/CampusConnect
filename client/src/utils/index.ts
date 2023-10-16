@@ -1,5 +1,4 @@
 import { baseUrl } from "@/lib/utils";
-
 export const followPromise = async (
     followUserId: string | undefined,
     userDocumentId: string | undefined

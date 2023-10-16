@@ -65,7 +65,7 @@ function CreateProfile() {
   const { register, handleSubmit } = useForm();
 
   const imageUploadPromise = async (): Promise<any> => {
-    console.log("image upload");
+    // console.log("image upload");
     return await fetch(`${baseUrl}/auth/uploadImage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -74,7 +74,7 @@ function CreateProfile() {
   };
 
   const nextPromise = async (college: string | undefined): Promise<any> => {
-    console.log("next");
+    // console.log("next");
     return await fetch(`${baseUrl}/college`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -84,7 +84,7 @@ function CreateProfile() {
 
 
   const submitPromise = async (formData: Partial<UserType>): Promise<any> => {
-    console.log("submit");
+    // console.log("submit");
     return await fetch(
       `${baseUrl}/user/user-profile/${userDocumentId}`,
       {
