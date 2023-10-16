@@ -15,7 +15,7 @@ import Link from "next/link";
             className="p-4 mb-2 border-2 bg-transparent flex gap-8 items-center"
           >
             <Avatar>
-              <AvatarImage src={e.dp} alt="@shadcn" />
+              <AvatarImage src={e?.dp} alt="@shadcn" />
               <AvatarFallback>{e.username.charAt(0)}</AvatarFallback>
             </Avatar>
             <h2

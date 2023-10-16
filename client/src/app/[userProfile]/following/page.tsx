@@ -30,7 +30,7 @@ const Page = () => {
             <div className=" grid grid-cols-2 items-center">
              <label className="text-xl">{e?.authId?.username}</label>
             <Image
-            src = {e.authId?.dp}
+            src = {e?.authId?.dp}
             width={60}
             height={60}
             alt='dp'

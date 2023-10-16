@@ -60,7 +60,7 @@ const Page =  () => {
             <Link href={`/${e.authId.username}`} >
                 <div className='gap-8 flex items-center'>
             <Image
-            src = {e.authId.dp}
+            src = {e?.authId?.dp}
             width={60}
             height={60}
             alt='dp'

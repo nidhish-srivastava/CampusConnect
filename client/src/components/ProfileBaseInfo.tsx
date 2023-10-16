@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { checkFollowersFollowingPromise, followPromise,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
 
-const ProfileBaseInfo = ({ profileObject }: { profileObject: Partial<UserType | undefined> }) => {
+const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefined }) => {
   // NOw i need to check wether I follow this person or not
   // If i follow this person,show unfollow btn
   // If i dont follow this person,show follow btn
@@ -42,7 +42,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: Partial<UserType | 
     <div className="flex justify-center gap-10 items-center">
       <div>
         <Image
-          src={profileObject?.authId?.dp || ""}
+          src={profileObject?.authId?.dp}
           width={80}
           height={80}
           alt="Picture of the author"
