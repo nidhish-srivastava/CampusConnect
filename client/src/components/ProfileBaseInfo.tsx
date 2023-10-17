@@ -71,7 +71,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
           </Link>
         </div>
         <div className="mt-4 text-center">
-              profileObject?.username !== user &&  user?.length!=0 ? (
+              {profileObject?.username !== user &&  user?.length!=0 ? (
                 <>
             {check
             ?
@@ -85,6 +85,7 @@ const ProfileBaseInfo = ({ profileObject }: { profileObject: UserType | undefine
             }
             </>
             ): null
+          }
         </div>
       </div>
     </div>
