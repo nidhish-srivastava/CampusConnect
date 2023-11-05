@@ -53,8 +53,8 @@ function Home() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search user..."
-        className="w-[30%] ml-[4rem] text-[1.03rem] border-teal-400"
-      />
+        className="sm:w-4/5 sm:mx-auto md:w-[45%] ml-[4rem] text-[1.03rem] border-teal-400"
+        />
       {searchResultArray?.length ?? 0 > 1 ? (
         <SearchResults searchResultArray={searchResultArray} />
       ) : (
@@ -62,14 +62,14 @@ function Home() {
           <h2 className="text-2xl text-center">
             List of Colleges associated with us
           </h2>
-          <div className="p-4 grid grid-cols-5 gap-4 ">
+          <div className="p-4 md:grid md:grid-cols-5 gap-4 sm:flex sm:flex-col">
             {collegesArray.map((e, i) => {
               return (
                 <Link href={`/colleges/${e}`}
                 key={i}
                 >
                   <div
-                    className="p-4 border-gray-100 text-center border-2"
+                    className="p-4 sm:p-2 border-gray-100 text-center border-2"
                   >
                     {e}
                   </div>
