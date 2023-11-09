@@ -6,11 +6,16 @@ const uploadImage = (image,id) =>{
             image,
             {public_id : id},
             function (error,result){
-                if(result && result.secure_url)
-                return resolve(result.secure_url)
+                if(result && result.secure_url){
+
+                    return resolve(result.secure_url)
+                }
             return reject(error)
             }
         )
     })
 }
-export default uploadImage
+
+
+
+export {uploadImage}
