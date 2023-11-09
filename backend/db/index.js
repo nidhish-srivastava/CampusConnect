@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const authSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    dp: { type: String }
+    dp: { type: String,default : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" }
 })
 
 const userSchema = new mongoose.Schema({

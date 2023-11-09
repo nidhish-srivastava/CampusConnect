@@ -8,7 +8,8 @@ const nextConfig = {
       },
       images: {
         domains: [
-          'res.cloudinary.com'
+          'res.cloudinary.com',
+          'icon-library.com'
         ],
     },
 }

@@ -1,4 +1,9 @@
 import { baseUrl } from "@/lib/utils";
+
+
+export const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+
+
 export const followPromise = async (
     followUserId: string | undefined,
     userDocumentId: string | undefined
