@@ -66,7 +66,6 @@ function Navbar() {
 
   useEffect(() => {
     check();
-    // console.log(userDocumentId);
   });
 
   return (

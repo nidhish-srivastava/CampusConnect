@@ -3,75 +3,83 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useConnectContext } from "@/context/context";
 import Compress from "react-image-file-resizer";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { base64 } from "@/assets/base64";
 import { UserType } from "@/types";
 import { baseUrl } from "@/lib/utils";
+import { defaultDp } from "@/utils";
+
+
+
+export const imageUploadPromise = async (user:string | undefined,userImg : string | undefined): Promise<any> => {
+  // console.log("image upload");
+  return await fetch(`${baseUrl}/auth/uploadImage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: user, dp: userImg }),
+  });
+};
+
+export const handleImage = (setUserImg : (uri : string)=>void) => {
+  
+  // create a file input dynamically
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+
+  // define a onChange image to read and show the file
+  fileInput.onchange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // onFileResize()
+
+        //* Below it the functionality of on FileResize function which we trigger if we choose a file using input type equals file
+        Compress.imageFileResizer(
+          file, // the file from input
+          480, // width
+          480, // height
+          "JPEG", // compress format WEBP, JPEG, PNG
+          70, // quality
+          0, // rotation
+          (uri: any) => {
+            // console.log(uri);
+            // You upload logic goes here
+            // console.log("uri", uri);
+            setUserImg(uri);
+          },
+          "base64" // blob or base64 default base64
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  // simulate a click
+  fileInput.click();
+
+};
 
 
 function CreateProfile() {
   const router = useRouter();
-  const [userImg, setUserImg] = useState(base64);
+  const [userImg, setUserImg] = useState(defaultDp);
   const { userDocumentId, user ,setImageUrl} = useConnectContext();
   const [value, setValue] = useState(0);
+  
 
   
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
-  const handleImage = (e: any) => {
-    // create a file input dynamically
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = "image/*";
-
-    // define a onChange image to read and show the file
-    fileInput.onchange = (event: any) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          // onFileResize()
-
-          //* Below it the functionality of on FileResize function which we trigger if we choose a file using input type equals file
-          Compress.imageFileResizer(
-            file, // the file from input
-            480, // width
-            480, // height
-            "JPEG", // compress format WEBP, JPEG, PNG
-            70, // quality
-            0, // rotation
-            (uri: any) => {
-              // You upload logic goes here
-              // console.log("uri", uri);
-              setUserImg(uri);
-            },
-            "base64" // blob or base64 default base64
-          );
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-    // simulate a click
-    fileInput.click();
-  };
 
 
   const { register, handleSubmit } = useForm();
 
-  const imageUploadPromise = async (): Promise<any> => {
-    // console.log("image upload");
-    return await fetch(`${baseUrl}/auth/uploadImage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: user, dp: userImg }),
-    });
-  };
 
   const nextPromise = async (college: string | undefined): Promise<any> => {
     // console.log("next");
@@ -106,17 +114,18 @@ function CreateProfile() {
       collegeCity: data.collegeCity,
     };
     try {
-      setImageUrl(userImg)
       setValue(100);
       router.push("/")
       await Promise.all([
-        imageUploadPromise(),
+        imageUploadPromise(user,userImg),
         nextPromise(formData.college),
         submitPromise(formData),
       ]);
+      setImageUrl(userImg)
     } catch (error) {
     }
   };
+
 
   return (
     <>
@@ -235,7 +244,7 @@ function CreateProfile() {
           <>
             <div
               className=" w-48 h-48 mx-auto overflow-hidden cursor-pointer rounded-[50%]  bg-black"
-              onClick={handleImage}
+              onClick={()=>handleImage(setUserImg)}
             >
               <Image
                 src={userImg}

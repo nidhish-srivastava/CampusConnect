@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
-import { base64 } from "@/assets/base64";
 import { baseUrl } from "@/lib/utils";
 
 
@@ -21,7 +20,7 @@ function Page() {
             "Content-Type" : "application/json"
           },
           body : JSON.stringify({
-            username : username,password : password,dp : base64
+            username : username,password : password
           })
         });
         const data = await response.json()

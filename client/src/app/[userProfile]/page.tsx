@@ -8,22 +8,25 @@ import ProfileInformation from "@/components/ProfileInformation";
 import { baseUrl } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { UserType } from "@/types";
+import { defaultDp } from "@/utils";
 
 export default  function FetchUser(){
   const {userProfile} = useParams()
   const {user} = useConnectContext()
+  const [updatedDp,setUpdatedDp] = useState(defaultDp)
   const [data,setData] = useState<UserType>()
-
 
   const fetchProfileInfo = async()=>{
     try {
       const response = await fetch(`${baseUrl}/user/${userProfile}`)
       const data = await response.json()
       setData(data)
+      setUpdatedDp(data.authId.dp)
     } catch (error) {
-      
     }
   }
+
+ 
 
   useEffect(()=>{
     fetchProfileInfo()
@@ -32,7 +35,7 @@ export default  function FetchUser(){
       
       return(
               <div>
-                <ProfileBaseInfo profileObject={data}/>
+                <ProfileBaseInfo updatedDp = {updatedDp} setUpdatedDp={setUpdatedDp} setProfileObject = {setData} profileObject={data}/>
                 {/* Ensuring that the user who logged,his name matches the profile info username,then only he can create one profile if the profile aint created */}
                 {( data?.email.length == 0 && data?.username == user ) ?
                   <div className="text-center mt-6">
