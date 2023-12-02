@@ -5,7 +5,7 @@ import Link from "next/link";
  function SearchResults({searchResultArray} : {searchResultArray : AuthId[]}) {
 
   return (
-    <div className="w-1/2 mx-auto my-8">
+    <div className="absolute w-[85%] mx-auto my-8">
       {searchResultArray?.map((e, i) => {
         return (
           <Link href={`/${e.username}`}
@@ -15,7 +15,7 @@ import Link from "next/link";
             className="p-4 mb-2 border-2 bg-transparent flex gap-8 items-center"
           >
             <Avatar>
-              <AvatarImage src={e?.dp} alt="@shadcn" />
+              <AvatarImage src={e?.dp as string} alt="@shadcn" />
               <AvatarFallback>{e.username.charAt(0)}</AvatarFallback>
             </Avatar>
             <h2
