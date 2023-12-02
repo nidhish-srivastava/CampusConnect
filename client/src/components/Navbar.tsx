@@ -1,9 +1,10 @@
 "use client";
-import { useEffect} from "react";
+import { useEffect,useState} from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Montserrat } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +17,11 @@ import {
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
 import { baseUrl } from "@/lib/utils";
+import { AuthId } from "@/types";
+import { Search } from "lucide-react";
+import Modal from "./Modal";
+import { Input } from "./ui/input";
+import SearchResults from "./SearchResults";
 
 function Navbar() {
   const {
@@ -27,6 +33,13 @@ function Navbar() {
     setImageUrl,
     setUserDocumentId,
   } = useConnectContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter()
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const [searchResultArray, setSearchResultArray] = useState<AuthId[]>([]);
+  const [query, setQuery] = useState("");
+
 
   const findUserDocumentPromise = async (username: string): Promise<any> => {
     try {
@@ -35,6 +48,21 @@ function Navbar() {
     } catch (error) {
       
     }
+  };
+  
+  const navigateToSearchRoute = (e : React.KeyboardEvent) =>{
+    if(e.key=="Enter"){
+      router.push('/search')
+    }
+  }
+
+  const getUsername = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/user?username=${query}`);
+      const data = await response.json();
+      // console.log(data);
+      setSearchResultArray(data);
+    } catch (error) {}
   };
 
   const authenticateUserPromise = async (): Promise<any> => {
@@ -68,14 +96,40 @@ function Navbar() {
     check();
   });
 
+  useEffect(() => {
+    let id = setTimeout(() => {
+      if (query.length > 1) {
+        getUsername();
+      }
+      if (query.length == 0) setSearchResultArray([]); //* For removing the search result once we remove the input
+    }, 1000);
+    return () => clearInterval(id);
+  }, [query]);
+
   return (
     <>
       <div
         className={`p-6 flex items-center justify-end gap-6 ${fontMontserrat.className}`}
       >
-        <Link href="/">
-          <Button className="text-[1.1rem] px-6">Home</Button>
+        <Link href="/" className="mr-auto text-[1.4rem]">
+          LOGO
         </Link>
+        <span onClick={openModal}>
+        <Search />
+      </span>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Input
+          type="search"
+          value={query}
+          onKeyDown={navigateToSearchRoute}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search user..."
+          className="mx-auto w-[100%] text-[1.03rem] border-teal-400"
+        />
+        {searchResultArray?.length ?? 0 > 1 ? (
+          <SearchResults searchResultArray={searchResultArray} />
+        ) : null}
+      </Modal>
         {user?.length > 1 ? (
           <>
             <DropdownMenu>
@@ -108,10 +162,10 @@ function Navbar() {
         ) : (
           <>
             <Link href={`/signup`}>
-              <Button>SignUp</Button>
+              <Button className="bg-blue-700">SignUp</Button>
             </Link>
             <Link href={`/login`}>
-              <Button>Login</Button>
+              <Button className="bg-blue-700">Login</Button>
             </Link>
           </>
         )}

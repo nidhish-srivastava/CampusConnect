@@ -62,7 +62,6 @@ export const handleImage = (setUserImg : (uri : string)=>void) => {
   };
   // simulate a click
   fileInput.click();
-
 };
 
 
