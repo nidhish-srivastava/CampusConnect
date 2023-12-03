@@ -130,9 +130,6 @@ Happy connecting on CampusConnect! If you have any questions or encounter issues
   - [Cloudinary](https://cloudinary.com/) - ImageStorage
   - [Vercel](https://vercel.com/) - Deployment
 
-## Demo
-https://github.com/nidhish-srivastava/Campus-Connect/assets/108972571/3abca198-8f08-4bfe-a3cf-4337e9ef003e
-
 ## Features
 * Login, SignUp and Logout using JWT token,localStorage and authentication middleware using Bearer header
 
