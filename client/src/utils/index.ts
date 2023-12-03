@@ -1,4 +1,4 @@
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/lib";
 
 
 export const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"

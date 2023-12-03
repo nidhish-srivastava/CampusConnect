@@ -2,11 +2,11 @@
 
 import "../styles/globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Raleway } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import { ConnectContextProvider } from "../context/context";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Raleway({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Campus Connect",

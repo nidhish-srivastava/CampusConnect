@@ -8,7 +8,7 @@ type props = {
     children : React.ReactNode
 }
 
-const Modal = ({ isOpen, onClose, children } : props) => {
+const SearchBarModal = ({ isOpen, onClose, children } : props) => {
   const modalClasses = isOpen ? ' mx-auto flex items-center justify-center' : 'hidden';
   return (
     <div className={modalClasses} >
@@ -26,4 +26,4 @@ const Modal = ({ isOpen, onClose, children } : props) => {
   );
 };
 
-export default Modal;
+export default SearchBarModal;

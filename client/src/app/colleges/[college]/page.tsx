@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { AuthId } from "@/types";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/lib";
 
 const Page = () => {
     const {college} = useParams()

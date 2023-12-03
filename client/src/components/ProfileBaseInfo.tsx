@@ -5,7 +5,7 @@ import { UserType } from "@/types";
 import { Button } from "./ui/button";
 import { checkFollowersFollowingPromise, followPromise,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/lib";
 import { Trash2,Pencil } from "lucide-react";
 import { defaultDp } from "@/utils";
 import { handleImage, imageUploadPromise } from "@/app/create-profile/page";

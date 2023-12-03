@@ -16,10 +16,10 @@ import {
 
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
-import { PROJECT_NAME, baseUrl } from "@/lib/utils";
+import { PROJECT_NAME, baseUrl } from "@/lib";
 import { AuthId } from "@/types";
 import { Search } from "lucide-react";
-import Modal from "./Modal";
+import SearchBarModal from "./SearchBarModal";
 import { Input } from "./ui/input";
 import SearchResults from "./SearchResults";
 
@@ -117,7 +117,7 @@ function Navbar() {
         <span onClick={openModal}>
         <Search />
       </span>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <SearchBarModal isOpen={isModalOpen} onClose={closeModal}>
         <Input
           type="search"
           value={query}
@@ -132,7 +132,7 @@ function Navbar() {
            <div className="p-2 text-center" onClick={closeModal}>
     <Link href={`/search`} className=" text-blue-700 text-xl">Show All Results</Link>
     </div>
-      </Modal>
+      </SearchBarModal>
         {user?.length > 1 ? (
           <>
             <DropdownMenu>

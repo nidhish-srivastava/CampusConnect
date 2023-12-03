@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/lib";
 import { defaultDp } from "@/utils";
 
 

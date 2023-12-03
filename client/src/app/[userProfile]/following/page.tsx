@@ -6,7 +6,7 @@ import { Montserrat } from "next/font/google";
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import Image from "next/image";
 import Link from "next/link";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/lib";
 
 const Page = () => {
   const { userProfile } = useParams();
