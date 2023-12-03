@@ -150,14 +150,14 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
         </h2>
         <div className="flex gap-2">
           <Link href={`/${profileObject?.username}/followers`}>
-            <Button className="text-[16px] px-2 py-2">
+            <Button className="text-[14px] py-6 px-2 rounded-[3px]">
               {profileObject?.followers?.length}
               <br />
               Followers{" "}
             </Button>
           </Link>
           <Link href={`/${profileObject?.authId?.username}/following`}>
-            <Button className="text-[16px] px-2 py-2">
+            <Button className="text-[14px] py-6 px-2 rounded-[3px]">
               {profileObject?.following?.length}
               <br />
               Following{" "}

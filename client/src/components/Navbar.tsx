@@ -16,7 +16,7 @@ import {
 
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
-import { baseUrl } from "@/lib/utils";
+import { PROJECT_NAME, baseUrl } from "@/lib/utils";
 import { AuthId } from "@/types";
 import { Search } from "lucide-react";
 import Modal from "./Modal";
@@ -112,7 +112,7 @@ function Navbar() {
         className={`p-6 flex items-center justify-end gap-6 ${fontMontserrat.className}`}
       >
         <Link href="/" className="mr-auto text-[1.4rem]">
-          LOGO
+          {PROJECT_NAME}
         </Link>
         <span onClick={openModal}>
         <Search />
@@ -127,8 +127,11 @@ function Navbar() {
           className="mx-auto w-[100%] text-[1.03rem] border-teal-400"
         />
         {searchResultArray?.length ?? 0 > 1 ? (
-          <SearchResults searchResultArray={searchResultArray} />
+          <SearchResults closeModal={closeModal} searchResultArray={searchResultArray} />
         ) : null}
+           <div className="p-2 text-center" onClick={closeModal}>
+    <Link href={`/search`} className=" text-blue-700 text-xl">Show All Results</Link>
+    </div>
       </Modal>
         {user?.length > 1 ? (
           <>
