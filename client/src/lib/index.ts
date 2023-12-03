@@ -7,8 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 
 const PROJECT_NAME = "CampusConnect"
 
- const baseUrl = `http://localhost:4000`
-// export const baseUrl = `https://campus-connect-one.vercel.app`
+//  const baseUrl = `http://localhost:4000`
+ const baseUrl = `https://campus-connect-one.vercel.app`
 
 export {
   baseUrl,
