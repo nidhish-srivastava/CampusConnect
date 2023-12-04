@@ -5,12 +5,10 @@ import { UserType } from "@/types";
 import { Button } from "./ui/button";
 import { checkFollowersFollowingPromise, followPromise,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
-import { baseUrl } from "@/lib";
 import { Trash2,Pencil } from "lucide-react";
-import { defaultDp } from "@/utils";
 import { handleImage, imageUploadPromise } from "@/app/create-profile/page";
 import { Loader2 } from "lucide-react"
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { baseUrl } from "@/utils";
 type props = {
   profileObject: UserType | undefined
   updatedDp : string | undefined

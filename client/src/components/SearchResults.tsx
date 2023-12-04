@@ -1,6 +1,6 @@
 import { AuthId } from "@/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import UserSearchResultCard from "./UserSearchResultCard";
 
 type props = {
   searchResultArray : AuthId[]
@@ -17,20 +17,12 @@ type props = {
           <Link href={`/${e.username}`}
           key={i}
           >
-          <div
-          onClick={closeModal}
-            className="p-4 mb-2 border-2 bg-transparent flex gap-8 items-center"
-          >
-            <Avatar>
-              <AvatarImage src={e?.dp as string} alt="@shadcn" />
-              <AvatarFallback>{e.username.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <h2
-              className="cursor-pointer"
-              >
-              {e.username}
-            </h2>
-          </div>
+            <div
+            onClick={closeModal}
+            >
+<UserSearchResultCard e={e}/>
+            </div>
+         
             </Link>
         );
       })}

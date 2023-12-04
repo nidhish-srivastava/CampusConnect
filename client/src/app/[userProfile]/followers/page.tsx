@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useConnectContext } from '@/context/context';
-import { baseUrl } from '@/lib';
+import { baseUrl } from '@/utils';
 
 const Page =  () => {
   const { userProfile } = useParams();

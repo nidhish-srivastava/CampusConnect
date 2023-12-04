@@ -17,7 +17,8 @@ app.use(cookieParser())
 app.use(bodyParser.json({ limit: '10mb' }))
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }))
 // app.use(cors({ origin: 'http://localhost:3000' }))
-app.use(cors({ origin: 'https://campus-connect-edu.vercel.app' }))
+// app.use(cors({ origin: 'https://campus-connect-edu.vercel.app' }))
+app.use(cors())
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,

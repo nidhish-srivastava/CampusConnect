@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { baseUrl } from "@/lib";
+import { baseUrl } from "@/utils";
 
 type collegesObj = {
   _id : string

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Montserrat } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +16,8 @@ import {
 
 const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
-import { PROJECT_NAME, baseUrl } from "@/lib";
 import { AuthId } from "@/types";
+import { PROJECT_NAME,baseUrl,debounce } from "@/utils";
 import { Search } from "lucide-react";
 import SearchBarModal from "./SearchBarModal";
 import { Input } from "./ui/input";
@@ -39,6 +39,7 @@ function Navbar() {
   const closeModal = () => setIsModalOpen(false);
   const [searchResultArray, setSearchResultArray] = useState<AuthId[]>([]);
   const [query, setQuery] = useState("");
+  const pathname = usePathname()
 
 
   const findUserDocumentPromise = async (username: string): Promise<any> => {
@@ -52,7 +53,8 @@ function Navbar() {
   
   const navigateToSearchRoute = (e : React.KeyboardEvent) =>{
     if(e.key=="Enter"){
-      router.push('/search')
+      router.push(`/search/${query}`)
+      closeModal()
     }
   }
 
@@ -96,15 +98,17 @@ function Navbar() {
     check();
   });
 
+
   useEffect(() => {
-    let id = setTimeout(() => {
-      if (query.length > 1) {
-        getUsername();
-      }
-      if (query.length == 0) setSearchResultArray([]); //* For removing the search result once we remove the input
-    }, 1000);
+    console.log(pathname);
+    let id = debounce(query,getUsername,setSearchResultArray)
     return () => clearInterval(id);
   }, [query]);
+
+  const pathArray =   pathname.split("/")
+  const pathCheck = pathArray[pathArray.length-2]
+  console.log(pathCheck);
+  
 
   return (
     <>
@@ -113,14 +117,19 @@ function Navbar() {
       >
         <Link href="/" className="mr-auto text-[1.4rem]">
           {PROJECT_NAME}
-        </Link>
-        <span onClick={openModal}>
+            </Link>
+          {
+            (pathCheck!="search" && !isModalOpen) ? 
+          <span onClick={openModal}>
         <Search />
       </span>
+        : null
+      }
       <SearchBarModal isOpen={isModalOpen} onClose={closeModal}>
         <Input
           type="search"
           value={query}
+          autoFocus={true}
           onKeyDown={navigateToSearchRoute}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search user..."
@@ -130,7 +139,7 @@ function Navbar() {
           <SearchResults closeModal={closeModal} searchResultArray={searchResultArray} />
         ) : null}
            <div className="p-2 text-center" onClick={closeModal}>
-    <Link href={`/search`} className=" text-blue-700 text-xl">Show All Results</Link>
+    <Link href={`/search/${query}`} className=" text-blue-700 text-xl">Show All Results</Link>
     </div>
       </SearchBarModal>
         {user?.length > 1 ? (

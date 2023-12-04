@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ProfileBaseInfo from "@/components/ProfileBaseInfo";
 import ProfileInformation from "@/components/ProfileInformation";
-import { baseUrl } from "@/lib";
+import { baseUrl } from "@/utils";
 import { useEffect, useState } from "react";
 import { UserType } from "@/types";
 import { defaultDp } from "@/utils";
