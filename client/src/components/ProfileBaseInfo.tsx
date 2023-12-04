@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserType } from "@/types";
 import { Button } from "./ui/button";
-import { checkFollowersFollowingPromise, followPromise,unfollowPromise } from "@/utils";
+import { checkFollowersFollowingPromise, defaultDp, followPromise,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
-import { Trash2,Pencil } from "lucide-react";
+import { Trash2,Pencil, PlusCircle } from "lucide-react";
 import { handleImage, imageUploadPromise } from "@/app/create-profile/page";
 import { Loader2 } from "lucide-react"
 import { baseUrl } from "@/utils";
@@ -104,6 +104,9 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
     setIsModalOpen(false)
   }
 
+  console.log(updatedDp);
+  
+
   useEffect(()=>{
     if(updatedDp != profileObject?.authId.dp  && clicked==true ){
       setIsModalOpen(true)
@@ -125,11 +128,15 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
         />
         {profileObject?.authId.username==user && profileObject?.email.length!=0 &&
         <div className="flex justify-center gap-2 mt-2 items-center">
+          {defaultDp!=updatedDp
+           ? 
           <span
           onClick={deleteImageHandler}
           >
           <Trash2 className="w-5" />
         </span>
+        : null
+          }
         <span
         onClick={()=>{
           handleImage(setUpdatedDp)
@@ -137,7 +144,8 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
         }
       }
         >
-        <Pencil className="w-5" />
+          <PlusCircle size={20} strokeWidth={2} />
+        {/* <Pencil className="w-5" /> */}
         </span>
           </div>
         }

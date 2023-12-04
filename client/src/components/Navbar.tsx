@@ -100,14 +100,13 @@ function Navbar() {
 
 
   useEffect(() => {
-    console.log(pathname);
     let id = debounce(query,getUsername,setSearchResultArray)
     return () => clearInterval(id);
   }, [query]);
 
   const pathArray =   pathname.split("/")
   const pathCheck = pathArray[pathArray.length-2]
-  console.log(pathCheck);
+  // console.log(pathCheck);
   
 
   return (
