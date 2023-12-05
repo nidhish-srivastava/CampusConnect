@@ -10,6 +10,8 @@ module.exports = {
   theme: {
     screens:{
       'sm' : '500px',
+      'customsm' : {'max' : "500px"},
+      'customsm2' : {'max' : "600px"},
       'md': '800px',
       'lg': '1440px',
     },

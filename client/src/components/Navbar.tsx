@@ -112,10 +112,12 @@ function Navbar() {
   return (
     <>
       <div
-        className={`p-6 flex items-center justify-end gap-6 ${fontMontserrat.className}`}
+        className={`p-6 flex customsm:justify-center items-center justify-end gap-6 ${fontMontserrat.className}`}
       >
-        <Link href="/" className="mr-auto text-[1.4rem]">
+        <Link href="/" className="customsm:hidden mr-auto text-[1.4rem]">
+          <span className="">
           {PROJECT_NAME}
+          </span>
             </Link>
           {
             (pathCheck!="search" && !isModalOpen) ? 
@@ -180,6 +182,13 @@ function Navbar() {
             </Link>
           </>
         )}
+      </div>
+      <div className="text-center">
+      <Link href="/" className="hidden customsm:block font-semibold text-[2rem]">
+          <span className="">
+          {PROJECT_NAME}
+          </span>
+            </Link>
       </div>
     </>
   );
