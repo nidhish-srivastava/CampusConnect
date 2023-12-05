@@ -94,7 +94,7 @@
 }
 
 .profile-btn-label{
-  @apply text-[16px] cursor-default bg-orange-300 mr-20 w-7/12;
+  @apply text-[16px]  break-words cursor-default bg-orange-300 mr-20 w-1/2 py-6 customsm2:rounded-[10px] customsm:px-4 customsm:py-8 
 }
 
 .follow-unfollow-btn{

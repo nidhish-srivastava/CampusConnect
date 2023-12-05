@@ -104,9 +104,6 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
     setIsModalOpen(false)
   }
 
-  console.log(updatedDp);
-  
-
   useEffect(()=>{
     if(updatedDp != profileObject?.authId.dp  && clicked==true ){
       setIsModalOpen(true)
