@@ -184,7 +184,7 @@ function Navbar() {
         )}
       </div>
       <div className="text-center">
-      <Link href="/" className="hidden customsm:block customsm:mb-[1rem] font-semibold text-[2rem]">
+      <Link href="/" className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]">
           <span className="">
           {PROJECT_NAME}
           </span>
