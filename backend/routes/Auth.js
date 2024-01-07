@@ -77,8 +77,8 @@ router.post('/signup', async (req, res) => {
             const newAdmin = new Auth({ username: username, password: bcrypt.hashSync(password) })
             await newAdmin.save()
             const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
-            res.json({ message: "User created successfully", token })
             await userCreatePromise(newAdmin)
+            res.json({ message: "User created successfully", token })
         }
     }
     catch (error) {

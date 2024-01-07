@@ -22,9 +22,14 @@ function Page() {
         })
       });
       const data = await response.json()
-      localStorage.setItem("token", data.token);
-      alert("Logged In Successfully");
-      window.location.href = "/";
+      if(response.status==403){
+        alert(data.message)
+      }
+      if(response.status==200){
+        localStorage.setItem("token", data.token);
+        alert("Logged In Successfully");
+        window.location.href = "/";
+      }
     } catch (error: any) {
       alert(error.response.data.message);
     }

@@ -23,10 +23,14 @@ function Page() {
             username : username,password : password
           })
         });
-        const data = await response.json()
-        localStorage.setItem("token", data.token);
-        alert("Account created");
-        window.location.href = "/"  // causing the window reload
+        console.log(response);
+        if(response.status==200){
+          const data = await response.json()
+          localStorage.setItem("token", data.token);
+          alert("Account created");
+          window.location.href = "/"  // causing the window reload
+        }
+        
       } else alert("Password not matching");
     } catch (error : any) {
     }
