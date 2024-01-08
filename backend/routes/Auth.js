@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
 import { authenticateJwt } from '../middleware/auth.js'
-import { uploadImage} from '../UploadImage.js'
+import { uploadImage} from '../utils/index.js'
 import {v2 as cloudinary} from 'cloudinary'
 import { nanoid } from 'nanoid'
 nanoid();

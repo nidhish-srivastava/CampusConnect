@@ -1,2 +1,0 @@
-Limit the search modal results
-Search route where are results are displayed

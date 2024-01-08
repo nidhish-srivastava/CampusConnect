@@ -29,7 +29,6 @@ function Navbar() {
     setUser,
     setUserId,
     imageUrl,
-    userDocumentId,
     setImageUrl,
     setUserDocumentId,
   } = useConnectContext();
@@ -140,7 +139,13 @@ function Navbar() {
           <SearchResults closeModal={closeModal} searchResultArray={searchResultArray} />
         ) : null}
            <div className="p-2 text-center" onClick={closeModal}>
+            {searchResultArray?.length>1 ?
     <Link href={`/search/${query}`} className=" text-blue-700 text-xl">Show All Results</Link>
+    : null
+            }
+            {
+              (searchResultArray.length==0 && query.length>1) ? "No results found": null
+            }
     </div>
       </SearchBarModal>
         {user?.length > 1 ? (

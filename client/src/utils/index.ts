@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 
 const PROJECT_NAME = "CampusConnect"
 
- const baseUrl = `http://localhost:4000`
-//  const baseUrl = `https://campus-connect-one.vercel.app`
+//  const baseUrl = `http://localhost:4000`
+ const baseUrl = `https://campus-connect-one.vercel.app`
 
 const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
 

@@ -81,6 +81,9 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   };
   
   const follow = async () => {
+    if(typeof user == "undefined") {
+      return alert("Please login to follow")
+    }
     try {
       await followPromise(profileObject?._id,userDocumentId)
       setCheck(true)
