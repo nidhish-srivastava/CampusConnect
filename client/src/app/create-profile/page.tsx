@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { UserType } from "@/types";
 import { baseUrl } from "@/utils";
 import { defaultDp } from "@/utils";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 
 
@@ -68,11 +69,11 @@ export const handleImage = (setUserImg : (uri : string)=>void) => {
 function CreateProfile() {
   const router = useRouter();
   const [userImg, setUserImg] = useState(defaultDp);
-  const { userDocumentId, user ,setImageUrl} = useConnectContext();
+  const { userDocumentId, user ,setImageUrl,imageUrl} = useConnectContext();
   const [value, setValue] = useState(0);
-  
+  const [isAuthenticate,setIsAuthenticate] = useState(false)
+   
 
-  
 
   //* !!!  Logic for base64 image conversion so that we can preview it as well
 
@@ -125,9 +126,24 @@ function CreateProfile() {
     }
   };
 
+  useEffect(()=>{
+     if(imageUrl==undefined){
+      console.log("check1");
+      
+      setIsAuthenticate(true)
+     }
+     else{
+      setIsAuthenticate(false)
+      router.replace('/')
+     }
+  },[imageUrl])
+  
 
   return (
     <>
+    {
+      !isAuthenticate ?  null : 
+    <ProtectedRoute>
       <Progress value={value} className="w-[40%] mx-auto my-10" />
       <div className="create-profile-form">
         {value == 66 && (
@@ -261,6 +277,8 @@ function CreateProfile() {
           </>
         )}
       </div>
+    </ProtectedRoute>
+    }
     </>
   );
 }
