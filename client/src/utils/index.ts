@@ -16,7 +16,7 @@ const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymo
 
  const debounce = (query:string,fn:()=>void,setSearchResults : (setSearchResults : AuthId[])=>void )=>{
   return setTimeout(()=>{
-    if(query.length>1) fn()
+    if(query.length>0) fn()
     if(query.length==0) setSearchResults([])
   },1000)
 }

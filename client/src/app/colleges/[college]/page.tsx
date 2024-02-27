@@ -18,7 +18,10 @@ const Page = () => {
     useEffect(()=>{
         fetchCollegeStudents()
     },[])
+    const parseCollegeName = (name : string) => name.split("%20").join(" ")
   return (
+    <>
+      <h2 className="text-center text-xl">List of {parseCollegeName(college as string)} students</h2>
     <div className="w-1/2 mx-auto my-8">
       {collegeStudents.map((e,i)=>(
           <Link href={`/${e.username}`}
@@ -40,6 +43,7 @@ const Page = () => {
             </Link>
       ))}
     </div>
+    </>
   )
 }
 

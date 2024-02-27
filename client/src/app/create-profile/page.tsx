@@ -134,7 +134,7 @@ function CreateProfile() {
      }
      else{
       setIsAuthenticate(false)
-      router.replace('/')
+      // router.replace('/')
      }
   },[imageUrl])
   
@@ -142,8 +142,7 @@ function CreateProfile() {
   return (
     <>
     {
-      !isAuthenticate ?  null : 
-    <ProtectedRoute>
+    <>
       <Progress value={value} className="w-[40%] mx-auto my-10" />
       <div className="create-profile-form">
         {value == 66 && (
@@ -277,7 +276,7 @@ function CreateProfile() {
           </>
         )}
       </div>
-    </ProtectedRoute>
+    </>
     }
     </>
   );

@@ -8,9 +8,8 @@ type collegesObj = {
 
 async function Colleges() {
     
-    const response = await fetch(`${baseUrl}/college`)
+    const response = await fetch(`${baseUrl}/college`,{cache : "no-cache"})
     const data : collegesObj = await response.json()
-
   return (
     <>
  <div className="w-4/5 mx-auto">
