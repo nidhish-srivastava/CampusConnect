@@ -5,8 +5,8 @@ import { UserType } from "@/types";
 import { Button } from "./ui/button";
 import { checkFollowersFollowingPromise, defaultDp, followPromise,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
-import { Trash2,Pencil, PlusCircle } from "lucide-react";
-import { handleImage, imageUploadPromise } from "@/app/create-profile/page";
+import { Trash2, PlusCircle } from "lucide-react";
+import { handleImage,imageUploadPromise } from "@/utils";
 import { Loader2 } from "lucide-react"
 import { baseUrl } from "@/utils";
 type props = {

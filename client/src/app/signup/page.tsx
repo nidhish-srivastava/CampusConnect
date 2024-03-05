@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/utils";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 
 function Page() {
@@ -25,12 +26,9 @@ function Page() {
             username : username,password : password
           })
         });
-        console.log(response);
-        
         if(response.status==200){
           const data = await response.json()
           localStorage.setItem("token", data.token);
-          alert("Account created");
           window.location.href = "/"  // causing the window reload
         }
         if(response.status==403){
@@ -47,6 +45,7 @@ function Page() {
     }
   };
   return (
+    <ProtectedRoute>
     <form
       onSubmit={onSubmitHandler}
       className="form"
@@ -76,6 +75,8 @@ function Page() {
       />
       <Button disabled={loading} className={`${loading ? "opacity-90": ""} center_button_form`}>Register</Button>
     </form>
+    </ProtectedRoute>
+
   );
 }
 

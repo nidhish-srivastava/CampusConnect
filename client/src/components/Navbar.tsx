@@ -39,6 +39,7 @@ function Navbar() {
   const [searchResultArray, setSearchResultArray] = useState<AuthId[]>([]);
   const [query, setQuery] = useState("");
   const pathname = usePathname()
+  const [loading,setLoading] = useState(true)
 
 
   const findUserDocumentPromise = async (username: string): Promise<any> => {
@@ -82,15 +83,22 @@ function Navbar() {
 
   //* Using jwt authorization for accessing content after authentication from login/signup
   const check = async () => {
-    const authenticateUser = await authenticateUserPromise();
-    const findUserDocument = await findUserDocumentPromise(
-      authenticateUser?.username
-    );
-    await Promise.all([authenticateUser, findUserDocument]);
-    setUser(authenticateUser?.username);
-    setUserId(authenticateUser?.id);
-    setUserDocumentId(findUserDocument?._id);
-    setImageUrl(authenticateUser?.dp);
+    try {
+      const authenticateUser = await authenticateUserPromise();
+      const findUserDocument = await findUserDocumentPromise(
+        authenticateUser?.username
+      );
+      await Promise.all([authenticateUser, findUserDocument]);
+      setUser(authenticateUser?.username);
+      setUserId(authenticateUser?.id);
+      setUserDocumentId(findUserDocument?._id);
+      setImageUrl(authenticateUser?.dp);
+    } catch (error) {
+      
+    }
+    finally{
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
@@ -105,7 +113,6 @@ function Navbar() {
 
   const pathArray =   pathname.split("/")
   const pathCheck = pathArray[pathArray.length-2]
-  // console.log(pathCheck);
   
 
   return (
@@ -148,7 +155,7 @@ function Navbar() {
             }
     </div>
       </SearchBarModal>
-        {user?.length > 1 ? (
+        {!loading && user?.length > 1 ? (
           <>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -178,6 +185,10 @@ function Navbar() {
             </DropdownMenu>
           </>
         ) : (
+          null
+        )
+          }
+        {!loading && user == undefined && (
           <>
             <Link href={`/signup`}>
               <Button className="bg-blue-700">SignUp</Button>
@@ -186,7 +197,8 @@ function Navbar() {
               <Button className="bg-blue-700">Login</Button>
             </Link>
           </>
-        )}
+        )
+          }
       </div>
       <div className="text-center">
       <Link href="/" className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]">

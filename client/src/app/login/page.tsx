@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/utils";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 
 function Page() {
@@ -45,10 +46,11 @@ function Page() {
   };
 
   return (
+    <ProtectedRoute>
     <form
       onSubmit={onSubmitHandler}
       className="form"
-    >
+      >
       <h2 className="center_heading_form">Login Form</h2>
       <Input
         required
@@ -57,16 +59,17 @@ function Page() {
         placeholder="Enter username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-      />
+        />
       <Input
         required
         type="password"
         placeholder="Enter password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      />
+        />
       <Button disabled={loading} className={`${loading ? "opacity-90" : ""}  center_button_form`}>Login</Button>
     </form>
+        </ProtectedRoute>
   );
 }
 
