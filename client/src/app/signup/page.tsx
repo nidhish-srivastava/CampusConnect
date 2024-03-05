@@ -9,9 +9,11 @@ function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading,setLoading] = useState(false)
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
     try {
       if (confirmPassword === password) {
         const response = await fetch(`${baseUrl}/auth/signup`, {
@@ -24,15 +26,24 @@ function Page() {
           })
         });
         console.log(response);
+        
         if(response.status==200){
           const data = await response.json()
           localStorage.setItem("token", data.token);
           alert("Account created");
           window.location.href = "/"  // causing the window reload
         }
+        if(response.status==403){
+          setLoading(false)
+          alert("Username taken")
+        }
         
-      } else alert("Password not matching");
-    } catch (error : any) {
+      } else{
+        setLoading(false)
+        alert("Password not matching");
+      } 
+    } catch (error : Error | any) {
+      alert("Error while creating account")
     }
   };
   return (
@@ -63,7 +74,7 @@ function Page() {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Button className="center_button_form">Register</Button>
+      <Button disabled={loading} className={`${loading ? "opacity-90": ""} center_button_form`}>Register</Button>
     </form>
   );
 }

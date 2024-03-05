@@ -91,13 +91,13 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body
     const admin = await Auth.findOne({ username })
     if (admin) {
-        bcrypt.compare(password, admin?.password, function (err, info) {
-            if (err) return res.status(401).json("password doesnt match")
+        bcrypt.compare(password, admin?.password, function (_, info) {
             if (info) {
                 const token = jwt.sign({ username, role: 'admin' }, process.env.SECRET, { expiresIn: '1h' })
-                res.json({ message: 'Logged in successfully', token, admin });
+                return res.json({ message: 'Logged in successfully', token, admin });
             }
         })
+        return res.status(401).json({message : "password doesnt match"})
     }
     else {
         res.status(403).json({ message: 'Invalid username or password' });

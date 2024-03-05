@@ -8,11 +8,13 @@ import { baseUrl } from "@/utils";
 function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading,setLoading] = useState(false)
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      const response = await fetch(`${baseUrl}/auth/login`, {
+    setLoading(true)
+    e.preventDefault();
+      try {
+    const response = await fetch(`${baseUrl}/auth/login`, {
         method : "POST",
         headers : {
           "Content-Type" : "application/json"
@@ -24,14 +26,21 @@ function Page() {
       const data = await response.json()
       if(response.status==403){
         alert(data.message)
+        setLoading(false)
+        return
+      }
+      if(response.status==401){
+        alert(data.message)
+        setLoading(false)
+        return
       }
       if(response.status==200){
         localStorage.setItem("token", data.token);
-        alert("Logged In Successfully");
         window.location.href = "/";
       }
-    } catch (error: any) {
-      alert(error.response.data.message);
+    } catch (error: Error | any) {
+      setLoading(false)
+      alert("Error")
     }
   };
 
@@ -56,7 +65,7 @@ function Page() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button className="center_button_form">Login</Button>
+      <Button disabled={loading} className={`${loading ? "opacity-90" : ""}  center_button_form`}>Login</Button>
     </form>
   );
 }
