@@ -52,13 +52,34 @@ router.get('/:username', async (req, res) => {
 // Follow a user(from followers list or followers list)     
 router.put('/follow', async (req, res) => {
     const { userDocumentId, followUserId } = req.body
-    // Add followUserId to the following list of userId
-    await User.findByIdAndUpdate(userDocumentId, { $addToSet: { following: followUserId } })
+    try {
+        // Add followUserId to the following list of userId
+        await User.findByIdAndUpdate(userDocumentId, { $addToSet: { following: followUserId } })
 
-    // Add userDocumentId to the followers list of followUserId
-    await User.findByIdAndUpdate(followUserId, { $addToSet: { followers: userDocumentId } })
+        await User.findByIdAndUpdate(followUserId, { $addToSet: { followers: userDocumentId } })
+        res.json("User followed Successfully")
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while following user" });
+    } 
+})
 
-    res.json("User followed Successfully")
+// Unfollow a user from followingList
+router.put('/unfollow', async (req, res) => {
+    console.log("unfollow")
+    const { userDocumentId, unfollowUserId } = req.body
+    try {
+        const updateFollowing = await User.updateOne({ _id: userDocumentId }, { $pull: { following: unfollowUserId } });
+        if (!updateFollowing) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const updateFollowers = await User.updateOne({ _id: unfollowUserId }, { $pull: { followers: userDocumentId } });
+        if (!updateFollowers) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ message: 'User unfollowed successfully' });
+    } catch (error) {
+        res.status(500).json({message : "Error"})
+    }
 })
 
 // Remove a user(from followers list)
@@ -79,20 +100,6 @@ router.put('/remove', async (req, res) => {
 
 })
 
-// Unfollow a user from followingList
-router.put('/unfollow', async (req, res) => {
-    const { userDocumentId, unfollowUserId } = req.body
-    const updateFollowing = await User.updateOne({ _id: userDocumentId }, { $pull: { following: unfollowUserId } });
-    if (!updateFollowing) {
-        return res.status(404).json({ message: 'User not found' });
-    }
-    const updateFollowers = await User.updateOne({ _id: unfollowUserId }, { $pull: { followers: userDocumentId } });
-    if (!updateFollowers) {
-        return res.status(404).json({ message: 'User not found' });
-    }
-    res.status(200).json({ message: 'User unfollowed successfully' });
-
-})
 
 // GET FOLLOWERS with their usernames
 router.get('/followers/:username', async (req, res) => {

@@ -27,6 +27,8 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clicked,setIsClicked] = useState(false)
   const [updateLoading,setUpdateLoading] = useState(false)
+  const [followBtnLoading,setFollowBtnLoading] = useState(false)
+  const [unfollowBtnLoading,setUnfollowBtnLoading] = useState(false)
   
   let imageUrl = profileObject?.authId?.dp as string;
   let public_id = '';
@@ -76,19 +78,29 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   }
   
   const unfollow = async () => {
-    await unfollowPromise(profileObject?._id,userDocumentId)
-    setCheck(false)
+    setUnfollowBtnLoading(true)
+    try {
+      const response = await unfollowPromise(profileObject?._id,userDocumentId)
+      if(response.status==200){
+        setUnfollowBtnLoading(false)
+        setCheck(false)
+      }
+    } catch (error) {
+    }
   };
   
   const follow = async () => {
     if(typeof user == "undefined") {
       return alert("Please login to follow")
     }
+    setFollowBtnLoading(true)
     try {
-      await followPromise(profileObject?._id,userDocumentId)
-      setCheck(true)
+      const response = await followPromise(profileObject?._id,userDocumentId)
+      if(response.status==200){
+        setFollowBtnLoading(false)
+        setCheck(true)
+      }
     } catch (error) {
-      
     }
   };
   
@@ -175,11 +187,11 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
                 <>
             {check
             ?
-            <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={unfollow}>
+            <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" disabled={unfollowBtnLoading} onClick={unfollow}>
               Unfollow
             </Button>
             : 
-            <Button className="bg-blue-500 hover:bg-violet-600 text-[15px]" onClick={follow}>
+            <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" disabled={followBtnLoading} onClick={follow}>
               Follow
             </Button>
             }
