@@ -137,7 +137,9 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
           height={80}
           alt="Picture of the author"
         />
-        {profileObject?.authId.username==user && profileObject?.email.length!=0 &&
+        {
+          /*
+          profileObject?.authId.username==user && profileObject?.email.length!=0 &&
         <div className="flex justify-center gap-2 mt-2 items-center">
           {defaultDp!=updatedDp
            ? 
@@ -156,9 +158,9 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
       }
         >
           <PlusCircle size={20} strokeWidth={2} />
-        {/* <Pencil className="w-5" /> */}
         </span>
           </div>
+          */
         }
       </div>
       <div className="">
