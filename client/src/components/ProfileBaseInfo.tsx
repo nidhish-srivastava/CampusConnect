@@ -58,7 +58,6 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   }
   
   const deleteImageHandler = async() =>{
-    alert("Are you sure you wanna remove your dp")
     try {
       const response = await fetch(`${baseUrl}/auth/removeDp`,{
         method : "PUT",

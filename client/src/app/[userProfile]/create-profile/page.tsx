@@ -66,7 +66,7 @@ function CreateProfile() {
     };
     try {
       setValue(100);
-      router.push("/")
+      router.push(`/${data?.username}`)
       await Promise.all([
         imageUploadPromise(user,userImg),
         nextPromise(formData.college),

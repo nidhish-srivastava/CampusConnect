@@ -1,8 +1,7 @@
-"use client";
-import { useEffect,useState} from "react";
+"use client"
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Montserrat } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -13,15 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import { useConnectContext } from "../context/context";
-import { AuthId } from "@/types";
-import { PROJECT_NAME,baseUrl,debounce } from "@/utils";
+import { PROJECT_NAME, baseUrl, debounce } from "@/utils";
 import { Search } from "lucide-react";
 import SearchBarModal from "./SearchBarModal";
 import { Input } from "./ui/input";
 import SearchResults from "./SearchResults";
+import { AuthId } from "@/types";
 
 function Navbar() {
   const {
@@ -33,38 +30,32 @@ function Navbar() {
     setUserDocumentId,
   } = useConnectContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const router = useRouter()
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const router = useRouter();
   const [searchResultArray, setSearchResultArray] = useState<AuthId[]>([]);
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   const pathname = usePathname()
-  const [loading,setLoading] = useState(true)
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const findUserDocumentPromise = async (username: string): Promise<any> => {
     try {
       const response = await fetch(`${baseUrl}/user/${username}`);
       return await response.json();
     } catch (error) {
-      
+      console.error("Error fetching user document:", error);
     }
   };
-  
-  const navigateToSearchRoute = (e : React.KeyboardEvent) =>{
-    if(e.key=="Enter"){
-      router.push(`/search/${query}`)
-      closeModal()
-    }
-  }
 
   const getUsername = async () => {
     try {
       const response = await fetch(`${baseUrl}/user?username=${query}`);
       const data = await response.json();
-      // console.log(data);
       setSearchResultArray(data);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching username:", error);
+    }
   };
 
   const authenticateUserPromise = async (): Promise<any> => {
@@ -77,84 +68,81 @@ function Navbar() {
       });
       return await response.json();
     } catch (error) {
-      
+      console.error("Error authenticating user:", error);
     }
   };
 
-  //* Using jwt authorization for accessing content after authentication from login/signup
-  const check = async () => {
+  const checkAuthentication = async () => {
     try {
       const authenticateUser = await authenticateUserPromise();
       const findUserDocument = await findUserDocumentPromise(
         authenticateUser?.username
       );
-      await Promise.all([authenticateUser, findUserDocument]);
       setUser(authenticateUser?.username);
       setUserId(authenticateUser?.id);
       setUserDocumentId(findUserDocument?._id);
       setImageUrl(authenticateUser?.dp);
     } catch (error) {
-      
-    }
-    finally{
-      setLoading(false)
+      console.error("Error checking authentication:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    check();
-  });
-
+    checkAuthentication();
+  }, []);
 
   useEffect(() => {
-    let id = debounce(query,getUsername,setSearchResultArray)
+    let id = debounce(query, getUsername, setSearchResultArray);
     return () => clearInterval(id);
   }, [query]);
 
+  const navigateToSearchRoute = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      router.push(`/search/${query}`);
+      closeModal();
+    }
+  };
+
   const pathArray =   pathname.split("/")
   const pathCheck = pathArray[pathArray.length-2]
-  
 
   return (
     <>
-      <div
-        className={`p-6 flex customsm:justify-center items-center justify-end gap-6 ${fontMontserrat.className}`}
-      >
+      <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
         <Link href="/" className="customsm:hidden mr-auto text-[1.4rem]">
-          <span className="">
           {PROJECT_NAME}
-          </span>
-            </Link>
-          {
+        </Link>
+        {
             (pathCheck!="search" && !isModalOpen) ? 
           <span onClick={openModal}>
         <Search />
       </span>
         : null
       }
-      <SearchBarModal isOpen={isModalOpen} onClose={closeModal}>
-        <Input
-          type="search"
-          value={query}
-          autoFocus={true}
-          onKeyDown={navigateToSearchRoute}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search user..."
-          className="mx-auto w-[100%] text-[1.03rem] border-teal-400"
-        />
-        {searchResultArray?.length ?? 0 > 1 ? (
-          <SearchResults closeModal={closeModal} searchResultArray={searchResultArray} />
-        ) : null}
-           <div className="p-2 text-center" onClick={closeModal}>
-            {searchResultArray?.length>1 ?
-    <Link href={`/search/${query}`} className=" text-blue-700 text-xl">Show All Results</Link>
-    : null
-            }
-            {
-              (searchResultArray.length==0 && query.length>1) ? "No results found": null
-            }
-    </div>
-      </SearchBarModal>
+        <SearchBarModal isOpen={isModalOpen} onClose={closeModal}>
+          <Input
+            type="search"
+            value={query}
+            autoFocus={true}
+            onKeyDown={navigateToSearchRoute}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search user..."
+            className="mx-auto w-[100%] text-[1.03rem] border-teal-400"
+          />
+          {searchResultArray.length > 0 && (
+            <SearchResults closeModal={closeModal} searchResultArray={searchResultArray} />
+          )}
+          <div className="p-2 text-center" onClick={closeModal}>
+            {searchResultArray.length > 1 && (
+              <Link href={`/search/${query}`} className="text-blue-700 text-xl">
+                Show All Results
+              </Link>
+            )}
+            {searchResultArray.length === 0 && query.length > 1 && "No results found"}
+          </div>
+        </SearchBarModal>
         {!loading && user?.length > 1 ? (
           <>
             <DropdownMenu>
@@ -168,9 +156,7 @@ function Navbar() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Link href={`/${user}`}>
-                  <DropdownMenuItem className="cursor-pointer">
-                    Profile
-                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem
                   className="cursor-pointer"
@@ -185,27 +171,22 @@ function Navbar() {
             </DropdownMenu>
           </>
         ) : (
-          null
-        )
-          }
-        {!loading && user == undefined && (
-          <>
-            <Link href={`/signup`}>
-              <Button className="bg-blue-700">SignUp</Button>
-            </Link>
-            <Link href={`/login`}>
-              <Button className="bg-blue-700">Login</Button>
-            </Link>
-          </>
-        )
-          }
+          !loading && (
+            <>
+              <Link href={`/signup`}>
+                <Button className="bg-blue-700">SignUp</Button>
+              </Link>
+              <Link href={`/login`}>
+                <Button className="bg-blue-700">Login</Button>
+              </Link>
+            </>
+          )
+        )}
       </div>
       <div className="text-center">
-      <Link href="/" className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]">
-          <span className="">
+        <Link href="/" className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]">
           {PROJECT_NAME}
-          </span>
-            </Link>
+        </Link>
       </div>
     </>
   );

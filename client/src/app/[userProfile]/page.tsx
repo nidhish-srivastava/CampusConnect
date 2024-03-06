@@ -15,14 +15,19 @@ export default  function FetchUser(){
   const {user} = useConnectContext()
   const [updatedDp,setUpdatedDp] = useState(defaultDp)
   const [data,setData] = useState<UserType>()
+  const [loading,setLoading] = useState(false)
 
   const fetchProfileInfo = async()=>{
+    setLoading(true)
     try {
       const response = await fetch(`${baseUrl}/user/${userProfile}`)
       const data = await response.json()
       setData(data)
       setUpdatedDp(data.authId.dp)
     } catch (error) {
+    }
+    finally{
+      setLoading(false)
     }
   }
 
@@ -39,14 +44,16 @@ export default  function FetchUser(){
                 {/* Ensuring that the user who logged,his name matches the profile info username,then only he can create one profile if the profile aint created */}
                 {( data?.email.length == 0 && data?.username == user ) ?
                   <div className="text-center mt-6">
-                  <Link href={`create-profile`}>
+                  <Link href={`/${data?.username}/create-profile`}>
                     <Button className="text-sm bg-amber-600 px-3">
                       Create your Profile
                     </Button>
                   </Link>
                 </div> : null
               }
-              <ProfileInformation profileObject = {data} /> 
+               {data && data.email.length !== 0 && (
+        <ProfileInformation profileObject={data} />
+      )}
               </div>
       )
 }
