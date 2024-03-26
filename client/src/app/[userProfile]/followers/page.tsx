@@ -9,11 +9,13 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useConnectContext } from '@/context/context';
 import { baseUrl } from '@/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Page =  () => {
   const { userProfile } = useParams();
   const {userDocumentId} = useConnectContext()
   const [followers,setFollowers] = useState<UserType[]>([])
+  const [loading,setLoading] = useState(false)
 
   const getFollowers = async():Promise<any> =>{
     const response = await fetch(`${baseUrl}/user/followers/${userProfile}`)
@@ -41,16 +43,25 @@ const Page =  () => {
 
   useEffect(()=>{
       const checkFollowingFollowers = async() =>{
+        setLoading(true)
         try {
           const followers = await getFollowers()
           // console.log(followers);
           setFollowers(followers.followers)
-        } catch (error) {}
+        } catch (error) {
+          
+        }
+        finally{
+          setLoading(false)
+        }
       }
       checkFollowingFollowers()
-  })
+  },[])
 
   return (
+    <>
+    {
+      !loading ?
      <div
       className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
     >
@@ -78,6 +89,16 @@ const Page =  () => {
             </div>
       ))}
     </div>
+    :
+    <div className="flex min-h-full gap-5 items-center justify-center">
+    <Skeleton className="h-12 w-12 rounded-full" />
+    <div className="space-y-2">
+      <Skeleton className="h-8 w-[400px]" />
+      <Skeleton className="h-8 w-[400px]" />
+    </div>
+  </div>
+    }
+    </>
   )
 }
 

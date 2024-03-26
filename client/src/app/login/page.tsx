@@ -51,7 +51,7 @@ function Page() {
       onSubmit={onSubmitHandler}
       className="form"
       >
-      <h2 className="center_heading_form">Login Form</h2>
+      <h2 className="center_heading_form">Login</h2>
       <Input
         required
         autoFocus={true}
