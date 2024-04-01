@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserType } from "@/types";
 import { Button } from "./ui/button";
-import { checkFollowersFollowingPromise, defaultDp, followPromise,unfollowPromise } from "@/utils";
+import { checkFollowersFollowingPromise, defaultDp,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
 import { Trash2, PlusCircle } from "lucide-react";
 import { handleImage,imageUploadPromise } from "@/utils";
@@ -22,7 +22,7 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   // If i dont follow this person,show follow btn
 
   // I need to check in my following list,so first i need my documentId
-  const {user, userDocumentId,setImageUrl } = useConnectContext();
+  const {user, userDocumentId,setImageUrl,userId } = useConnectContext();
   const [check,setCheck] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clicked,setIsClicked] = useState(false)
@@ -77,11 +77,11 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   }
   
   const unfollow = async () => {
-    setUnfollowBtnLoading(true)
+    // setUnfollowBtnLoading(true)
     try {
       const response = await unfollowPromise(profileObject?._id,userDocumentId)
       if(response.status==200){
-        setUnfollowBtnLoading(false)
+        // setUnfollowBtnLoading(false)
         setCheck(false)
       }
     } catch (error) {
@@ -92,11 +92,14 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
     if(typeof user == "undefined") {
       return alert("Please login to follow")
     }
-    setFollowBtnLoading(true)
+    const followUserId = profileObject?._id
     try {
-      const response = await followPromise(profileObject?._id,userDocumentId)
+      const response = await fetch(`${baseUrl}/user/follow`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userDocumentId, userId,followUserId }),
+      });
       if(response.status==200){
-        setFollowBtnLoading(false)
         setCheck(true)
       }
     } catch (error) {
@@ -188,11 +191,11 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
                 <>
             {check
             ?
-            <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" disabled={unfollowBtnLoading} onClick={unfollow}>
+            <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" onClick={unfollow}>
               Unfollow
             </Button>
             : 
-            <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" disabled={followBtnLoading} onClick={follow}>
+            <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" onClick={follow}>
               Follow
             </Button>
             }

@@ -19,6 +19,7 @@ import SearchBarModal from "./SearchBarModal";
 import { Input } from "./ui/input";
 import SearchResults from "./SearchResults";
 import { AuthId } from "@/types";
+import Notification from "./icons/notification";
 
 function Navbar() {
   const {
@@ -145,6 +146,9 @@ function Navbar() {
         </SearchBarModal>
         {!loading && user?.length > 1 ? (
           <>
+          <Link href={`/notification`}>
+            <Notification/>
+          </Link>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
@@ -153,7 +157,7 @@ function Navbar() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>Hi {user}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Link href={`/${user}`}>
                   <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>

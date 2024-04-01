@@ -20,12 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <ConnectContextProvider>
         <body className={inter.className}>
+      <ConnectContextProvider>
           <Navbar />
           {children}
-        </body>
       </ConnectContextProvider>
+        </body>
     </html>
   );
 }

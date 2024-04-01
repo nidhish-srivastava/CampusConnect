@@ -1,5 +1,5 @@
 import express from 'express'
-import { User,Auth } from '../db/index.js'
+import { User,Auth, Notification } from '../db/index.js'
 const router = express.Router()
 
 // Searching a user
@@ -9,13 +9,8 @@ router.get('/', async (req, res) => {
     if (username) {
         queryObject.username = { $regex: username, $options: "i" }
     }
-    const getUsername = await Auth.find(queryObject)
-    const filteredUsers = getUsername.map(user => ({
-        _id: user._id,
-        username: user.username,
-        dp: user.dp,
-    }));
-    res.json(filteredUsers)
+    const fetchUser = await Auth.find(queryObject).select('-password')
+    res.json(fetchUser)
 })
 
 
@@ -41,8 +36,6 @@ router.get('/:username', async (req, res) => {
                 model: 'Auth',
                 select: 'username dp'
             })
-            .exec();
-        //* wont use this since we need to populate multiple fields .populate('authId','username')
         res.json(response);
     } catch (error) {
         res.status(403).json(error)
@@ -51,12 +44,23 @@ router.get('/:username', async (req, res) => {
 
 // Follow a user(from followers list or followers list)     
 router.put('/follow', async (req, res) => {
-    const { userDocumentId, followUserId } = req.body
+    const { userDocumentId, followUserId,userId } = req.body
     try {
-        // Add followUserId to the following list of userId
-        await User.findByIdAndUpdate(userDocumentId, { $addToSet: { following: followUserId } })
-
-        await User.findByIdAndUpdate(followUserId, { $addToSet: { followers: userDocumentId } })
+        try {
+            await User.findByIdAndUpdate(userDocumentId, { $addToSet: { following: followUserId } })
+            const response = await User.findByIdAndUpdate(followUserId, { $addToSet: { followers: userDocumentId } })
+            try {
+                await Notification.create({
+                    receipient : response.authId,
+                    sender : userId,
+                    type : 'follow'
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        } catch (error) {
+            
+        }
         res.json("User followed Successfully")
     } catch (error) {
         res.status(500).json({ error: "An error occurred while following user" });
@@ -65,7 +69,6 @@ router.put('/follow', async (req, res) => {
 
 // Unfollow a user from followingList
 router.put('/unfollow', async (req, res) => {
-    console.log("unfollow")
     const { userDocumentId, unfollowUserId } = req.body
     try {
         const updateFollowing = await User.updateOne({ _id: userDocumentId }, { $pull: { following: unfollowUserId } });
@@ -162,10 +165,15 @@ router.post('/followingfollowers/check', async (req, res) => {
     }
 })
 
-router.post('followingfollowers/fullcheck',async(req,res)=>{
-    
+router.get('/notification/:userId',async(req,res)=>{
+   const fetchNotifications = await Notification.find({receipient : req.params.userId})
+   .populate({
+    path : "sender",
+    select : 'username dp',
+    model : "Auth"
+   })
+   res.json(fetchNotifications)
 })
-
 
 export default router
 

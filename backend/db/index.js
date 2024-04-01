@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Mongoose } from 'mongoose'
 
 const authSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
@@ -20,23 +20,26 @@ const userSchema = new mongoose.Schema({
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 })
 
-// const collegeSchema = new mongoose.Schema({
-//     collegeInfo : {type : ,ref : "User"},
-//     collegeLocation : {type : String,ref : "User"},
-//     collegeCity : {type  : String,ref : "User"},
-//     studentsQuantity : {type : Number,default : 0}
-// })
 
 const collegeSchema = new mongoose.Schema({
     colleges: { type: [String], default: "", required: true }
 })
 
+const notificationSchema = new mongoose.Schema({
+    receipient : {type : mongoose.Schema.Types.ObjectId},
+    sender : {type : mongoose.Schema.Types.ObjectId,ref:"Auth"},
+    read : {type:Boolean,default:false},
+    type : {type : String,enum : ['like','follow']}
+})
+
 const User = mongoose.model("User", userSchema)
 const Auth = mongoose.model("Auth", authSchema)
 const College = mongoose.model("College", collegeSchema)
+const Notification = mongoose.model("Notification",notificationSchema)
 
 export {
     User,
     Auth,
-    College
+    College,
+    Notification
 }
