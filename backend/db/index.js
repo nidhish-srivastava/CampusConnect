@@ -30,6 +30,8 @@ const notificationSchema = new mongoose.Schema({
     sender : {type : mongoose.Schema.Types.ObjectId,ref:"Auth"},
     read : {type:Boolean,default:false},
     type : {type : String,enum : ['like','follow']}
+},{
+    timestamps : true
 })
 
 const User = mongoose.model("User", userSchema)

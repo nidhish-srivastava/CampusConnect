@@ -31,7 +31,6 @@ export default function FetchUser() {
         setLoading(false);
       }
     };
-
     fetchProfileInfo();
   }, []);
 
@@ -43,7 +42,6 @@ export default function FetchUser() {
             <ProfileBaseInfo
               updatedDp={updatedDp}
               setUpdatedDp={setUpdatedDp}
-              setProfileObject={setData}
               profileObject={data}
             />
           )}

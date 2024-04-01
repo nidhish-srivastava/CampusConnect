@@ -22,10 +22,6 @@ const Page =  () => {
     return response.json()
   }
 
-  // const follow = async(followUserId : string)=>{
-  //   await followPromise(followUserId,userDocumentId)
-  //   setCheck(true)
-  // }
 
   const removeFollower = async(removeUserId : string)=>{
      await fetch(`${baseUrl}/user/remove`,{

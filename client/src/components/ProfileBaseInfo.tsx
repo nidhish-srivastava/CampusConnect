@@ -3,33 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserType } from "@/types";
 import { Button } from "./ui/button";
-import { checkFollowersFollowingPromise, defaultDp,unfollowPromise } from "@/utils";
 import { useConnectContext } from "@/context/context";
-import { Trash2, PlusCircle } from "lucide-react";
-import { handleImage,imageUploadPromise } from "@/utils";
+// import { Trash2, PlusCircle } from "lucide-react";
 import { Loader2 } from "lucide-react"
 import { baseUrl } from "@/utils";
 type props = {
   profileObject: UserType | undefined
   updatedDp : string | undefined
   setUpdatedDp : React.Dispatch<React.SetStateAction<string>>
-  setProfileObject : React.Dispatch<React.SetStateAction<UserType | undefined>>
+  setProfileObject ?: React.Dispatch<React.SetStateAction<UserType | undefined>>
 }
 
-const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject }:  props ) => {
-  // NOw i need to check wether I follow this person or not
-  // If i follow this person,show unfollow btn
-  // If i dont follow this person,show follow btn
-
-  // I need to check in my following list,so first i need my documentId
+const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => {
   const {user, userDocumentId,setImageUrl,userId } = useConnectContext();
   const [check,setCheck] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clicked,setIsClicked] = useState(false)
   const [updateLoading,setUpdateLoading] = useState(false)
-  const [followBtnLoading,setFollowBtnLoading] = useState(false)
-  const [unfollowBtnLoading,setUnfollowBtnLoading] = useState(false)
-  
+  const visitedUserId = profileObject?._id
+
   let imageUrl = profileObject?.authId?.dp as string;
   let public_id = '';
   if (imageUrl) {
@@ -43,45 +34,54 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
     }
   }
 
-  const updateImageHandler = async()=>{
-    setUpdateLoading(true)
-    try {
-        const response = await imageUploadPromise(user,updatedDp)
-        if(response.status==201){
-          setUpdateLoading(false)
-          setImageUrl(updatedDp as string)
-          setIsModalOpen(false)
-        }
-      } catch (error) {
-      setUpdateLoading(false)
-    }
-  }
+  // const updateImageHandler = async()=>{
+  //   setUpdateLoading(true)
+  //   try {
+  //     const response = await fetch(`${baseUrl}/auth/uploadImage`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ username: user, dp: updatedDp }),
+  //     });
+  //       if(response.status==201){
+  //         setUpdateLoading(false)
+  //         setImageUrl(updatedDp as string)
+  //         setIsModalOpen(false)
+  //       }
+  //     } catch (error) {
+  //     setUpdateLoading(false)
+  //   }
+  // }
   
-  const deleteImageHandler = async() =>{
-    try {
-      const response = await fetch(`${baseUrl}/auth/removeDp`,{
-        method : "PUT",
-        headers : {
-          "Content-Type" : "application/json"
-        },
-        body : JSON.stringify({user,public_id})
-      })
-      if(response.status==200){
-        const body = await response.json()
-        setUpdatedDp(body)
-        setImageUrl(body)
-      }
-    } catch (error) {
+  // const deleteImageHandler = async() =>{
+  //   try {
+  //     const response = await fetch(`${baseUrl}/auth/removeDp`,{
+  //       method : "PUT",
+  //       headers : {
+  //         "Content-Type" : "application/json"
+  //       },
+  //       body : JSON.stringify({user,public_id})
+  //     })
+  //     if(response.status==200){
+  //       const body = await response.json()
+  //       setUpdatedDp(body)
+  //       setImageUrl(body)
+  //     }
+  //   } catch (error) {
       
-    }
-  }
+  //   }
+  // }
   
   const unfollow = async () => {
-    // setUnfollowBtnLoading(true)
     try {
-      const response = await unfollowPromise(profileObject?._id,userDocumentId)
+      const response = await fetch(`${baseUrl}/user/unfollow`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          unfollowUserId : visitedUserId,
+          userDocumentId
+        }),
+      });
       if(response.status==200){
-        // setUnfollowBtnLoading(false)
         setCheck(false)
       }
     } catch (error) {
@@ -92,12 +92,11 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
     if(typeof user == "undefined") {
       return alert("Please login to follow")
     }
-    const followUserId = profileObject?._id
     try {
       const response = await fetch(`${baseUrl}/user/follow`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userDocumentId, userId,followUserId }),
+        body: JSON.stringify({ userDocumentId, userId,followUserId : visitedUserId }),
       });
       if(response.status==200){
         setCheck(true)
@@ -109,12 +108,23 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   useEffect(() => {
       const checkFollowingFollowers = async () => {
         try {
-          const data = await checkFollowersFollowingPromise(profileObject?._id,userDocumentId)
+          const response = await fetch(`${baseUrl}/user/followingfollowers/check`,
+          {
+            method : "POST",
+            headers : {
+              "Content-Type": "application/json",
+            },
+            body : JSON.stringify({
+              userId : visitedUserId,
+              myId : userDocumentId
+            })
+          })
+          const data = await response.json()
           data=="true" ?  setCheck(true) : setCheck(false)
         } catch (error) {}
       };
     checkFollowingFollowers();
-  });
+  },[]);
 
   const closeModal = () =>{
     setUpdatedDp(profileObject?.authId.dp as string)
@@ -122,18 +132,18 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp,setProfileObject
   }
 
   useEffect(()=>{
-    if(updatedDp != profileObject?.authId.dp  && clicked==true ){
+    if(updatedDp != profileObject?.authId.dp ){
       setIsModalOpen(true)
     }
-  },[updatedDp,clicked])
+  },[updatedDp])
 
 
   return (
     <div className="flex justify-center gap-10 items-center">
       <div>
-      {isModalOpen && (
+      {/* {isModalOpen && (
           <ImageModal updateLoading={updateLoading} updateDpHandler={updateImageHandler} imageUrl={updatedDp} closeModal={closeModal} />
-        )}
+        )} */}
         <Image
           src={updatedDp as string}
           width={80}

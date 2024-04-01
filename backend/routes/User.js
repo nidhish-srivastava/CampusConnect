@@ -56,10 +56,10 @@ router.put('/follow', async (req, res) => {
                     type : 'follow'
                 })
             } catch (error) {
-                console.log(error);
+                res.status(500).json("Error")
             }
         } catch (error) {
-            
+            res.status(500).json("Error")
         }
         res.json("User followed Successfully")
     } catch (error) {
@@ -70,6 +70,7 @@ router.put('/follow', async (req, res) => {
 // Unfollow a user from followingList
 router.put('/unfollow', async (req, res) => {
     const { userDocumentId, unfollowUserId } = req.body
+    console.log(req.body);
     try {
         const updateFollowing = await User.updateOne({ _id: userDocumentId }, { $pull: { following: unfollowUserId } });
         if (!updateFollowing) {

@@ -23,3 +23,15 @@ export type UserType = {
 };
 
 
+export type notificationInfo = {
+  read : boolean
+  receipient : string
+  sender : {
+    _id : string
+    username : string
+    dp : string
+  }
+  type : string
+  _id : string
+  createdAt : string
+}

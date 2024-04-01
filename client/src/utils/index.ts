@@ -22,56 +22,6 @@ const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymo
   },1000)
 }
 
-const followPromise = async (
-    followUserId: string | undefined,
-    userDocumentId: string | undefined
-  ): Promise<any> => {
-    return await fetch(`${baseUrl}/user/follow`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userDocumentId, followUserId }),
-    });
-  };
-  
-
-  const unfollowPromise = async(
-    unfollowUserId : string | undefined,
-    userDocumentId : string | undefined
-  ) : Promise<any> =>{
-   return await fetch(`${baseUrl}/user/unfollow`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userDocumentId,
-        unfollowUserId
-      }),
-    });
-  }
-  
-  const checkFollowersFollowingPromise = async(userId : string | undefined,myId : string) =>{
-  const response = await fetch(`${baseUrl}/user/followingfollowers/check`,
-  {
-    method : "POST",
-    headers : {
-      "Content-Type": "application/json",
-    },
-    body : JSON.stringify({
-      userId : userId,
-      myId : myId
-    })
-  })
-  return response.json()
-}
-
-export const imageUploadPromise = async (user:string | undefined,userImg : string | undefined): Promise<any> => {
-  // console.log("image upload");
-  return await fetch(`${baseUrl}/auth/uploadImage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: user, dp: userImg }),
-  });
-};
-
 export const handleImage = (setUserImg : (uri : string)=>void) => {
   
   // create a file input dynamically
@@ -110,13 +60,26 @@ export const handleImage = (setUserImg : (uri : string)=>void) => {
   // simulate a click
   fileInput.click();
 };
+
+
+const dateFormatter = (date ?: any) =>{
+  const dateObj = new Date(date);
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true // This will display time in AM/PM format
+  };
+  
+  return new Intl.DateTimeFormat('en-US', options as any).format(dateObj);
+}
   
 export {
-  checkFollowersFollowingPromise,
-  unfollowPromise,
-  followPromise,
   debounce,
   defaultDp,
   baseUrl,
-  PROJECT_NAME
+  PROJECT_NAME,
+  dateFormatter
 }
