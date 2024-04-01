@@ -19,3 +19,4 @@ CampusConnect is a dynamic social networking platform tailor-made for college st
 - **Follow/Unfollow**: Build connections by allowing users to follow/unfollow other students or remove them from their followers list.
 - **Search Functionality**: Easily search for users based on their username, enhancing discoverability within the platform.
 - **College-based Networking**: Organize students based on their respective colleges, enabling exploration of peers within the same educational institution.
+- **Notification** : Person will receive a notification when someone follows that person
