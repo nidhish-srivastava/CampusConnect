@@ -1,17 +1,12 @@
 import Link from "next/link";
 import { baseUrl } from "@/utils";
-
-type collegesObj = {
-  _id : string
-  colleges : string[]
-}
+import { collegesObj } from "@/types";
 
 async function Colleges() {
     
     const response = await fetch(`${baseUrl}/college`,{cache : "no-cache"})
     const data : collegesObj = await response.json()
   return (
-    <>
  <div className="w-4/5 mx-auto">
         <h2 className="text-2xl text-center">
           List of Colleges associated with us
@@ -20,7 +15,7 @@ async function Colleges() {
           {data?.colleges.map((e, i) => {
             return (
               <Link href={`/colleges/${e}`} key={i}>
-                <div className="p-4 sm:p-2 border-gray-100 text-center border-2">
+                <div className="p-4 sm:p-2 border-gray-100 hover:bg-gray-50 text-center border-2">
                   {e}
                 </div>
               </Link>
@@ -28,7 +23,6 @@ async function Colleges() {
           })}
         </div>
       </div>
-    </>
   );
 }
 export default Colleges;

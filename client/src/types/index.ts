@@ -35,3 +35,8 @@ export type notificationInfo = {
   _id : string
   createdAt : string
 }
+
+export type collegesObj = {
+  _id : string
+  colleges : string[]
+}
