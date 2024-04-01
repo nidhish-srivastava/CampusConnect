@@ -6,15 +6,11 @@ import { Progress } from "@/components/ui/progress";
 import {useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useConnectContext } from "@/context/context";
-import Compress from "react-image-file-resizer";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types";
-import { baseUrl } from "@/utils";
-import { defaultDp } from "@/utils";
-import { imageUploadPromise } from "@/utils";
-import { handleImage } from "@/utils";
+import { baseUrl, imageUpload,handleImage,defaultDp } from "@/utils";
 
 
 function CreateProfile() {
@@ -23,12 +19,6 @@ function CreateProfile() {
   const { userDocumentId, user ,setImageUrl,imageUrl} = useConnectContext();
   const [value, setValue] = useState(0);
   const [isAuthenticate,setIsAuthenticate] = useState(false)
-   
-
-
-  //* !!!  Logic for base64 image conversion so that we can preview it as well
-
-
   const { register, handleSubmit } = useForm();
 
 
@@ -68,7 +58,7 @@ function CreateProfile() {
       setValue(100);
       router.push(`/${data?.username}`)
       await Promise.all([
-        imageUploadPromise(user,userImg),
+        imageUpload(user,userImg),
         nextPromise(formData.college),
         submitPromise(formData),
       ]);

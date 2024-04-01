@@ -61,6 +61,14 @@ export const handleImage = (setUserImg : (uri : string)=>void) => {
   fileInput.click();
 };
 
+const imageUpload = async(user:string,userImg:string) =>{
+  return fetch(`${baseUrl}/auth/uploadImage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: user, dp: userImg }),
+        });
+
+}
 
 const dateFormatter = (date ?: any) =>{
   const dateObj = new Date(date);
@@ -81,5 +89,6 @@ export {
   defaultDp,
   baseUrl,
   PROJECT_NAME,
-  dateFormatter
+  dateFormatter,
+  imageUpload
 }
