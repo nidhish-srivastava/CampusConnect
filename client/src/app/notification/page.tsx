@@ -14,13 +14,16 @@ function Notification() {
   const [notificationInfo,setNotificationInfo] = useState<notificationInfo[]>([])
   useEffect(()=>{
     const fetchNotifications = async() =>{
-      const response = await fetch(`${baseUrl}/user/notification/${userId}`)
-      const data = await response.json()
-      console.log(data);
-      setNotificationInfo(data)
+      try {
+        const response = await fetch(`${baseUrl}/user/notification/${userId}`)
+        const data = await response.json()
+        setNotificationInfo(data)
+      } catch (error) {
+
+      }
     }
     fetchNotifications()
-  },[])
+  },[userId])
   
   return (
     <div className="sm:w-[60%] mx-auto my-4 p-8 ">
