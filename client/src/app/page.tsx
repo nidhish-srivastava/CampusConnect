@@ -1,12 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
-import hero from "@/assets/hero.jpg"
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "lucide-react"
 import Feat1 from "@/assets/features/2.png"
-// import Feat2 from "@/assets/features/1.png"
 import Feat3 from "@/assets/features/3.png"
 import Feat4 from "@/assets/features/4.png"
 import Feat5 from "@/assets/features/5.png"
+import Heroanimation from "@/components/ui/Heroanimation"
 function Home() {
   return (
     <>
@@ -21,7 +20,7 @@ export default Home
 
 function Hero() {
   return (
-    <div className=" bg-gray-900 text-white py-16 md:px-8">
+    <div className=" bg-slate-50 py-8 md:py-0 md:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center">
         <div className="md:w-[60%] text-center md:text-left mb-8 md:mb-0">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Empowering students to thrive together</h1>
@@ -31,13 +30,7 @@ function Hero() {
           </Link>
         </div>
         <div className="md:w-[40%] mx-auto">
-          <Image
-            src={hero}
-            width={500}
-            height={500}
-            alt="Hero"
-            className="rounded-lg"
-          />
+          <Heroanimation/>
         </div>
       </div>
     </div>
