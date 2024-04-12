@@ -79,10 +79,10 @@
 }
 
 .form{
-  @apply flex flex-col items-start gap-8  w-fit mx-auto;
+  @apply flex flex-col items-start gap-8;
 }
 .center_heading_form{
-  @apply mx-auto text-xl;
+  @apply mx-auto text-xl font-semibold;
 }
 
 .center_button_form{

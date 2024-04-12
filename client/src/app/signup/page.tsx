@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/utils";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Authanimation from "@/components/ui/Authanimation";
 
 
 function Page() {
@@ -46,9 +47,13 @@ function Page() {
   };
   return (
     <ProtectedRoute>
+      <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12  gap-12 sm:gap-0 py-12">
+      <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
+          <Authanimation />
+        </div>
     <form
       onSubmit={onSubmitHandler}
-      className="form"
+      className="form w-4/5 mx-auto sm:w-[40%]"
     >
             <h2 className="center_heading_form">Create an account</h2>
       <Input
@@ -58,6 +63,7 @@ function Page() {
         placeholder="Enter username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        className="w-4/5 block mx-auto"
       />
       <Input
         required
@@ -65,6 +71,7 @@ function Page() {
         placeholder="Enter password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        className="w-4/5 block mx-auto"
       />
       <Input
         required
@@ -72,9 +79,11 @@ function Page() {
         placeholder="re-enter password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        className="w-4/5 block mx-auto"
       />
       <Button disabled={loading} className={`${loading ? "opacity-90": ""} center_button_form`}>Register</Button>
     </form>
+</main>
     </ProtectedRoute>
 
   );

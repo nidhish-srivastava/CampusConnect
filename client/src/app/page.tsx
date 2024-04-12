@@ -26,7 +26,7 @@ function Hero() {
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Empowering students to thrive together</h1>
           <p className="text-lg md:text-xl mb-6">Where students unite for growth and success</p>
           <Link href={`/colleges`}>
-            <button className="text-lg md:text-xl bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out">Explore Colleges</button>
+            <button className="text-lg md:text-xl bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out font-semibold">Explore Colleges</button>
           </Link>
         </div>
         <div className="md:w-[40%] mx-auto">
