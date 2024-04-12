@@ -5,7 +5,8 @@ import Feat1 from "@/assets/features/2.png"
 import Feat3 from "@/assets/features/3.png"
 import Feat4 from "@/assets/features/4.png"
 import Feat5 from "@/assets/features/5.png"
-import Heroanimation from "@/components/ui/Heroanimation"
+import { Suspense, lazy } from "react"
+const  Heroanimation = lazy(()=>import("@/components/ui/Heroanimation"))
 function Home() {
   return (
     <>
@@ -29,9 +30,11 @@ function Hero() {
             <button className="text-lg md:text-xl bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out font-semibold">Explore Colleges</button>
           </Link>
         </div>
+        <Suspense fallback="">
         <div className="md:w-[40%] mx-auto">
           <Heroanimation/>
         </div>
+        </Suspense>
       </div>
     </div>
   );
