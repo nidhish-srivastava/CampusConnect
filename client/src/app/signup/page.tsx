@@ -1,11 +1,10 @@
 "use client";
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/utils";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import Authanimation from "@/components/ui/Authanimation";
-
+const Authanimation = lazy(()=>import("@/components/ui/Authanimation"))
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -48,9 +47,11 @@ function Page() {
   return (
     <ProtectedRoute>
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12  gap-12 sm:gap-0 py-12">
+        <Suspense>
       <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
           <Authanimation />
         </div>
+        </Suspense>
     <form
       onSubmit={onSubmitHandler}
       className="form w-4/5 mx-auto sm:w-[40%]"
