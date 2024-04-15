@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -22,20 +22,14 @@ import { AuthId } from "@/types";
 import Notification from "./icons/notification";
 
 function Navbar() {
-  const {
-    user,
-    setUser,
-    setUserId,
-    imageUrl,
-    setImageUrl,
-    setUserDocumentId,
-  } = useConnectContext();
+  const { user, setUser, setUserId, imageUrl, setImageUrl, setUserDocumentId } =
+    useConnectContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const [searchResultArray, setSearchResultArray] = useState<AuthId[]>([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -73,24 +67,24 @@ function Navbar() {
     }
   };
 
-  const checkAuthentication = async () => {
-    try {
-      const authenticateUser = await authenticateUserPromise();
-      const findUserDocument = await findUserDocumentPromise(
-        authenticateUser?.username
-      );
-      setUser(authenticateUser?.username);
-      setUserId(authenticateUser?.id);
-      setUserDocumentId(findUserDocument?._id);
-      setImageUrl(authenticateUser?.dp);
-    } catch (error) {
-      console.error("Error checking authentication:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const checkAuthentication = async () => {
+      setLoading(true);
+      try {
+        const authenticateUser = await authenticateUserPromise();
+        const findUserDocument = await findUserDocumentPromise(
+          authenticateUser?.username
+        );
+        setUser(authenticateUser?.username);
+        setUserId(authenticateUser?.id);
+        setUserDocumentId(findUserDocument?._id);
+        setImageUrl(authenticateUser?.dp);
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     checkAuthentication();
   }, []);
 
@@ -105,9 +99,23 @@ function Navbar() {
       closeModal();
     }
   };
+  const pathArray = pathname.split("/");
+  const pathCheck = pathArray[pathArray.length - 2];
 
-  const pathArray =   pathname.split("/")
-  const pathCheck = pathArray[pathArray.length-2]
+  if (loading)
+    return (
+      <>
+        <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
+          <Link href="/" className="customsm:hidden mr-auto text-[1.4rem]">
+            {PROJECT_NAME}
+          </Link>
+          <Avatar>
+            <AvatarImage src={imageUrl} alt="@shadcn" />
+            <AvatarFallback>{user.charAt(0)}</AvatarFallback>
+          </Avatar>
+        </div>
+      </>
+    );
 
   return (
     <>
@@ -115,13 +123,11 @@ function Navbar() {
         <Link href="/" className="customsm:hidden mr-auto text-[1.4rem]">
           {PROJECT_NAME}
         </Link>
-        {
-            (pathCheck!="search" && !isModalOpen) ? 
+        {pathCheck != "search" && !isModalOpen ? (
           <span onClick={openModal}>
-        <Search />
-      </span>
-        : null
-      }
+            <Search />
+          </span>
+        ) : null}
         <SearchBarModal isOpen={isModalOpen} onClose={closeModal}>
           <Input
             type="search"
@@ -133,7 +139,10 @@ function Navbar() {
             className="mx-auto w-[100%] text-[1.03rem] border-teal-400"
           />
           {searchResultArray.length > 0 && (
-            <SearchResults closeModal={closeModal} searchResultArray={searchResultArray} />
+            <SearchResults
+              closeModal={closeModal}
+              searchResultArray={searchResultArray}
+            />
           )}
           <div className="p-2 text-center" onClick={closeModal}>
             {searchResultArray.length > 1 && (
@@ -141,14 +150,16 @@ function Navbar() {
                 Show All Results
               </Link>
             )}
-            {searchResultArray.length === 0 && query.length > 1 && "No results found"}
+            {searchResultArray.length === 0 &&
+              query.length > 1 &&
+              "No results found"}
           </div>
         </SearchBarModal>
-        {!loading && user?.length > 1 ? (
+        {user?.length > 1 ? (
           <>
-          <Link href={`/notification`}>
-            <Notification/>
-          </Link>
+            <Link href={`/notification`}>
+              <Notification />
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
@@ -160,7 +171,9 @@ function Navbar() {
                 <DropdownMenuLabel>Hi {user}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Link href={`/${user}`}>
-                  <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer">
+                    Profile
+                  </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem
                   className="cursor-pointer"
@@ -175,20 +188,21 @@ function Navbar() {
             </DropdownMenu>
           </>
         ) : (
-          !loading && (
-            <>
-              <Link href={`/signup`}>
-                <Button className="bg-blue-700">SignUp</Button>
-              </Link>
-              <Link href={`/login`}>
-                <Button className="bg-blue-700">Login</Button>
-              </Link>
-            </>
-          )
+          <>
+            <Link href={`/signup`}>
+              <Button className="bg-blue-700">SignUp</Button>
+            </Link>
+            <Link href={`/login`}>
+              <Button className="bg-blue-700">Login</Button>
+            </Link>
+          </>
         )}
       </div>
       <div className="text-center">
-        <Link href="/" className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]">
+        <Link
+          href="/"
+          className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]"
+        >
           {PROJECT_NAME}
         </Link>
       </div>
