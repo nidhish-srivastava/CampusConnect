@@ -7,6 +7,7 @@ import { useConnectContext } from "@/context/context";
 // import { Trash2, PlusCircle } from "lucide-react";
 import { Loader2 } from "lucide-react"
 import { baseUrl } from "@/utils";
+import { Toaster, toast } from "sonner";
 type props = {
   profileObject: UserType | undefined
   updatedDp : string | undefined
@@ -90,7 +91,7 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
   
   const follow = async () => {
     if(typeof user == "undefined") {
-      return alert("Please login to follow")
+      return toast.error("Please login to follow")
     }
     try {
       const response = await fetch(`${baseUrl}/user/follow`, {
@@ -140,6 +141,7 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
 
   return (
     <div className="flex justify-center gap-10 items-center">
+      <Toaster/>
       <div>
       {/* {isModalOpen && (
           <ImageModal updateLoading={updateLoading} updateDpHandler={updateImageHandler} imageUrl={updatedDp} closeModal={closeModal} />

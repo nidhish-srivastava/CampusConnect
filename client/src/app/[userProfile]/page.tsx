@@ -34,6 +34,9 @@ export default function FetchUser() {
     fetchProfileInfo();
   }, []);
 
+  // console.log(data);
+  
+
   return (
     <>
       {!loading ? (

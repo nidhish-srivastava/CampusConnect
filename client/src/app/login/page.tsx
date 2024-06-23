@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { baseUrl } from "@/utils";
 import ProtectedRoute from "@/components/ProtectedRoute";
 const Authanimation = lazy(()=>import("@/components/ui/Authanimation"))
-
+import { Toaster, toast } from 'sonner'
 function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,12 +27,12 @@ function Page() {
       });
       const data = await response.json();
       if (response.status == 403) {
-        alert(data.message);
+        toast.error(data.message);
         setLoading(false);
         return;
       }
       if (response.status == 401) {
-        alert(data.message);
+        toast.error(data.message);
         setLoading(false);
         return;
       }
@@ -42,12 +42,13 @@ function Page() {
       }
     } catch (error: Error | any) {
       setLoading(false);
-      alert("Error");
+      toast.error("Error");
     }
   };
 
   return (
     <ProtectedRoute>
+      <Toaster richColors position="top-center" />
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12 gap-12 sm:gap-0">
         <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
           <Suspense>

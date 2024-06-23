@@ -70,7 +70,6 @@ function CreateProfile() {
   useEffect(()=>{
      if(imageUrl==undefined){
       console.log("check1");
-      
       setIsAuthenticate(true)
      }
      else{

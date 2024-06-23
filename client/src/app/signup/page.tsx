@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/utils";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { Toaster, toast } from "sonner";
 const Authanimation = lazy(()=>import("@/components/ui/Authanimation"))
 
 function Page() {
@@ -26,26 +27,26 @@ function Page() {
             username : username,password : password
           })
         });
+        if(response.status==403){
+          setLoading(false)
+          toast.error("Username taken")
+        }
         if(response.status==200){
           const data = await response.json()
           localStorage.setItem("token", data.token);
           window.location.href = "/"  // causing the window reload
         }
-        if(response.status==403){
-          setLoading(false)
-          alert("Username taken")
-        }
-        
       } else{
         setLoading(false)
-        alert("Password not matching");
+        toast.error("Password not matching");
       } 
     } catch (error : Error | any) {
-      alert("Error while creating account")
+      toast.error("Error while creating account")
     }
   };
   return (
     <ProtectedRoute>
+      <Toaster richColors position="top-center" />
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12  gap-12 sm:gap-0 py-12">
         <Suspense>
       <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
