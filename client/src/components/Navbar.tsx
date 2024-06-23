@@ -106,7 +106,7 @@ function Navbar() {
     return (
       <>
         <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
-          <Link href="/" className="customsm:hidden mr-auto text-[1.4rem]">
+          <Link href="/" className="customsm:hidden font-semibold mr-auto text-2xl">
             {PROJECT_NAME}
           </Link>
           <Avatar>
@@ -120,7 +120,7 @@ function Navbar() {
   return (
     <>
       <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
-        <Link href="/" className="customsm:hidden mr-auto text-[1.4rem]">
+        <Link href="/" className="customsm:hidden mr-auto font-semibold text-2xl">
           {PROJECT_NAME}
         </Link>
         {pathCheck != "search" && !isModalOpen ? (
@@ -201,7 +201,7 @@ function Navbar() {
       <div className="text-center">
         <Link
           href="/"
-          className="hidden customsm:block customsm:mb-[3rem] font-semibold text-[2rem]"
+          className="hidden customsm:block customsm:mb-[3rem]  font-semibold text-[2rem]"
         >
           {PROJECT_NAME}
         </Link>

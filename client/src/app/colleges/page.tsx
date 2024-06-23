@@ -8,7 +8,7 @@ async function Colleges() {
   const data: collegesObj = await response.json();
   return (
     <div className="container mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-6  ">
+      <h2 className="text-xl font-medium text-center mb-6">
         List of Colleges associated with us
       </h2>
       <div className="my-4">
