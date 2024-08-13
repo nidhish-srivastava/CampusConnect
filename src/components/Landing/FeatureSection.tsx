@@ -43,6 +43,7 @@ function FeaturesSection() {
           {
             features.map((e,i)=>(
               <FeatureCard
+              key={i}
               title={e.title}
               description={e.description}
               // icon={<i className="fas fa-users text-3xl text-gray-700"></i>}

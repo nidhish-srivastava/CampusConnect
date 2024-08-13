@@ -17,6 +17,7 @@ const Page = () => {
   const [followers, setFollowers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
   const [clickedUserId, setClickedUserId] = useState("");
+  const [isRemoved,setIsRemoved] = useState(false)
 
   const removeFollower = async (removeUserId: string) => {
     setClickedUserId(removeUserId);
@@ -31,8 +32,9 @@ const Page = () => {
           "Content-Type": "application/json",
         },
       });
+      if(response.ok) setIsRemoved(true)
     } catch (error) {}
-  };
+  }
 
   useEffect(() => {
     const fetchFollowers = async () => {
@@ -67,12 +69,14 @@ const Page = () => {
                     <h3 className="text-xl">{e?.auth?.username}</h3>
                   </div>
                 </Link>
-                {clickedUserId == e.id ? (
-                  <Button className="follow-unfollow-btn">Removed</Button>
+                {clickedUserId == e.id && isRemoved ? (
+                  <Button className="follow-unfollow-btn"
+                  // onClick={()=>followUserHandler(e?.id)}
+                  >Removed</Button>
                 ) : (
                   <Button
                     className="follow-unfollow-btn"
-                    onClick={() => removeFollower(e.id)}
+                    onClick={() => removeFollower(e?.id)}
                   >
                     Remove
                   </Button>

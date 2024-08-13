@@ -74,7 +74,7 @@ const Page = () => {
   
   return (
     <>
-    <h2 className="text-center text-2xl mb-8">List of Followers</h2>
+    <h2 className="text-center text-2xl mb-8">List of Following</h2>
     {
       !loading ? 
       <div

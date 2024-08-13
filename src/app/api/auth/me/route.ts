@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-
-const prisma = new PrismaClient();
-
+import prisma from "@/prisma/connetToPrisma";
+import { connectDb } from "@/prisma/connectToDb";
 export async function GET(req: NextRequest) {
+  await connectDb()
   const token = req.cookies.get("token")?.value; // `.value` to get the cookie value
-
   if (token) {
     try {
       // Verify the token with string typing for process.env.SECRET

@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { connectDb } from "@/prisma/connectToDb";
+import prisma from "@/prisma/connetToPrisma";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDb()
     const url = new URL(req.url);
     const username = url.searchParams.get("username") || "";
     const queryObject = {

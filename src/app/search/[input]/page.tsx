@@ -17,7 +17,7 @@ function SearchFeature() {
     try {
       const response = await fetch(`${baseUrl}/user?username=${query}`);
       const data = await response.json();
-      setSearchResults(data);
+      setSearchResults(data?.fetchUser);
     } catch (error) {}
   };
 
@@ -38,7 +38,7 @@ function SearchFeature() {
         />
         </div>
       <main className="w-[75%] mx-auto my-12">
-        {searchResults.map((e,i)=>(
+        {searchResults?.map((e,i)=>(
           <Link href={`/${e.username}`} key={i}>
           <UserSearchResultCard e={e}/>
           </Link>

@@ -1,12 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { connectDb } from '@/prisma/connectToDb';
+import prisma from '@/prisma/connetToPrisma';
 import { NextRequest, NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, { params }: { params: { college: string } }) {
   const { college } = params;
-  
   try {
+    await connectDb()
     // Fetch users with the specified college
     const response = await prisma.user.findMany({
       where: { college: college },

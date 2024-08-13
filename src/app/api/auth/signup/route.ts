@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
+import prisma from "@/prisma/connetToPrisma";
+import { connectDb } from "@/prisma/connectToDb";
 export async function POST(req:NextRequest) {
-    const{username,password} = await req.json()
     try {
+    await connectDb()
+    const{username,password} = await req.json()
         const existingUser = await prisma.auth.findUnique({where : {username}})
         if (existingUser) {
            return Response.json({error : "User already exists"},{status : 403})

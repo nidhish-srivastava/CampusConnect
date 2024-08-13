@@ -1,12 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { connectDb } from "@/prisma/connectToDb";
+import prisma from "@/prisma/connetToPrisma";
 import {  NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient()
 
 export async function GET(req : NextRequest,{params} : {params : {username : string}}){
     const {username} = params
-    
     try {
+        await connectDb()
         const user = await prisma.user.findUnique({
             where : {username},
             select : {

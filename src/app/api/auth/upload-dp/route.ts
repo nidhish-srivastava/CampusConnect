@@ -1,11 +1,11 @@
 
-import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import {v2 as cloudinary} from 'cloudinary'
 
 // Initialize Prisma Client
-const prisma = new PrismaClient();
+import prisma from '@/prisma/connetToPrisma';
+import { connectDb } from '@/prisma/connectToDb';
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -31,6 +31,7 @@ const uploadImage = (image : string,id : any) =>{
 
 export async function PATCH(req: NextRequest) {
   try {
+    await connectDb()
     const { username, dp } = await req.json();
     const imageId = nanoid().split('-')[0];
 
