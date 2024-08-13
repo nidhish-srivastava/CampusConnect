@@ -45,7 +45,8 @@ function Navbar() {
 
   const getUsername = async () => {
     try {
-      const response = await fetch(`${baseUrl}/user?username=${query}`);
+      // const response = await fetch(`${baseUrl}/user?username=${query}`);
+      const response = await fetch(`${baseUrl}/user/search/${query}`);
       const data = await response.json();
       setSearchResultArray(data?.fetchUser);
     } catch (error) {

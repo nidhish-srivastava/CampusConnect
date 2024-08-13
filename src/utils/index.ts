@@ -18,7 +18,7 @@ const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymo
   return setTimeout(()=>{
     if(query.length>0) fn()
     if(query.length==0) setSearchResults([])
-  },1000)
+  },2000)
 }
 
 export const handleImage = (setUserImg : (uri : string)=>void) => {

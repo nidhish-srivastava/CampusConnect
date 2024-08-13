@@ -15,7 +15,8 @@ function SearchFeature() {
   const [query, setQuery] = useState(params.input);
   const getUsername = async () => {
     try {
-      const response = await fetch(`${baseUrl}/user?username=${query}`);
+      // const response = await fetch(`${baseUrl}/user?username=${query}`);
+      const response = await fetch(`${baseUrl}/user/search/${query}`);
       const data = await response.json();
       setSearchResults(data?.fetchUser);
     } catch (error) {}

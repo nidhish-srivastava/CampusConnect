@@ -22,30 +22,42 @@ function CreateProfile() {
   const [isSubmitted,setIsSubmitted] = useState(false)
 
   const imageUploadCloudinary = async (user: string, userImg: string) => {
-    return fetch(`${baseUrl}/auth/upload-dp`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: user, dp: userImg }),
-    });
+    try {
+      return fetch(`${baseUrl}/auth/upload-dp`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: user, dp: userImg }),
+      });
+    } catch (error) {
+      
+    }
   };
 
   const addCollege = async (college: string | undefined): Promise<any> => {
+    try {
+      return fetch(`${baseUrl}/college`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ college: college }),
+      });
+    } catch (error) {
+      
+    }
     // console.log("next");
-    return fetch(`${baseUrl}/college`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ college: college }),
-    });
   };
 
   const submitForm = async (formData: Partial<UserType>): Promise<any> => {
     // console.log("submit");
     const id = userDocumentId;
-    return fetch(`${baseUrl}/user/create-profile/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      return fetch(`${baseUrl}/user/create-profile/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      
+    }
   };
 
   const submitHandlerForm = async (data: Partial<UserType>) => {

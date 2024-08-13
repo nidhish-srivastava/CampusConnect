@@ -2,7 +2,7 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export type AuthId = {
   username: string;
-  _id: number;
+  id: number;
   dp: string | StaticImport;
 };
 
@@ -34,9 +34,4 @@ export type notificationInfo = {
   type : string
   _id : string
   createdAt : string
-}
-
-export type collegesObj = {
-  _id : string
-  colleges : string[]
 }
