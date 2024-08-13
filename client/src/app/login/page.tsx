@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { baseUrl } from "@/utils";
 import ProtectedRoute from "@/components/ProtectedRoute";
-const Authanimation = lazy(()=>import("@/components/ui/Authanimation"))
 import { Toaster, toast } from 'sonner'
+const Authanimation = lazy(()=>import("@/components/ui/authanimation"))
+
 function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +38,6 @@ function Page() {
         return;
       }
       if (response.status == 200) {
-        localStorage.setItem("token", data.token);
         window.location.href = "/";
       }
     } catch (error: Error | any) {
@@ -47,7 +47,7 @@ function Page() {
   };
 
   return (
-    <ProtectedRoute>
+    <>
       <Toaster richColors position="top-center" />
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12 gap-12 sm:gap-0">
         <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
@@ -82,7 +82,7 @@ function Page() {
           </Button>
         </form>
       </main>
-    </ProtectedRoute>
+    </>
   );
 }
 
