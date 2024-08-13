@@ -8,19 +8,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { baseUrl } from "@/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { useConnectContext } from "@/context/context";
 
 const Page = () => {
   const { userProfile } = useParams();
-  const [data,setData] = useState<UserType[]>([])
+  const {userDocumentId} = useConnectContext()
+  const [following,setFollowing] = useState<UserType[]>([])
   const [loading,setLoading] = useState(false)
+  const [clickedUserId,setClickedUserId] = useState("")
+  const [isUnfollowed,setIsUnfollowed] = useState(false)
   useEffect(()=>{
-    const getFollowing = async ()=> {
+    const fetchFollowing = async ()=> {
       setLoading(true)
       try {
         const response = await fetch(`${baseUrl}/user/following/${userProfile}`);
-        const data = await  response.json();
-        // console.log(data);
-        setData(data.following)
+        const following = await  response.json();
+        setFollowing(following)
       } catch (error) {
         
       }
@@ -28,28 +32,80 @@ const Page = () => {
         setLoading(false)
       }
     };
-    getFollowing()
-  },[])
+    fetchFollowing()
+  },[userProfile])
+
+  const unfollowUserHandler = async(unfollowUserId : string)=>{
+    setClickedUserId(unfollowUserId)
+    try {
+      const response = await fetch(`${baseUrl}/user/unfollow`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          userId: userDocumentId,
+          unfollowUserId: unfollowUserId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if(response.ok) setIsUnfollowed(true)
+    } catch (error) {
+      
+    }
+  }
+  const followUserHandler = async(followUserId : string)=>{
+    setClickedUserId(followUserId)
+    try {
+      const response = await fetch(`${baseUrl}/user/follow`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          userId: userDocumentId,
+          followUserId: followUserId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if(response.ok) setIsUnfollowed(false)
+    } catch (error) {
+      
+    }
+  }
+  
   return (
     <>
+    <h2 className="text-center text-2xl mb-8">List of Followers</h2>
     {
       !loading ? 
       <div
-        className={`flex flex-col items-center justify-center gap-10 w-[20%] mx-auto mt-20 ${fontMontserrat.className} `}
+        className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
       >
-        {data?.map((e,i)=>{
+        {following && following?.map((e:any,i)=>{
           return(
-            <Link href={`/${e.authId.username}`} key={i}>
-              <div className=" grid grid-cols-2 gap-6 items-center">
+            <div className="w-1/2 flex items-center justify-between" key={i}>
+            <Link href={`/${e?.auth?.username}`} key={i}>
+              <div className="gap-8 flex items-center">
               <Image
-              src = {e?.authId?.dp}
+              src = {e?.auth?.dp}
               width={60}
               height={60}
               alt='dp'
               />
-               <label className="text-xl">{e?.authId?.username}</label>
+               <h3 className="text-xl">{e?.auth?.username}</h3>
                 </div>
-            </Link>
+                </Link>
+                {
+                  clickedUserId == e?.id && isUnfollowed ? (
+                    <Button className="follow-unfollow-btn" onClick={()=>followUserHandler(e?.id)}>Follow</Button>
+                  ) : 
+                <Button
+                    className="follow-unfollow-btn"
+                    onClick={()=>unfollowUserHandler(e?.id)}
+                    >
+                    Unfollow
+                  </Button>
+                }
+                    </div>
           )
         })}
       </div>
