@@ -1,24 +1,34 @@
-# CampusConnect - A College Social Networking Platform
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-CampusConnect is a dynamic social networking platform tailor-made for college students. It facilitates seamless connections among students across different colleges, while also providing insight into their professional profiles via links to platforms such as GitHub, LinkedIn, and LeetCode.
+## Getting Started
 
-## Technologies Used
+First, run the development server:
 
-- [Next.js](https://nextjs.org/) and [Express.js](https://expressjs.com/) - Framework for frontend and backend development respectively.
-- [Tailwind CSS](https://tailwindcss.com/) and [shadcn/ui](https://ui.shadcn.com/) - Cutting-edge styling libraries for creating modern UI/UX designs.
-- [TypeScript](https://www.typescriptlang.org/) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Languages for robust and scalable application development.
-- [MongoDB](https://www.mongodb.com/) - Highly flexible and scalable NoSQL database for data storage.
-- [Cloudinary](https://cloudinary.com/) - Cloud-based image storage solution for efficient profile picture uploads.
-- [Vercel](https://vercel.com/) - Deployment platform for fast and reliable hosting.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
-## Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- **MultiStep Profile Creation**: Streamline the profile creation process with multi-step forms using the react-hook-form library for efficient management.
-- **User Authentication**: Enable secure login, signup, and logout functionalities using JWT token, localStorage, and authentication middleware with Bearer header.
-  <!--
-  **Profile Picture Upload**: Seamlessly upload profile pictures using Cloudinary and react-image-file-resizer libraries for optimal resizing and storage.
-  -->
-- **Follow/Unfollow**: Build connections by allowing users to follow/unfollow other students or remove them from their followers list.
-- **Search Functionality**: Easily search for users based on their username, enhancing discoverability within the platform.
-- **College-based Networking**: Organize students based on their respective colleges, enabling exploration of peers within the same educational institution.
-- **Notification** : Person will receive a notification when someone follows that person
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
