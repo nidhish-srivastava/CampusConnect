@@ -9,8 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 
 const PROJECT_NAME = "CampusConnect"
 
-//  const baseUrl = `http://localhost:4000`
- const baseUrl = `https://campus-connect-one.vercel.app`
+ const baseUrl = `http://localhost:3000/api`
 
 const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
 
@@ -61,14 +60,6 @@ export const handleImage = (setUserImg : (uri : string)=>void) => {
   fileInput.click();
 };
 
-const imageUpload = async(user:string,userImg:string) =>{
-  return fetch(`${baseUrl}/auth/uploadImage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: user, dp: userImg }),
-        });
-
-}
 
 const dateFormatter = (date ?: any) =>{
   const dateObj = new Date(date);
@@ -90,5 +81,4 @@ export {
   baseUrl,
   PROJECT_NAME,
   dateFormatter,
-  imageUpload
 }

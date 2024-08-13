@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import Link from "next/link";
-const  Heroanimation = lazy(()=>import("@/components/ui/Heroanimation"))
+const  Heroanimation = lazy(()=>import("@/components/ui/heroanimation"))
 
 function Hero() {
     return (

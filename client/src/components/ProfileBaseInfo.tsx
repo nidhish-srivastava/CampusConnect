@@ -8,6 +8,7 @@ import { useConnectContext } from "@/context/context";
 import { Loader2 } from "lucide-react"
 import { baseUrl } from "@/utils";
 import { Toaster, toast } from "sonner";
+
 type props = {
   profileObject: UserType | undefined
   updatedDp : string | undefined
@@ -16,24 +17,24 @@ type props = {
 }
 
 const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => {
-  const {user, userDocumentId,setImageUrl,userId } = useConnectContext();
-  const [check,setCheck] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updateLoading,setUpdateLoading] = useState(false)
-  const visitedUserId = profileObject?._id
+  const {user, userDocumentId} = useConnectContext();
+  const [isFollow,setIsFollow] = useState(false)
+  // const [updateLoading,setUpdateLoading] = useState(false)
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const visitedUserId = profileObject?.id
 
-  let imageUrl = profileObject?.authId?.dp as string;
-  let public_id = '';
-  if (imageUrl) {
-    let parts = imageUrl.split('/');
-    if (parts.length > 0) {
-      const filenameWithExtension = parts[parts.length - 1]; // Get the last part of the URL
-      let filenameParts = filenameWithExtension.split('.');
-      if (filenameParts.length > 0) {
-        public_id = filenameParts[0];
-      }
-    }
-  }
+  // let imageUrl = profileObject?.authId?.dp as string;
+  // let public_id = '';
+  // if (imageUrl) {
+  //   let parts = imageUrl.split('/');
+  //   if (parts.length > 0) {
+  //     const filenameWithExtension = parts[parts.length - 1]; // Get the last part of the URL
+  //     let filenameParts = filenameWithExtension.split('.');
+  //     if (filenameParts.length > 0) {
+  //       public_id = filenameParts[0];
+  //     }
+  //   }
+  // }
 
   // const updateImageHandler = async()=>{
   //   setUpdateLoading(true)
@@ -75,41 +76,43 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
   const unfollow = async () => {
     try {
       const response = await fetch(`${baseUrl}/user/unfollow`, {
-        method: "PUT",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           unfollowUserId : visitedUserId,
-          userDocumentId
+          userId : userDocumentId
         }),
-      });
+      })
       if(response.status==200){
-        setCheck(false)
+        setIsFollow(false)
       }
     } catch (error) {
+
     }
-  };
+  }
   
   const follow = async () => {
     if(typeof user == "undefined") {
       return toast.error("Please login to follow")
     }
     try {
-      const response = await fetch(`${baseUrl}/user/follow`, {
-        method: "PUT",
+      const response = await fetch(`${baseUrl}/user/follow`,{
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userDocumentId, userId,followUserId : visitedUserId }),
-      });
+        // body: JSON.stringify({ userDocumentId, userId,followUserId : visitedUserId }),
+        body: JSON.stringify({ userId : userDocumentId,followUserId : visitedUserId }),
+      })
       if(response.status==200){
-        setCheck(true)
+        setIsFollow(true)
       }
     } catch (error) {
+
     }
-  };
-  
+  }
   useEffect(() => {
-      const checkFollowingFollowers = async () => {
+      const checkIfFollowing = async () => {
         try {
-          const response = await fetch(`${baseUrl}/user/followingfollowers/check`,
+          const response = await fetch(`${baseUrl}/user/checkifFollowing`,
           {
             method : "POST",
             headers : {
@@ -121,22 +124,20 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
             })
           })
           const data = await response.json()
-          data=="true" ?  setCheck(true) : setCheck(false)
-        } catch (error) {}
-      };
-    checkFollowingFollowers();
-  },[]);
+          data=="true" ?  setIsFollow(true) : setIsFollow(false)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    checkIfFollowing();
+  },[userDocumentId])
 
-  const closeModal = () =>{
-    setUpdatedDp(profileObject?.authId.dp as string)
-    setIsModalOpen(false)
-  }
 
-  useEffect(()=>{
-    if(updatedDp != profileObject?.authId.dp ){
-      setIsModalOpen(true)
-    }
-  },[updatedDp])
+  // useEffect(()=>{
+  //   if(updatedDp != profileObject?.authId?.dp ){
+  //     setIsModalOpen(true)
+  //   }
+  // },[updatedDp])
 
 
   return (
@@ -190,7 +191,7 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
               Followers{" "}
             </Button>
           </Link>
-          <Link href={`/${profileObject?.authId?.username}/following`}>
+          <Link href={`/${profileObject?.username}/following`}>
             <Button className="text-[14px] py-6 px-2 rounded-[3px]">
               {profileObject?.following?.length}
               <br />
@@ -201,7 +202,7 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
         <div className="mt-4 text-center">
               {profileObject?.username !== user &&  user?.length!=0 ? (
                 <>
-            {check
+            {isFollow
             ?
             <Button className="bg-blue-600 hover:bg-violet-500 text-[15px]" onClick={unfollow}>
               Unfollow

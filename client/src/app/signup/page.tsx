@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { baseUrl } from "@/utils";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Toaster, toast } from "sonner";
-const Authanimation = lazy(()=>import("@/components/ui/Authanimation"))
+const Authanimation = lazy(()=>import("@/components/ui/authanimation"))
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -32,8 +32,6 @@ function Page() {
           toast.error("Username taken")
         }
         if(response.status==200){
-          const data = await response.json()
-          localStorage.setItem("token", data.token);
           window.location.href = "/"  // causing the window reload
         }
       } else{
@@ -45,7 +43,7 @@ function Page() {
     }
   };
   return (
-    <ProtectedRoute>
+    <>
       <Toaster richColors position="top-center" />
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12  gap-12 sm:gap-0 py-12">
         <Suspense>
@@ -86,7 +84,7 @@ function Page() {
       <Button disabled={loading} className={`${loading ? "opacity-90": ""} center_button_form`}>Register</Button>
     </form>
 </main>
-    </ProtectedRoute>
+    </>
 
   );
 }

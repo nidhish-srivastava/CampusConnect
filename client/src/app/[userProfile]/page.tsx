@@ -25,17 +25,14 @@ export default function FetchUser() {
         const response = await fetch(`${baseUrl}/user/${userProfile}`);
         const data = await response.json();
         setData(data);
-        setUpdatedDp(data.authId.dp);
+        setUpdatedDp(data?.auth?.dp);
+        setLoading(false);
       } catch (error) {
-      } finally {
         setLoading(false);
       }
     };
     fetchProfileInfo();
   }, []);
-
-  // console.log(data);
-  
 
   return (
     <>
@@ -49,7 +46,7 @@ export default function FetchUser() {
             />
           )}
           <>
-            {data?.email.length == 0 && data?.username == user ? (
+            {data?.email?.length == 0 && data?.username == user ? (
               <div className="text-center mt-6">
                 <Link href={`/${data?.username}/create-profile`}>
                   <Button className="text-sm bg-amber-600 px-3">
@@ -60,7 +57,7 @@ export default function FetchUser() {
             ) : null}
           </>
           <>
-            {data && data.email.length !== 0 && (
+            {data && data?.email?.length !== 0 && (
               <ProfileInformation profileObject={data} />
             )}
           </>

@@ -47,43 +47,55 @@ function Navbar() {
     try {
       const response = await fetch(`${baseUrl}/user?username=${query}`);
       const data = await response.json();
-      setSearchResultArray(data);
+      setSearchResultArray(data?.fetchUser);
     } catch (error) {
       console.error("Error fetching username:", error);
     }
   };
 
-  const authenticateUserPromise = async (): Promise<any> => {
+  const checkIfAuthenticated = async (): Promise<any> => {
     try {
       const response = await fetch(`${baseUrl}/auth/me`, {
         method: "GET",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
+        credentials : "include"
       });
-      return await response.json();
+      return response.json();
     } catch (error) {
       console.error("Error authenticating user:", error);
     }
   };
 
+  const logoutHandler = async() =>{
+    try {
+      const response = await fetch(`${baseUrl}/auth/logout`,{
+        method : "GET",
+        credentials : "include"
+      })
+      if(response.ok) window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const checkAuthentication = async () => {
       setLoading(true);
       try {
-        const authenticateUser = await authenticateUserPromise();
-        const findUserDocument = await findUserDocumentPromise(
-          authenticateUser?.username
-        );
-        setUser(authenticateUser?.username);
-        setUserId(authenticateUser?.id);
-        setUserDocumentId(findUserDocument?._id);
-        setImageUrl(authenticateUser?.dp);
+        const authCheck = await checkIfAuthenticated();
+        if(authCheck!=undefined){
+          const findUserDocument = await findUserDocumentPromise(
+            authCheck?.username
+          );
+          setUser(authCheck?.username);
+          setUserId(authCheck?.id);
+          setImageUrl(authCheck?.dp);
+          setUserDocumentId(findUserDocument?.id);
+        }
+        setLoading(false)
       } catch (error) {
         console.error("Error checking authentication:", error);
-      } finally {
-        setLoading(false);
-      }
+        setLoading(false)
+      } 
     };
     checkAuthentication();
   }, []);
@@ -111,7 +123,7 @@ function Navbar() {
           </Link>
           <Avatar>
             <AvatarImage src={imageUrl} alt="@shadcn" />
-            <AvatarFallback>{user.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{user?.charAt(0)}</AvatarFallback>
           </Avatar>
         </div>
       </>
@@ -123,6 +135,7 @@ function Navbar() {
         <Link href="/" className="customsm:hidden mr-auto font-semibold text-2xl">
           {PROJECT_NAME}
         </Link>
+
         {pathCheck != "search" && !isModalOpen ? (
           <span onClick={openModal}>
             <Search />
@@ -155,16 +168,17 @@ function Navbar() {
               "No results found"}
           </div>
         </SearchBarModal>
+
         {user?.length > 1 ? (
           <>
-            <Link href={`/notification`}>
+            {/* <Link href={`/notification`}>
               <Notification />
-            </Link>
+            </Link> */}
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
                   <AvatarImage src={imageUrl} alt="@shadcn" />
-                  <AvatarFallback>{user.charAt(0)}</AvatarFallback>
+                  <AvatarFallback>{user?.charAt(0)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -177,10 +191,7 @@ function Navbar() {
                 </Link>
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={() => {
-                    localStorage.setItem("token", "");
-                    window.location.href = "/";
-                  }}
+                  onClick={logoutHandler}
                 >
                   Logout
                 </DropdownMenuItem>

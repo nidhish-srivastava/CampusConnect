@@ -8,7 +8,7 @@ export type AuthId = {
 
 export type UserType = {
   username : string
-  _id: string;
+  id: string;
   authId: AuthId;
   followers: string[];
   following: string[];
