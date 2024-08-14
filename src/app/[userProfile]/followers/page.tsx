@@ -69,18 +69,22 @@ const Page = () => {
                     <h3 className="text-xl">{e?.auth?.username}</h3>
                   </div>
                 </Link>
-                {clickedUserId == e.id && isRemoved ? (
-                  <Button className="follow-unfollow-btn"
-                  // onClick={()=>followUserHandler(e?.id)}
-                  >Removed</Button>
-                ) : (
-                  <Button
-                    className="follow-unfollow-btn"
-                    onClick={() => removeFollower(e?.id)}
-                  >
-                    Remove
-                  </Button>
-                )}
+                {
+                  userDocumentId.length > 0 && <>
+                  { clickedUserId == e.id && isRemoved ? (
+                    <Button className="follow-unfollow-btn"
+                    // onClick={()=>followUserHandler(e?.id)}
+                    >Removed</Button>
+                  ) : (
+                    <Button
+                      className="follow-unfollow-btn"
+                      onClick={() => removeFollower(e?.id)}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                  </>
+                }
               </div>
             </div>
           ))}

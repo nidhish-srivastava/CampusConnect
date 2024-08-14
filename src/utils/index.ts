@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 
 const PROJECT_NAME = "CampusConnect"
 
-const baseUrl = `${process.env.BASE_URL || ""}/api`
+const baseUrl = `${process.env.BASE_URL!}/api`
 
 const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
 
