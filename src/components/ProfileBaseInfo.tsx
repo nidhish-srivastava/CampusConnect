@@ -16,7 +16,7 @@ type props = {
   setProfileObject ?: React.Dispatch<React.SetStateAction<UserType | undefined>>
 }
 
-const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => {
+const ProfileBaseInfo = ({ profileObject,updatedDp }:  props ) => {
   const {user, userDocumentId} = useConnectContext();
   const [isFollow,setIsFollow] = useState(false)
   // const [updateLoading,setUpdateLoading] = useState(false)
@@ -129,8 +129,10 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
           console.log(error);
         }
       }
-    checkIfFollowing();
-  },[userDocumentId])
+      if(user.length != 0){
+        checkIfFollowing();
+      }
+  },[userDocumentId,user])
 
   // useEffect(()=>{
   //   if(updatedDp != profileObject?.authId?.dp ){
