@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { UserType } from "@/types";
 import { useParams } from "next/navigation";
@@ -13,30 +13,30 @@ import { useConnectContext } from "@/context/context";
 
 const Page = () => {
   const { userProfile } = useParams();
-  const {userDocumentId} = useConnectContext()
-  const [following,setFollowing] = useState<UserType[]>([])
-  const [loading,setLoading] = useState(false)
-  const [clickedUserId,setClickedUserId] = useState("")
-  const [isUnfollowed,setIsUnfollowed] = useState(false)
-  useEffect(()=>{
-    const fetchFollowing = async ()=> {
-      setLoading(true)
+  const { userDocumentId } = useConnectContext();
+  const [following, setFollowing] = useState<UserType[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [clickedUserId, setClickedUserId] = useState("");
+  const [isUnfollowed, setIsUnfollowed] = useState(false);
+  useEffect(() => {
+    const fetchFollowing = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`${baseUrl}/user/following/${userProfile}`);
-        const following = await  response.json();
-        setFollowing(following)
+        const response = await fetch(
+          `${baseUrl}/user/following/${userProfile}`
+        );
+        const following = await response.json();
+        setFollowing(following);
       } catch (error) {
-        
-      }
-      finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
-    fetchFollowing()
-  },[userProfile])
+    fetchFollowing();
+  }, [userProfile]);
 
-  const unfollowUserHandler = async(unfollowUserId : string)=>{
-    setClickedUserId(unfollowUserId)
+  const unfollowUserHandler = async (unfollowUserId: string) => {
+    setClickedUserId(unfollowUserId);
     try {
       const response = await fetch(`${baseUrl}/user/unfollow`, {
         method: "PATCH",
@@ -48,13 +48,11 @@ const Page = () => {
           "Content-Type": "application/json",
         },
       });
-      if(response.ok) setIsUnfollowed(true)
-    } catch (error) {
-      
-    }
-  }
-  const followUserHandler = async(followUserId : string)=>{
-    setClickedUserId(followUserId)
+      if (response.ok) setIsUnfollowed(true);
+    } catch (error) {}
+  };
+  const followUserHandler = async (followUserId: string) => {
+    setClickedUserId(followUserId);
     try {
       const response = await fetch(`${baseUrl}/user/follow`, {
         method: "PATCH",
@@ -66,58 +64,69 @@ const Page = () => {
           "Content-Type": "application/json",
         },
       });
-      if(response.ok) setIsUnfollowed(false)
-    } catch (error) {
-      
-    }
-  }
-  
+      if (response.ok) setIsUnfollowed(false);
+    } catch (error) {}
+  };
+
   return (
     <>
-    <h2 className="text-center text-2xl mb-8">List of Following</h2>
-    {
-      !loading ? 
-      <div
-        className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
-      >
-        {following && following?.map((e:any,i)=>{
-          return(
-            <div className="w-1/2 flex items-center justify-between" key={i}>
-            <Link href={`/${e?.auth?.username}`} key={i}>
-              <div className="gap-8 flex items-center">
-              <Image
-              src = {e?.auth?.dp}
-              width={60}
-              height={60}
-              alt='dp'
-              />
-               <h3 className="text-xl">{e?.auth?.username}</h3>
-                </div>
-                </Link>
-                {
-                  clickedUserId == e?.id && isUnfollowed ? (
-                    <Button className="follow-unfollow-btn" onClick={()=>followUserHandler(e?.id)}>Follow</Button>
-                  ) : 
-                <Button
-                    className="follow-unfollow-btn"
-                    onClick={()=>unfollowUserHandler(e?.id)}
-                    >
-                    Unfollow
-                  </Button>
-                }
+      <h2 className="text-center text-2xl mb-8">List of Following</h2>
+      {!loading ? (
+        <div
+          className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
+        >
+          {
+            following?.map((e: any, i) => {
+              return (
+                <div
+                  className={`w-1/2 flex items-center ${userDocumentId == "" ? "justify-center" : "justify-between"}`}
+                  key={i}
+                >
+                  <Link href={`/${e?.auth?.username}`} key={i}>
+                    <div className="gap-8 flex items-center">
+                      <Image
+                        src={e?.auth?.dp}
+                        width={60}
+                        height={60}
+                        alt="dp"
+                      />
+                      <h3 className="text-xl">{e?.auth?.username}</h3>
                     </div>
-          )
-        })}
-      </div>
-      : 
-      <div className="flex min-h-full gap-5 items-center justify-center">
-    <Skeleton className="h-12 w-12 rounded-full" />
-    <div className="space-y-2">
-      <Skeleton className="h-8 w-[400px]" />
-      <Skeleton className="h-8 w-[400px]" />
-    </div>
-  </div>
-    }
+                  </Link>
+                  { userDocumentId != ""  ? (
+                    <>
+                      {clickedUserId == e?.id && isUnfollowed ? (
+                        <Button
+                          className="follow-unfollow-btn"
+                          onClick={() => followUserHandler(e?.id)}
+                        >
+                          Follow
+                        </Button>
+                      ) : (
+                        <Button
+                          className="follow-unfollow-btn"
+                          onClick={() => unfollowUserHandler(e?.id)}
+                        >
+                          Unfollow
+                        </Button>
+                      )}
+                    </>
+                  )
+                : null
+                }
+                </div>
+              );
+            })}
+        </div>
+      ) : (
+        <div className="flex min-h-full gap-5 items-center justify-center">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-[400px]" />
+            <Skeleton className="h-8 w-[400px]" />
+          </div>
+        </div>
+      )}
     </>
   );
 };

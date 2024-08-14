@@ -61,8 +61,7 @@ const Page = () => {
           className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
         >
           {followers?.map((e: any, i) => (
-            <div className="w-1/2" key={i}>
-              <div className="flex items-center justify-between">
+              <div  key={i} className={`w-1/2 flex items-center ${userDocumentId == "" ? "justify-center" : "justify-between"}`}>
                 <Link href={`/${e?.auth?.username}`}>
                   <div className="gap-8 flex items-center">
                     <Image src={e?.auth?.dp} width={60} height={60} alt="dp" />
@@ -70,7 +69,7 @@ const Page = () => {
                   </div>
                 </Link>
                 {
-                  userDocumentId.length > 0 && <>
+                  userDocumentId != "" && <>
                   { clickedUserId == e.id && isRemoved ? (
                     <Button className="follow-unfollow-btn"
                     // onClick={()=>followUserHandler(e?.id)}
@@ -86,7 +85,6 @@ const Page = () => {
                   </>
                 }
               </div>
-            </div>
           ))}
         </div>
       ) : (
