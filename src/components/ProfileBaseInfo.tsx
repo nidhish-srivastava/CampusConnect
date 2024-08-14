@@ -132,7 +132,6 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
     checkIfFollowing();
   },[userDocumentId])
 
-
   // useEffect(()=>{
   //   if(updatedDp != profileObject?.authId?.dp ){
   //     setIsModalOpen(true)
@@ -180,8 +179,8 @@ const ProfileBaseInfo = ({ profileObject,updatedDp,setUpdatedDp  }:  props ) => 
         }
       </div>
       <div className="">
-        <h2 className="text-center text-[20px] m-2">
-          {profileObject?.authId?.username}
+        <h2 className="text-center text-xl font-medium m-2 mb-4">
+          {profileObject?.username}
         </h2>
         <div className="flex gap-2">
           <Link href={`/${profileObject?.username}/followers`}>
