@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     } else {
       return NextResponse.json(
         { message: "No colleges found" },
-        { status: 404 }
+        { status: 400 }
       );
     }
   } catch (error) {

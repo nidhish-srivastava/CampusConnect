@@ -12,14 +12,15 @@ model Auth {
   username String @unique
   password String
   dp       String @default("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg")
-  users    User[] 
+  user     User?  @relation(fields: [userId], references: [id])
+  userId   Int?    @unique
 }
 
 model User {
   id               Int       @id @default(autoincrement())
   username         String    @unique
-  authId           Int
-  auth             Auth      @relation(fields: [authId], references: [id])
+  auth             Auth?     @relation
+  authId           Int?      @unique
   email            String    @default("")
   github           String    @default("")
   linkedin         String    @default("")
@@ -32,6 +33,6 @@ model User {
 }
 
 model College {
-  id Int @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   colleges String[] @default([])
 }
