@@ -1,6 +1,5 @@
-import { Suspense, lazy } from "react";
 import Link from "next/link";
-const  Heroanimation = lazy(()=>import("@/components/ui/heroanimation"))
+import Heroanimation from "@/components/ui/heroanimation"
 
 function Hero() {
     return (
@@ -13,11 +12,9 @@ function Hero() {
               <button className="text-lg md:text-xl bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out font-semibold">Explore Colleges</button>
             </Link>
           </div>
-          <Suspense fallback="">
           <div className="md:w-[40%] mx-auto">
             <Heroanimation/>
           </div>
-          </Suspense>
         </div>
       </div>
     );
