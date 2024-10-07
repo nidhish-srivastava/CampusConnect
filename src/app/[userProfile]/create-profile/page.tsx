@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import {  useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useConnectContext } from "@/context/context";
 import Image from "next/image";
@@ -19,7 +19,7 @@ function CreateProfile() {
   const [value, setValue] = useState(0);
   // const [isAuthenticate,setIsAuthenticate] = useState(false)
   const { register, handleSubmit } = useForm();
-  const [isSubmitted,setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const imageUploadCloudinary = async (user: string, userImg: string) => {
     try {
@@ -28,9 +28,7 @@ function CreateProfile() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: user, dp: userImg }),
       });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const addCollege = async (college: string | undefined): Promise<any> => {
@@ -40,9 +38,7 @@ function CreateProfile() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ college: college }),
       });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
     // console.log("next");
   };
 
@@ -55,9 +51,7 @@ function CreateProfile() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const submitHandlerForm = async (data: Partial<UserType>) => {
@@ -70,15 +64,16 @@ function CreateProfile() {
       collegeLocation: data.collegeLocation,
       collegeCity: data.collegeCity,
     };
+    setIsSubmitted(false);
     try {
-      // setValue(100);
-      const response = await Promise.all([  // Since we want all the three promises to get fulfilled otherwise it will be partial update which is not required,we want full update
+      setValue(100);
+      const response = await Promise.all([
+        // Since we want all the three promises to get fulfilled otherwise it will be partial update which is not required,we want full update
         imageUploadCloudinary(user, userImg),
         addCollege(formData.college),
         submitForm(formData),
       ]);
       router.push(`/${user}`);
-      setIsSubmitted(true)
       setImageUrl(userImg);
     } catch (error) {}
   };
@@ -98,8 +93,24 @@ function CreateProfile() {
     <>
       {
         <>
-          <Progress value={value} className="w-[40%] mx-auto my-10" />
+          {value != 100 && (
+            <Progress value={value} className="w-[40%] mx-auto my-10" />
+          )}
           <div className="create-profile-form">
+            <div className="w-full">
+            {value == 100 && (
+              <div
+              className="w-fit mx-auto bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+              role="alert"
+              >
+                <strong className="font-bold">Success!</strong>
+                <span className="block sm:inline ml-2">
+                  Profile Created Successfully.
+                </span>
+              </div>
+            )}
+            </div>
+
             {value == 66 && (
               <form
                 className="create-profile-form w-[24%]"
@@ -153,7 +164,12 @@ function CreateProfile() {
                   >
                     Back
                   </Button>
-                  <Button className="text-sm px-6 py-4 mx-auto">Submit</Button>
+                  <Button
+                    disabled={isSubmitted}
+                    className="text-sm px-6 py-4 mx-auto"
+                  >
+                    Submit
+                  </Button>
                 </div>
               </form>
             )}

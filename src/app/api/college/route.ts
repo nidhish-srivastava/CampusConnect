@@ -30,6 +30,27 @@ export async function POST(req: NextRequest) {
   try {
     await connectDb();
     const { college } = await req.json();
+
+    // Fetch the current list of colleges
+    const collegeRecord = await prisma.college.findUnique({
+      where: { id: 1 },
+    });
+
+    if (!collegeRecord) {
+      return NextResponse.json(
+        { message: "College record not found" },
+        { status: 404 }
+      );
+    }
+
+    // Check if the college already exists
+    if (collegeRecord.colleges.includes(college)) {
+      return NextResponse.json(
+        { message: "College already exists" },
+        { status: 400 }
+      );
+    }
+
     // Update the College record by adding the new college to the list
     const updatedCollege = await prisma.college.update({
       where: { id: 1 },

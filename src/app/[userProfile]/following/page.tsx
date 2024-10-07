@@ -7,7 +7,7 @@ const fontMontserrat = Montserrat({ subsets: ["latin"] });
 import Image from "next/image";
 import Link from "next/link";
 import { baseUrl } from "@/utils";
-import { Skeleton } from "@/components/ui/skeleton";
+import SkeletonLoader from "@/components/ui/skeleton-loader";
 import { Button } from "@/components/ui/button";
 import { useConnectContext } from "@/context/context";
 
@@ -68,65 +68,66 @@ const Page = () => {
     } catch (error) {}
   };
 
+  if (loading) {
+    return (
+      <>
+        <h2 className="text-center text-2xl font-medium">Following</h2>
+        <SkeletonLoader />
+      </>
+    );
+  }
+
   return (
     <>
-      <h2 className="text-center text-2xl mb-8">List of Following</h2>
-      {!loading ? (
-        <div
-          className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
-        >
-          {
-            following?.map((e: any, i) => {
-              return (
-                <div
-                  className={`w-1/2 flex items-center ${userDocumentId == "" ? "justify-center" : "justify-between"}`}
-                  key={i}
-                >
-                  <Link href={`/${e?.auth?.username}`} key={i}>
-                    <div className="gap-8 flex items-center">
-                      <Image
-                        src={e?.auth?.dp}
-                        width={60}
-                        height={60}
-                        alt="dp"
-                      />
-                      <h3 className="text-xl">{e?.auth?.username}</h3>
-                    </div>
-                  </Link>
-                  { userDocumentId != ""  ? (
-                    <>
-                      {clickedUserId == e?.id && isUnfollowed ? (
-                        <Button
-                          className="follow-unfollow-btn"
-                          onClick={() => followUserHandler(e?.id)}
-                        >
-                          Follow
-                        </Button>
-                      ) : (
-                        <Button
-                          className="follow-unfollow-btn"
-                          onClick={() => unfollowUserHandler(e?.id)}
-                        >
-                          Unfollow
-                        </Button>
-                      )}
-                    </>
-                  )
-                : null
-                }
+      <h2 className="text-center text-2xl font-medium">Following</h2>
+      <div className="flex w-fit mx-auto flex-col items-center justify-center text-center py-2 px-6 mt-2">
+        {/* <p className="text-sm font-semibold text-blue-600">0 followers</p> */}
+        <Button className="text-[14px] py-6 px-2 rounded-[3px]">
+          {following?.length}
+          <br />
+          Followers{" "}
+        </Button>
+      </div>
+      <div
+        className={`flex flex-col mx-auto items-center mt-20 gap-12 ${fontMontserrat.className} `}
+      >
+        {following?.map((e: any, i) => {
+          return (
+            <div
+              className={`w-1/2 flex items-center ${
+                userDocumentId == "" ? "justify-center" : "justify-between"
+              }`}
+              key={i}
+            >
+              <Link href={`/${e?.auth?.username}`} key={i}>
+                <div className="gap-8 flex items-center">
+                  <Image src={e?.auth?.dp} width={60} height={60} alt="dp" />
+                  <h3 className="text-xl">{e?.auth?.username}</h3>
                 </div>
-              );
-            })}
-        </div>
-      ) : (
-        <div className="flex min-h-full gap-5 items-center justify-center">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <div className="space-y-2">
-            <Skeleton className="h-8 w-[400px]" />
-            <Skeleton className="h-8 w-[400px]" />
-          </div>
-        </div>
-      )}
+              </Link>
+              {userDocumentId != "" ? (
+                <>
+                  {clickedUserId == e?.id && isUnfollowed ? (
+                    <Button
+                      className="follow-unfollow-btn"
+                      onClick={() => followUserHandler(e?.id)}
+                    >
+                      Follow
+                    </Button>
+                  ) : (
+                    <Button
+                      className="follow-unfollow-btn"
+                      onClick={() => unfollowUserHandler(e?.id)}
+                    >
+                      Unfollow
+                    </Button>
+                  )}
+                </>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

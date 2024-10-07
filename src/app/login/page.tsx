@@ -38,7 +38,7 @@ function Page() {
         return;
       }
       if (response.status == 200) {
-        window.location.href = "/";
+        window.location.href = `/${username}`;
       }
     } catch (error: Error | any) {
       setLoading(false);

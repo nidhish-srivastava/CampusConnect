@@ -32,7 +32,7 @@ function Page() {
           toast.error("Username taken")
         }
         if(response.status==200){
-          window.location.href = "/"  // causing the window reload
+          window.location.href = `/${username}`  // causing the window reload
         }
       } else{
         setLoading(false)
