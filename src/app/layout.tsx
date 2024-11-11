@@ -11,15 +11,16 @@ const inter = Raleway({ subsets: ["latin"] });
 // Below is the static metadata
 export const metadata: Metadata = {
   title: {
-    default : "CampusConnect",
-    template : `%s | CampusConnect`
+    default: "CampusConnect",
+    template: `%s | CampusConnect`,
   },
-  openGraph : {
-    description: "A social networking platform tailored for folks in college where one can drop his social profiles and connect with other's and follow their social media's at one place",
-    images : ['']
+  openGraph: {
+    description:
+      "A social networking platform tailored for folks in college where one can drop his social profiles and connect with other's and follow their social media's at one place",
+    images: [""],
   },
-  metadataBase : new URL("https://campus-connect-mu.vercel.app"),
-  keywords : ["students","colleges","social media"]
+  metadataBase: new URL("https://campus-connect-mu.vercel.app"),
+  keywords: ["students", "colleges", "social media"],
 };
 
 export default function RootLayout({
@@ -29,12 +30,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-        <body className={inter.className}>
-      <ConnectContextProvider>
+      <body className={inter.className}>
+        <ConnectContextProvider>
           <Navbar />
           {children}
-      </ConnectContextProvider>
-        </body>
+        </ConnectContextProvider>
+      </body>
     </html>
   );
 }

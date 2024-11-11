@@ -119,7 +119,7 @@ function Navbar() {
   if (loading)
     return (
       <>
-        <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
+        <div className="p-6 mb-16 flex customsm:justify-center items-center justify-end gap-6">
           <Link
             href="/"
             className="logo customsm:hidden font-semibold mr-auto text-2xl"
