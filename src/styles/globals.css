@@ -1,6 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2rem; /* Adjust as necessary */
+  color: rgb(79, 141, 172); /* Adjust color to match the logo */
+}
+
+.logo .part1 {
+  display: inline-block;
+}
+
+.logo .part2 {
+  display: inline-block;
+  margin-left: .5rem;
+  background-color: rgb(79, 141, 172); /* Background color for the second part */
+  color: #ffffff; /* Text color for the second part */
+  padding: 0 10px; /* Adjust padding to match the spacing */
+}
+
+
  
 @layer base {
   :root {

@@ -19,8 +19,8 @@ import SearchBarModal from "./SearchBarModal";
 import { Input } from "./ui/input";
 import SearchResults from "./SearchResults";
 import { AuthId } from "@/types";
-import Notification from "./icons/notification";
 import Image from "next/image";
+// import Notification from "./icons/notification";
 
 function Navbar() {
   const { user, setUser, setUserId, imageUrl, setImageUrl, setUserDocumentId } =
@@ -59,7 +59,7 @@ function Navbar() {
     try {
       const response = await fetch(`${baseUrl}/auth/me`, {
         method: "GET",
-        credentials : "include"
+        credentials: "include",
       });
       return response.json();
     } catch (error) {
@@ -67,24 +67,24 @@ function Navbar() {
     }
   };
 
-  const logoutHandler = async() =>{
+  const logoutHandler = async () => {
     try {
-      const response = await fetch(`${baseUrl}/auth/logout`,{
-        method : "GET",
-        credentials : "include"
-      })
-      if(response.ok) window.location.href = "/";
+      const response = await fetch(`${baseUrl}/auth/logout`, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (response.ok) window.location.href = "/";
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     const checkAuthentication = async () => {
       setLoading(true);
       try {
         const authCheck = await checkIfAuthenticated();
-        if(authCheck!=undefined){
+        if (authCheck != undefined) {
           const findUserDocument = await findUserDocumentPromise(
             authCheck?.username
           );
@@ -93,11 +93,11 @@ function Navbar() {
           setImageUrl(authCheck?.dp);
           setUserDocumentId(findUserDocument?.id);
         }
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.error("Error checking authentication:", error);
-        setLoading(false)
-      } 
+        setLoading(false);
+      }
     };
     checkAuthentication();
   }, []);
@@ -120,14 +120,13 @@ function Navbar() {
     return (
       <>
         <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
-        <Link href="/" className="absolute left-2 top-2 customsm:hidden mr-auto">
-        <Image
-        height={150}
-        width={150}
-        alt="CampusConnect"
-        src={"/logo2.svg"}
-        />
-        </Link>
+          <Link
+            href="/"
+            className="logo customsm:hidden font-semibold mr-auto text-2xl"
+          >
+            <span className="part1">CAMPUS</span>
+            <span className="part2">CONNECT</span>
+          </Link>
           <Avatar>
             <AvatarImage src={imageUrl} alt="@shadcn" />
             <AvatarFallback>{user?.charAt(0)}</AvatarFallback>
@@ -139,13 +138,12 @@ function Navbar() {
   return (
     <>
       <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
-        <Link href="/" className="absolute left-2 top-2 customsm:hidden mr-auto">
-        <Image
-        height={150}
-        width={150}
-        alt="CampusConnect"
-        src={"/logo2.svg"}
-        />
+        <Link
+          href="/"
+          className="logo customsm:hidden font-semibold mr-auto text-2xl"
+        >
+          <span className="part1">CAMPUS</span>
+          <span className="part2">CONNECT</span>
         </Link>
 
         {pathCheck != "search" && !isModalOpen ? (
