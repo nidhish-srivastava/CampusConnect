@@ -20,6 +20,7 @@ import { Input } from "./ui/input";
 import SearchResults from "./SearchResults";
 import { AuthId } from "@/types";
 import Notification from "./icons/notification";
+import Image from "next/image";
 
 function Navbar() {
   const { user, setUser, setUserId, imageUrl, setImageUrl, setUserDocumentId } =
@@ -119,9 +120,14 @@ function Navbar() {
     return (
       <>
         <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
-          <Link href="/" className="customsm:hidden font-semibold mr-auto text-2xl">
-            {PROJECT_NAME}
-          </Link>
+        <Link href="/" className="absolute left-2 top-2 customsm:hidden mr-auto">
+        <Image
+        height={150}
+        width={150}
+        alt="CampusConnect"
+        src={"/logo2.svg"}
+        />
+        </Link>
           <Avatar>
             <AvatarImage src={imageUrl} alt="@shadcn" />
             <AvatarFallback>{user?.charAt(0)}</AvatarFallback>
@@ -133,8 +139,13 @@ function Navbar() {
   return (
     <>
       <div className="p-6 flex customsm:justify-center items-center justify-end gap-6">
-        <Link href="/" className="customsm:hidden mr-auto font-semibold text-2xl">
-          {PROJECT_NAME}
+        <Link href="/" className="absolute left-2 top-2 customsm:hidden mr-auto">
+        <Image
+        height={150}
+        width={150}
+        alt="CampusConnect"
+        src={"/logo2.svg"}
+        />
         </Link>
 
         {pathCheck != "search" && !isModalOpen ? (
