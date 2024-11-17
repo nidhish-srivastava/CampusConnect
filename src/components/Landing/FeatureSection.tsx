@@ -2,9 +2,17 @@ import Feat1 from "@/assets/features/2.png";
 import Feat3 from "@/assets/features/3.png";
 import Feat4 from "@/assets/features/4.png";
 import Feat5 from "@/assets/features/5.png";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 
-const features = [
+type featuresType = {
+  title : string,
+  description : string,
+  image : string | StaticImport,
+  reverse : boolean
+}
+
+const features : featuresType[] = [
   {
     title: "Campus Connections",
     description:
@@ -26,7 +34,7 @@ const features = [
   },
   {
     title : "Explore Colleges",
-    description : "Find students from a Specific college from our assoicated college lists",
+    description : "Find students from a Specific college from our associated college lists",
     image : Feat4,
     reverse : true
   }
@@ -34,46 +42,44 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <section className=" bg-gray-100 py-16">
+    <section className="bg-gray-100 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-10">
           Popular Features
         </h2>
-        <div className="flex flex-col gap-8">
-          {
-            features.map((e,i)=>(
-              <FeatureCard
+        <div className="flex flex-col gap-12">
+          {features.map((e, i) => (
+            <FeatureCard
               key={i}
               title={e.title}
               description={e.description}
-              // icon={<i className="fas fa-users text-3xl text-gray-700"></i>}
               image={e.image}
               reverse={e.reverse}
             />
-            ))
-          }
+          ))}
         </div>
       </div>
     </section>
   );
 }
+
 export default FeaturesSection;
 
-function FeatureCard({ title, description, image, reverse }: any) {
+function FeatureCard({ title, description, image, reverse } : featuresType) {
   return (
     <div
-      className={`flex flex-col md:flex-row ${
+      className={`flex flex-col-reverse md:flex-row ${
         reverse ? "md:flex-row-reverse" : ""
       } gap-8`}
     >
-      <div className="md:w-[63%]">
-        <Image src={image} alt={title} className="rounded-lg" />
-      </div>
       <div className="md:w-[37%] flex flex-col justify-center px-4 md:px-0">
         <h3 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6">
           {title}
         </h3>
         <p className="text-lg md:text-xl text-gray-700">{description}</p>
+      </div>
+      <div className="md:w-[63%]">
+        <Image src={image} alt={title} className="rounded-lg" />
       </div>
     </div>
   );
