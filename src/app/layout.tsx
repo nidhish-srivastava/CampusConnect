@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ConnectContextProvider>
-          {/* <Navbar /> */}
+          <Navbar />
           {children}
         </ConnectContextProvider>
       </body>

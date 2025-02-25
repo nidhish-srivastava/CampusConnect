@@ -24,6 +24,7 @@ const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymo
 export const handleImage = (setUserImg : (uri : string)=>void) => {
   
   // create a file input dynamically
+  if (typeof document !== "undefined") {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.accept = "image/*";
@@ -58,6 +59,7 @@ export const handleImage = (setUserImg : (uri : string)=>void) => {
   };
   // simulate a click
   fileInput.click();
+}
 };
 
 
