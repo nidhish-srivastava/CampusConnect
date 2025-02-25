@@ -10,7 +10,8 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types";
-import { baseUrl, handleImage, defaultDp } from "@/utils";
+// import { baseUrl, handleImage, defaultDp } from "@/utils";
+import { baseUrl, defaultDp } from "@/utils";
 
 function CreateProfile() {
   const router = useRouter();
@@ -229,7 +230,7 @@ function CreateProfile() {
               <>
                 <div
                   className=" w-48 h-48 mx-auto overflow-hidden cursor-pointer rounded-[50%]  bg-black"
-                  onClick={() => handleImage(setUserImg)}
+                  // onClick={() => handleImage(setUserImg)}
                 >
                   <Image
                     src={userImg}
