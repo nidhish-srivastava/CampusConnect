@@ -3,7 +3,7 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 import { ConnectContextProvider } from "../context/context";
 
 const inter = Raleway({ subsets: ["latin"] });
@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ConnectContextProvider>
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </ConnectContextProvider>
       </body>

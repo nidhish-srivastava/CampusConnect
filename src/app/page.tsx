@@ -1,3 +1,4 @@
+"use client"
 import Hero from "@/components/Landing/Hero"
 import FeaturesSection from "@/components/Landing/FeatureSection"
 import Footer from "@/components/Landing/Footer"

@@ -21,46 +21,44 @@ const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymo
   },2000)
 }
 
-// export const handleImage = (setUserImg : (uri : string)=>void) => {
+const handleImage = (setUserImg : (uri : string)=>void) => {
   
-//   // create a file input dynamically
-//   if (typeof document !== "undefined") {
-//   const fileInput = document.createElement("input");
-//   fileInput.type = "file";
-//   fileInput.accept = "image/*";
+  // create a file input dynamically
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
 
-//   // define a onChange image to read and show the file
-//   fileInput.onchange = (event: any) => {
-//     const file = event.target.files[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onload = () => {
-//         // onFileResize()
+  // define a onChange image to read and show the file
+  fileInput.onchange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // onFileResize()
 
-//         //* Below it the functionality of on FileResize function which we trigger if we choose a file using input type equals file
-//         Compress.imageFileResizer(
-//           file, // the file from input
-//           480, // width
-//           480, // height
-//           "JPEG", // compress format WEBP, JPEG, PNG
-//           70, // quality
-//           0, // rotation
-//           (uri: any) => {
-//             // console.log(uri);
-//             // You upload logic goes here
-//             // console.log("uri", uri);
-//             setUserImg(uri);
-//           },
-//           "base64" // blob or base64 default base64
-//         );
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//   };
-//   // simulate a click
-//   fileInput.click();
-// }
-// };
+        //* Below it the functionality of on FileResize function which we trigger if we choose a file using input type equals file
+        Compress.imageFileResizer(
+          file, // the file from input
+          480, // width
+          480, // height
+          "JPEG", // compress format WEBP, JPEG, PNG
+          70, // quality
+          0, // rotation
+          (uri: any) => {
+            // console.log(uri);
+            // You upload logic goes here
+            // console.log("uri", uri);
+            setUserImg(uri);
+          },
+          "base64" // blob or base64 default base64
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  // simulate a click
+  fileInput.click();
+};
 
 
 const dateFormatter = (date ?: any) =>{
@@ -83,4 +81,5 @@ export {
   baseUrl,
   PROJECT_NAME,
   dateFormatter,
+  handleImage
 }
