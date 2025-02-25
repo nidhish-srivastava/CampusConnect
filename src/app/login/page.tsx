@@ -3,7 +3,6 @@ import { Suspense, lazy, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { baseUrl } from "@/utils";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import { Toaster, toast } from 'sonner'
 const Authanimation = lazy(()=>import("@/components/ui/authanimation"))
 
