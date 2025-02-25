@@ -19,7 +19,7 @@ import SearchBarModal from "./SearchBarModal";
 import { Input } from "./ui/input";
 import SearchResults from "./SearchResults";
 import { AuthId } from "@/types";
-import Image from "next/image";
+// import Image from "next/image";
 // import Notification from "./icons/notification";
 
 function Navbar() {
@@ -31,6 +31,8 @@ function Navbar() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+  const [redirectPath, setRedirectPath] = useState<string | null>(null);
+
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -73,7 +75,7 @@ function Navbar() {
         method: "GET",
         credentials: "include",
       });
-      if (response.ok) window.location.href = "/";
+      if (response.ok) setRedirectPath('/')
     } catch (error) {
       console.log(error);
     }
@@ -101,6 +103,12 @@ function Navbar() {
     };
     checkAuthentication();
   }, []);
+
+  useEffect(() => {
+    if (redirectPath) {
+      window.location.href = redirectPath; // Client-side redirect only
+    }
+  }, [redirectPath]);
 
   useEffect(() => {
     let id = debounce(query, getUsername, setSearchResultArray);
