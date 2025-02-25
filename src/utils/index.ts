@@ -22,8 +22,7 @@ const defaultDp = "https://icon-library.com/images/anonymous-avatar-icon/anonymo
 }
 
 export const handleImage = (setUserImg : (uri : string)=>void) => {
-
-  if (typeof document === "undefined") return;
+  
   // create a file input dynamically
   const fileInput = document.createElement("input");
   fileInput.type = "file";
