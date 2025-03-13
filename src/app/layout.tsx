@@ -19,7 +19,7 @@ export const metadata: Metadata = {
       "A social networking platform tailored for folks in college where one can drop his social profiles and connect with other's and follow their social media's at one place",
     images: [""],
   },
-  metadataBase: new URL("https://campus-connect-mu.vercel.app"),
+  metadataBase: new URL("https://campus-connect-self.vercel.app"),
   keywords: ["students", "colleges", "social media"],
 };
 

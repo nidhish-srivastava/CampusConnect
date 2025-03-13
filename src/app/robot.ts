@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: [],
     },
-    sitemap: 'https://campus-connect-mu.vercel.app/sitemap.xml',
+    sitemap: 'https://campus-connect-self.vercel.app/sitemap.xml',
   }
 }
