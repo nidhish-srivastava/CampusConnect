@@ -18,7 +18,6 @@ export async function GET(req: NextRequest, { params }: { params: { college: str
         }
       }
     });
-    
     // Extract auth details from response
     const result = response.map(user => user.auth);
     return NextResponse.json(result);

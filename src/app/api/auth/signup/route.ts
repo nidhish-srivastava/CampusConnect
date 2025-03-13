@@ -18,9 +18,9 @@ export async function POST(req:NextRequest) {
             },
           })
         const token = jwt.sign({ username }, process.env.SECRET!, { expiresIn: '1d' })
-        await prisma.user.create({
+        const user = await prisma.user.create({
             data : {
-                authId : newUser?.id,
+                authId : newUser.id,
                 username : newUser.username,
                 followers : {
                     connect : []
@@ -28,6 +28,12 @@ export async function POST(req:NextRequest) {
                 following : {
                     connect : []
                 }
+            }
+        })
+        const finalauth = await prisma.auth.update({
+            where : {id : newUser.id},
+            data : {
+                userId : user.id
             }
         })
         const response = NextResponse.json({

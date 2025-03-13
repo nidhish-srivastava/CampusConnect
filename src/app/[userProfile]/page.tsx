@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function FetchUser() {
   const { userProfile } = useParams();
-  const { user } = useConnectContext();
+  const { user,imageUrl} = useConnectContext();
   const [updatedDp, setUpdatedDp] = useState(defaultDp);
   const [data, setData] = useState<UserType>();
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ export default function FetchUser() {
         const response = await fetch(`${baseUrl}/user/${userProfile}`);
         const data = await response.json();
         setData(data);
-        setUpdatedDp(data?.auth?.dp);
+        setUpdatedDp(data?.auth.dp);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -33,6 +33,7 @@ export default function FetchUser() {
     };
     fetchProfileInfo();
   }, []);
+
 
   return (
     <>
