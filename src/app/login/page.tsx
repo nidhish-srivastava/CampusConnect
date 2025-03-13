@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { baseUrl } from "@/utils";
 import { Toaster, toast } from 'sonner';
 
-const Authanimation = lazy(() => import("@/components/ui/authanimation"));
+// const Authanimation = lazy(() => import("@/components/ui/authanimation"));
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -50,11 +50,11 @@ function Page() {
     <>
       <Toaster richColors position="top-center" />
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12 gap-12 sm:gap-0">
-        <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
+        {/* <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
           <Suspense>
             <Authanimation />
           </Suspense>
-        </div>
+        </div> */}
         <form onSubmit={onSubmitHandler} className="form w-4/5 mx-auto sm:w-[40%]">
           <h2 className="center_heading_form">Login</h2>
           <Input
