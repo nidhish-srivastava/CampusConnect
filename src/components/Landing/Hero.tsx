@@ -1,10 +1,11 @@
+"use client"
+import dynamic from "next/dynamic";
 import Link from "next/link";
-// import. dynamic from 'next/dynamic';
 
-// const Heroanimation = dynamic(() => import("@/components/ui/heroanimation"), {
-//   ssr: false,
-//   loading: () => <div></div>
-// });
+const Heroanimation = dynamic(() => import("@/components/ui/heroanimation"), {
+  ssr: false,
+  loading: () => <div></div>
+});
 
 function Hero() {
     return (
@@ -19,11 +20,11 @@ function Hero() {
                         </button>
                     </Link>
                 </div>
-                {/* <div className="md:w-[40%] flex justify-center md:justify-end">
+                <div className="md:w-[40%] flex justify-center md:justify-end">
                     <div className="w-full h-full">
                         <Heroanimation />
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     );
