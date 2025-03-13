@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { baseUrl } from "@/utils";
 import { Toaster, toast } from "sonner";
+import dynamic from "next/dynamic";
 
-// const Authanimation = lazy(() => import("@/components/ui/authanimation"));
+const Authanimation = dynamic(() => import("@/components/ui/authanimation"), {
+  ssr: false,
+  loading: () => <div>Loading...</div>
+});
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -56,11 +60,11 @@ function Page() {
     <>
       <Toaster richColors position="top-center" />
       <main className="flex flex-col sm:flex-row items-center justify-center sm:items-start mt-12 gap-12 sm:gap-0 py-12">
-        {/* <Suspense>
+        <Suspense>
           <div className="w-[40%] sm:p-0 lg:p-24 lg:pt-0 -z-10">
             <Authanimation />
           </div>
-        </Suspense> */}
+        </Suspense>
 
         <form onSubmit={onSubmitHandler} className="form w-4/5 mx-auto sm:w-[40%]">
           <h2 className="center_heading_form">Create an account</h2>
