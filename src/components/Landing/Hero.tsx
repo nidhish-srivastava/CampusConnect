@@ -1,5 +1,10 @@
 import Link from "next/link";
-import Heroanimation from "@/components/ui/heroanimation";
+import dynamic from 'next/dynamic';
+
+const Heroanimation = dynamic(() => import("@/components/ui/heroanimation"), {
+  ssr: false,
+  loading: () => <div></div>
+});
 
 function Hero() {
     return (

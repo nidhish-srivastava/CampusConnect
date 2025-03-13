@@ -1,4 +1,3 @@
-"use client"
 import Lottie from "lottie-react"
 import heroanimation from "../../assets/heroanimation.json"
 

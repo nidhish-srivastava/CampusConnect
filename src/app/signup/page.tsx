@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 const Authanimation = dynamic(() => import("@/components/ui/authanimation"), {
   ssr: false,
-  loading: () => <div>Loading...</div>
+  loading: () => <div></div>
 });
 
 function Page() {
