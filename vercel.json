@@ -11,5 +11,10 @@
         "src": "/(.*)",
         "dest": "src/app/$1"
       }
-    ]
+    ],
+     "functions": {
+    "app/api/ping/route.ts": {
+      "runtime": "nodejs18.x"
+    }
+  }
   }
